@@ -1,0 +1,10 @@
+@import '../../styles/variables';
+
+.spinnerBody {
+   // todo: create common class or add backgroundMode in Spinner component
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background: $darkGrey;
+}

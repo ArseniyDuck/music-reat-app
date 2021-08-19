@@ -1,0 +1,30 @@
+@import '../../styles/variables';
+
+.button {
+   display: inline-flex;
+   align-items: center;
+   padding: 5px 10px 5px 0;
+   font-size: 17px;
+   color: #ccc;
+   transition: $hover;
+
+   svg {
+      width: 12px;
+      height: 12px;
+      margin-right: 7px;
+      padding: 6px;
+      background: #ccc;
+      fill: #000;
+      transition: $hover;
+   }
+
+   &:hover {
+      color: #fff;
+      transition: $hover;
+
+      svg {
+         background: #fff;
+         transition: $hover;
+      }
+   }
+}

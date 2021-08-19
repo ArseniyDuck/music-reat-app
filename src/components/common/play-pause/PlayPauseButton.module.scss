@@ -1,0 +1,17 @@
+@import '../../../styles/variables';
+
+.Button {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 50%;
+   background: $pink;
+}
+
+.PlayPauseSvg {
+   width: 55%;
+
+   polygon, rect {
+      fill: #FFF;
+   }
+}

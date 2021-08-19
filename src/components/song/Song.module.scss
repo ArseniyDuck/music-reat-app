@@ -1,0 +1,145 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.song {
+   display: grid;
+   grid-template-columns: auto 1fr auto auto auto;
+   align-items: center;
+   padding: 10px;
+   transition: $hover;
+
+   &:hover,
+   &:focus-within {
+      background: rgba(255, 255, 255, .1);
+      transition: $hover;
+
+      .dots {
+         @include visible-element();
+      }
+
+      .likeSongButton {
+         @include visible-element();
+      }
+   }
+}
+
+.songNumber {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 30px;
+   height: 30px;
+   margin-right: 10px;
+   @include adaptive-value("font-size", 18.5, 15, 0);
+}
+
+.songName {
+   @include adaptive-value("font-size", 18, 15, 0);
+   font-weight: 500;
+}
+
+.songSingerName {
+   @include adaptive-value("font-size", 14, 12.5, 0);
+   font-weight: 300;
+   color: #FFFFFF;
+
+   &:hover {
+      text-decoration: underline;
+   }
+}
+
+.dots {
+   position: relative;
+   width: 22px;
+   height: 16px;
+   margin-left: 10px;
+   cursor: pointer;
+   @include hidden-element();
+
+   &::before,
+   &::after {
+      content: "";
+   }
+
+   &::before,
+   &::after,
+   span {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      top: 5px;
+   }
+
+   &::before {
+      left: 0;
+   }
+
+   &::after {
+      right: 0;
+   }
+
+   span {
+      left: 8px;
+   }
+}
+
+.dropDownLink,
+.dropDownButton,
+.playListsLabel,
+.dropDownButtonPlayList {
+   display: inline-block;
+   width: 160px;
+   box-sizing: border-box;
+   text-align: left;
+   padding: 15px;
+   font-size: 16px;
+   color: #FFFFFF;
+   background: $darkGrey;
+   transition: $hover;
+
+   &:hover {
+      background: $grey;
+      transition: $hover;
+
+      &:not(.playListsLabel) {
+         cursor: pointer;
+      }
+   }
+}
+
+
+.itemPlayListDropDown {
+   position: relative;
+
+   &:hover .dropDownPlayLists {
+      @include visible-element();
+   }
+}
+
+.playListsLabel {
+   position: relative;
+   cursor: default;
+
+   &::after {
+      position: absolute;
+      content: '';
+      right: 15px;
+      top: calc(50% - 3.5px);
+
+      // draw triangle with css
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 7px solid #fff;
+   }
+}
+
+.likeSongButton {
+   margin-right: 10px;
+   @include hidden-element();
+
+   &.liked {
+      @include visible-element();
+   }
+}

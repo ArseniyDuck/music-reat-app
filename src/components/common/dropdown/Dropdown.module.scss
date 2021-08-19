@@ -1,0 +1,62 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.dropDownWrapper {
+   position: relative;
+}
+
+.dropdownLabel {
+   &.eventFocus:focus-within > .dropdownBody,
+   &.eventHover:hover > .dropdownBody {
+      @include visible-element();
+      z-index: 200;
+   }
+
+   &.eventHover > .dropdownBody {
+      right: 160px;
+   }
+}
+
+.dropdownBody {
+   position: absolute;
+   // z-index: 200;
+   right: 0;
+   border: 1px solid #fff; // border to separate dropdowns
+   @include hidden-element();
+
+   /* react add classes depending on dropdown position
+   in the browser viewport. if dropdown open too close to top of the viewport,
+   it'll be positioned in the bottom and vice versa */
+   &.bottomPositioned {
+      .eventFocus > & {
+         top: 5px;
+      }
+      top: 0px;
+   }
+
+   &.topPositioned {
+      .eventFocus > & {
+         bottom: 5px;
+      }
+
+      bottom: 0px;
+   }
+
+   &.defaultPositioned {
+      .eventFocus > & {
+         top: calc(100% + 5px);
+      }
+
+      top: 100%;
+   }
+
+   .dropDownList.overflow {
+      /* if the viewport is smaller than dropdown,
+      user won't be albe to press on hidden buttons.
+      so, in order to let them iteract with dropdown,
+      "overflow: auto" propery added. */
+      overflow-y: auto;
+      // todo: add scrollbar in dropdown
+      @include hide-scrollbar();
+   }
+}

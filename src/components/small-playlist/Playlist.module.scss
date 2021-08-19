@@ -1,0 +1,17 @@
+@import '../../styles/variables';
+
+.playlist {
+   display: block;
+   padding: 5px 0;
+   cursor: pointer;
+   transition: $hover;
+
+   &:hover .playlistName {
+      color: #fff;
+      transition: $hover;
+   }
+}
+
+.playlistName {
+   color: #ccc;
+}

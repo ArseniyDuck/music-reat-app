@@ -1,0 +1,25 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.aside {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 240px;
+   height: 100vh;
+   box-sizing: border-box;
+   padding: 15px;
+   background: #000;
+}
+
+.playlists {
+   border-top: 1px solid #ccc;
+   margin-top: 15px;
+   padding: 5px 0;
+}
+
+.playlistsBody {
+   // todo: style scrollbar
+   overflow-y: auto;
+   max-height: 250px;
+}

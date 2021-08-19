@@ -1,0 +1,44 @@
+@import '../../styles/variables';
+
+.avatarWrapper {
+   position: fixed;
+   top: 10px;
+   right: 10px;
+   z-index: 99;
+}
+
+.avatarBlock {
+   display: inline-flex;
+   align-items: center;
+   background: #000;
+   padding: 7.5px 10px;
+   cursor: pointer;
+}
+
+.avatarPhotoWrapper {
+   width: 25px;
+   height: 25px;
+   border-radius: 50%;
+}
+
+.username {
+   margin: 0 22.5px 0 5px;
+}
+
+.dropdownAction {
+   display: inline-block;
+   width: 130px;
+   box-sizing: border-box;
+   text-align: left;
+   padding: 10px;
+   font-size: 15px;
+   color: #FFFFFF;
+   background: $darkGrey;
+   transition: $hover;
+
+   &:hover {
+      background: $grey;
+      cursor: pointer;
+      transition: $hover;
+   }
+}

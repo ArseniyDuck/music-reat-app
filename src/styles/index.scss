@@ -1,0 +1,42 @@
+@import 'variables';
+@import 'mixins';
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap');
+
+body {
+   font-family: 'Work Sans', sans-serif;
+   font-size: 15px;
+   font-weight: 400;
+   color: #FFFFFF;
+   
+   @include hide-scrollbar();
+
+   &._disble-scroll {
+      overflow: hidden;
+   }
+}
+
+::selection {
+   color: $pink;
+   background: $selectionColor;
+}
+
+.container {
+   max-width: $maxWidthContainer + px;
+   margin: 0 auto;
+   padding: 0 15px;
+}
+
+.ibg {
+   position: relative;
+   overflow: hidden;
+   background: $grey; // default background
+
+   img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+   }
+}

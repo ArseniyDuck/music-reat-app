@@ -1,0 +1,36 @@
+@import '../../../styles/variables';
+
+@mixin colorize-heart($color) {
+   transition: $hover;
+   filter: drop-shadow(0 0 5px $color);
+
+   .filled {
+      stroke: $color;
+      fill: $color;
+   }
+}
+
+.heart {
+   &.liked.pink {
+      @include colorize-heart($pink);
+   }
+
+   &.liked.green {
+      @include colorize-heart($green);
+   }
+
+   &.green .filled {
+      stroke: $green;
+   }
+
+   &.pink .filled {
+      stroke: #fff;
+   }
+}
+
+.filled {
+   fill: transparent;
+   stroke: white;
+   stroke-width: 25px;
+   transition: $hover;
+}
