@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { fetchPlaylistById } from '../../redux/playlists-reducer';
+import { RouteComponentProps } from 'react-router-dom';
+import { fetchPlaylistById, PlaylistSongType } from '../../redux/playlists-reducer';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import Banner from '../banner/Banner';
+import GradientBackground from '../common/gradient-background/GradientBackground';
 import Spinner from '../common/spinner/Spinner';
 import s from './Playlist.module.scss';
 
@@ -21,6 +22,12 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
       dispatch(fetchPlaylistById(Number(playlistId)))
    }, [dispatch, playlistId]);
 
+
+   const getRgbColor = (songs: Array<PlaylistSongType>) => {
+      return songs.length ? songs[0].album.best_color : 'rgb(100, 100, 100)';
+   };
+
+
    // todo: reduce jsx copy-paste here and in Album
    return <>
       {isFetching ? 
@@ -35,17 +42,19 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
          :
          // else show content
          playlistData && <>
-            {/* reduce calling useAppSelector hook */}
             <Banner
                name={playlistData.name}
                songsCount={playlistData.songs.length}
                duration={playlistData.duration}
                photo={playlistData.songs.length ? playlistData.songs[0].album.photo : ''}
-               rgbColor={playlistData.songs.length ? playlistData.songs[0].album.best_color : 'rgb(100, 100, 100)'}
-               bannerPreHeading='Playlist'
+               rgbColor={getRgbColor(playlistData.songs)}
+               subTitle='Playlist'
                linkUrl='/profile'
                linkText={playlistData.user}
             />
+            <GradientBackground rgbColor={getRgbColor(playlistData.songs)}>
+
+            </GradientBackground>
          </>
       }
    </>;

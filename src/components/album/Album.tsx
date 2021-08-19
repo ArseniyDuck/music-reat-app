@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import { fetchAlbumById, likeAlbumById, likeSongById } from '../../redux/album-reducer';
 import s from './Album.module.scss';
@@ -10,6 +10,7 @@ import PlayPauseButton from '../common/play-pause/PlayPauseButton';
 import Sticky from '../common/sticky/Sticky';
 import AlbumHeader from '../album-header/AlbumHeader';
 import Banner from '../banner/Banner';
+import GradientBackground from '../common/gradient-background/GradientBackground';
 
 
 type PathParamsType = { albumId: string };
@@ -42,26 +43,6 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
             {/* reduce calling useAppSelector hook */}
             {/* todo: create more components */}
             <AlbumHeader rgbColorString={albumData.best_color} albumName={albumData.name} />
-            {/* <section className={s.header} style={{background: `linear-gradient(transparent 0, rgba(0,0,0,.5) 100%), ${rgbColor}`}}>
-               <div className={s.albumImage + ' ibg'}>
-                  { albumData.photo && <img src={albumData.photo} alt='album' /> }
-               </div>
-               <div className={s.albumData}>
-                  <p className={s.albumText}>Album</p>
-                  <h1 className={s.albumName}>{albumData.name}</h1>
-                  <div className={s.metadata}>
-                     <Link to={`/singer/${albumData.singer.id}`} className={s.linkToSinger}>
-                        <div className={s.singerPhoto + ' ibg'}>
-                           { albumData.singer.photo && <img src={albumData.singer.photo} alt='singer' /> }
-                        </div>
-                        <span className={s.singerName}>{albumData.singer.name}</span>
-                     </Link>
-                     <p>{albumData.year}</p>
-                     <p>{albumData.songs.length} songs</p>
-                     <p>{albumData.duration}</p>
-                  </div>
-               </div>
-            </section> */}
             <Banner 
                name={albumData.name}
                songsCount={albumData.songs.length}
@@ -69,13 +50,12 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
                duration={albumData.duration}
                photo={albumData.photo}
                rgbColor={albumData.best_color}
-               bannerPreHeading='Album'
+               subTitle='Album'
                linkUrl={`/singer/${albumData.singer.id}`}
                linkPhoto={albumData.singer.photo}
                linkText={albumData.singer.name}
             />
-            <div className={s.content}>
-               <div className={s.gradientBackground} style={{background: `linear-gradient(rgba(0,0,0,.65) 0, #222 100%), ${albumData.best_color}`}}></div>
+            <GradientBackground rgbColor={albumData.best_color}>
                <div className={s.albumButtonsWrapper}>
                   {/* <button className={s.mixSongsButton}>MIX SONGS</button> */}
                   <PlayPauseButton size={55} />
@@ -103,7 +83,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
                      />
                   )}
                </div>
-            </div>
+            </GradientBackground>
          </>
       }
    </>;

@@ -8,7 +8,7 @@ export type SmallPlaylistType = {
    name: string
 };
 
-type PlaylistSongType = SongType & {
+export type PlaylistSongType = SongType & {
    album: {
       id: number
       name: string

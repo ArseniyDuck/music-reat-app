@@ -1,0 +1,26 @@
+@import '../../../styles/variables';
+
+.body {
+   position: relative;
+   flex-grow: 1;
+   padding: 25px;
+}
+
+.gradientPart,
+.plainColorPart {
+   position: absolute;
+   left: 0;
+   width: 100%;
+   z-index: -1;
+}
+
+.gradientPart {
+   top: 0;
+   // height: inlineStylesHeight;
+}
+
+.plainColorPart {
+   // top: inlineStylesHeight;
+   // height: calc(100% - inlineStylesHeight);
+   background: $darkGrey;
+}

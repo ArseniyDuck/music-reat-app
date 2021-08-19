@@ -5,7 +5,7 @@ import s from './Banner.module.scss';
 type PropsType = {
    photo: string
    name: string
-   bannerPreHeading: 'Album' | 'Playlist'
+   subTitle: 'Album' | 'Playlist'
    linkPhoto?: string
    linkText: string
    linkUrl: string
@@ -22,7 +22,7 @@ const Banner: React.FC<PropsType> = (props) => {
             { props.photo && <img src={props.photo} alt='banner' /> }
          </div>
          <div className={s.bannerBody}>
-            <p className={s.preHeading}>{props.bannerPreHeading}</p>
+            <p className={s.preHeading}>{props.subTitle}</p>
             {/* todo: change font-size depending on AlbumName's length */}
             <h1 className={s.heading}>{props.name}</h1>
             <div className={s.metadata}>
