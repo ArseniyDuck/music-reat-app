@@ -29,6 +29,17 @@ export const musicDataAPI = {
    likeAlbum: _likeTogglerRequestCreator('album'),
 };
 
+
+const _songInPlaylistTogglerReuestCreator = (action: 'add' | 'remove') => {
+   return (song_id: number, playlist_id: number) => {
+      return instance.post<{ id: number }>(`${action}_song/`, { song_id, playlist_id }, {
+         headers: {'X-CSRFToken': Cookie.get('csrftoken')}
+      });
+   };
+};
+
+export type SongInPlaylistTogglerRequestType = ReturnType<typeof _songInPlaylistTogglerReuestCreator>;
+
 export const playlistsAPI = {
    getPlaylists() {
       type ResponseType = Array<SmallPlaylistType>;
@@ -44,4 +55,8 @@ export const playlistsAPI = {
    getPlaylist(id: number) {
       return instance.get<PlaylistType>(`playlist/${id}/`);
    },
+
+   addSongToPlaylist: _songInPlaylistTogglerReuestCreator('add'),
+
+   removeSongFromPlaylist: _songInPlaylistTogglerReuestCreator('remove'),
 };

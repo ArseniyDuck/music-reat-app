@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
-import { fetchAlbumById, likeAlbumById, likeSongById } from '../../redux/album-reducer';
+import { fetchAlbumById, likeAlbumById } from '../../redux/album-reducer';
 import s from './Album.module.scss';
 import Spinner from '../common/spinner/Spinner';
 import Song from '../song/Song';
 import Heart from '../common/heart/Heart';
 import PlayPauseButton from '../common/play-pause/PlayPauseButton';
-import Sticky from '../common/sticky/Sticky';
-import AlbumHeader from '../album-header/AlbumHeader';
+import GradientHeader from '../gradient-header/GradientHeader';
 import Banner from '../banner/Banner';
-import GradientBackground from '../common/gradient-background/GradientBackground';
+import GradientContent from '../gradient-content/GradientContent';
+import StickyTableHead from '../sticky-table-head/StickyTableHead';
 
 
 type PathParamsType = { albumId: string };
@@ -42,7 +42,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
          albumData && <>
             {/* reduce calling useAppSelector hook */}
             {/* todo: create more components */}
-            <AlbumHeader rgbColorString={albumData.best_color} albumName={albumData.name} />
+            <GradientHeader rgbColor={albumData.best_color} title={albumData.name} />
             <Banner 
                name={albumData.name}
                songsCount={albumData.songs.length}
@@ -55,35 +55,34 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
                linkPhoto={albumData.singer.photo}
                linkText={albumData.singer.name}
             />
-            <GradientBackground rgbColor={albumData.best_color}>
-               <div className={s.albumButtonsWrapper}>
-                  {/* <button className={s.mixSongsButton}>MIX SONGS</button> */}
+            <GradientContent rgbColor={albumData.best_color}>
+               <div className='buttonsContainer'>
+                  {/* todo: <button className={s.mixSongsButton}>MIX SONGS</button> */}
                   <PlayPauseButton size={55} />
-                  <button className={s.albumLikeButton} onClick={() => dispatch(likeAlbumById(albumData.id))}>
+                  <button onClick={() => dispatch(likeAlbumById(albumData.id))} className={s.albumLikeButton}>
                      <Heart isLiked={albumData.is_liked} size={30} color='pink' />
                   </button>
                </div>
-               <Sticky defaultWrapperClasses={s.tableHeaderWrapper} stuckClasses={s.stuck}>
-                  <div className={s.tableHeader}>
-                     <p>#</p>
-                     <p>Title</p>
-                     <p>Time</p>
-                  </div>
-               </Sticky>
-               <div className={s.songsContainer}>
+               <StickyTableHead>
+                  <ul className={s.tableHeader}>
+                     <li>#</li>
+                     <li>Title</li>
+                     <li>Time</li>
+                  </ul>
+               </StickyTableHead>
+               <div className='songsContainer'>
                   {albumData.songs.map((song, index) =>
-                     <Song key={song.id}
+                     <Song
+                        key={song.id}
                         index={index + 1}
                         albumId={albumData.id}
                         singerId={albumData.singer.id}
                         singerName={albumData.singer.name}
-                        // reduce calling useAppDisptach hook
-                        toggleIsLiked={() => dispatch(likeSongById(song.id))}
                         {...song}
                      />
                   )}
                </div>
-            </GradientBackground>
+            </GradientContent>
          </>
       }
    </>;

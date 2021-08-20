@@ -67,6 +67,7 @@ const _likeTogglerThunkCreator = (thunkName: string, apiMethod: LikeTogglerReque
    );
 };
 
+// todo: rename thunks from "like" to "toggle"
 export const likeSongById = _likeTogglerThunkCreator('likeSongById', musicDataAPI.likeSong);
 
 export const likeAlbumById = _likeTogglerThunkCreator('likeAlbumById', musicDataAPI.likeAlbum);

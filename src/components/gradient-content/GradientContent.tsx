@@ -1,12 +1,12 @@
 import React from 'react';
-import s from './GradientBackground.module.scss';
+import s from './GradientContent.module.scss';
 
 type PropsType = {
    rgbColor: string
    gradientHeight?: number
 };
 
-const GradientBackground: React.FC<PropsType> = ({ rgbColor, gradientHeight=300, children }) => {
+const GradientContent: React.FC<PropsType> = ({ rgbColor, gradientHeight=300, children }) => {
    return (
       <div className={s.body}>
          <div
@@ -28,4 +28,4 @@ const GradientBackground: React.FC<PropsType> = ({ rgbColor, gradientHeight=300,
    );
 };
 
-export default GradientBackground;
+export default GradientContent;

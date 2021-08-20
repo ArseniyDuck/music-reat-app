@@ -40,3 +40,14 @@ body {
       object-fit: cover;
    }
 }
+
+.songsContainer {
+   margin-top: 15px;
+}
+
+.buttonsContainer {
+   display: inline-flex;
+   align-items: center;
+   gap: 20px;
+   margin-bottom: 25px;
+}

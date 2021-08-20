@@ -24,9 +24,9 @@ const PlaylistCreationForm: React.FC<PropsType> = ({ createPlaylist, hideMe }) =
    return (
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
          {() => (
-            <Form>
-               <Field autoFocus type='text' name='name' className={s.input} placeholder='Enter name:' />
-            </Form>
+         <Form>
+            <Field autoFocus type='text' name='name' className={s.input} placeholder='Enter name:' />
+         </Form>
          )}
       </Formik>
    );

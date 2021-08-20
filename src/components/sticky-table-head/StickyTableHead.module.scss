@@ -1,0 +1,46 @@
+@import '../../styles/variables';
+
+.tableHeaderWrapper {
+   position: relative;
+   top: 60px;
+
+   $greyStuck: #313131;
+
+   &.stuck {
+      background: $greyStuck;
+      border-top: 1px solid $grey;
+      z-index: 98;
+
+      &::before,
+      &::after {
+         content: '';
+         position: absolute;
+         top: -1px;
+         width: 25px;
+         height: calc(100% - 1px);
+         background: $greyStuck;
+         border-top: 1px solid $grey;
+         border-bottom: 1px solid $grey;
+      }
+
+      &::before {
+         left: -25px;
+      }
+
+      &::after {
+         right: -25px;
+      }
+   }
+
+   & > ul {
+      display: flex;
+      align-items: center;
+      padding: 7.5px 0;
+      border-bottom: 1px solid $grey;
+   
+      li {
+         font-size: 15px;
+         color: $lightGrey;
+      }
+   }
+}

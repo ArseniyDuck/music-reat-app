@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useOpacityPercentWithWindowScroll } from '../../tools/hooks';
 import PlayPauseButton from '../common/play-pause/PlayPauseButton';
-import s from './AlbumHeader.module.scss';
+import s from './GradientHeader.module.scss';
 
 type PropsType = {
-   rgbColorString: string
-   albumName: string
+   rgbColor: string
+   title: string
 };
 
 // todo: implement a file structure and place AlbumHeader into Album
-const AlbumHeader: React.FC<PropsType> = (props) => {
-   const [isAlbumDataShown, setIsAlbumDataShown] = useState(false);
+const GradientHeader: React.FC<PropsType> = (props) => {
+   const [isHeaderDataShown, setIsHeaderDataShown] = useState(false);
 
    const showAt = 275;
    const handleScroll = () => {
-      if (window.scrollY >= showAt && !isAlbumDataShown) {
-         setIsAlbumDataShown(true);
-      } else if (window.scrollY < showAt && isAlbumDataShown) {
-         setIsAlbumDataShown(false);
+      if (window.scrollY >= showAt && !isHeaderDataShown) {
+         setIsHeaderDataShown(true);
+      } else if (window.scrollY < showAt && isHeaderDataShown) {
+         setIsHeaderDataShown(false);
       }
    };
    
@@ -30,13 +30,13 @@ const AlbumHeader: React.FC<PropsType> = (props) => {
    });
 
    return (
-      <header className={s.albumHeader}>
-         <HeaderBackground rgbColor={props.rgbColorString} />
+      <header className={s.header}>
+         <HeaderBackground rgbColor={props.rgbColor} />
          {/* todo: animate the apperience of button and album name */}
-         { isAlbumDataShown && <>
+         { isHeaderDataShown && <>
             <PlayPauseButton size={35} />
             {/* todo: add text-overflow: ellipsis */}
-            <p className={s.name}>{props.albumName}</p>
+            <p className={s.name}>{props.title}</p>
          </> }
       </header>
    );
@@ -54,4 +54,4 @@ const HeaderBackground: React.FC<{rgbColor: string}> = ({ rgbColor }) => {
    );
 };
 
-export default AlbumHeader;
+export default GradientHeader;

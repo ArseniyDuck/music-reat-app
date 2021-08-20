@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { fetchPlaylistById, PlaylistSongType } from '../../redux/playlists-reducer';
+import { fetchPlaylistById, PlaylistSongType, removeSongFromPlaylist } from '../../redux/playlists-reducer';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import Banner from '../banner/Banner';
-import GradientBackground from '../common/gradient-background/GradientBackground';
+import GradientContent from '../gradient-content/GradientContent';
 import Spinner from '../common/spinner/Spinner';
+import Song from '../song/Song';
 import s from './Playlist.module.scss';
+import StickyTableHead from '../sticky-table-head/StickyTableHead';
+import GradientHeader from '../gradient-header/GradientHeader';
+import PlayPauseButton from '../common/play-pause/PlayPauseButton';
 
 
 type PathParamsType = { playlistId: string };
@@ -27,7 +31,10 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
       return songs.length ? songs[0].album.best_color : 'rgb(100, 100, 100)';
    };
 
-
+   const removeSong = (songId: number) => {
+      dispatch(removeSongFromPlaylist({ songId, playlistId: Number(playlistId) }));
+   };
+   
    // todo: reduce jsx copy-paste here and in Album
    return <>
       {isFetching ? 
@@ -42,6 +49,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
          :
          // else show content
          playlistData && <>
+            <GradientHeader rgbColor={getRgbColor(playlistData.songs)} title={playlistData.name} />
             <Banner
                name={playlistData.name}
                songsCount={playlistData.songs.length}
@@ -52,9 +60,33 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
                linkUrl='/profile'
                linkText={playlistData.user}
             />
-            <GradientBackground rgbColor={getRgbColor(playlistData.songs)}>
-
-            </GradientBackground>
+            <GradientContent rgbColor={getRgbColor(playlistData.songs)}>
+               <div className='buttonsContainer'>
+                  <PlayPauseButton size={55} />
+               </div>
+               <StickyTableHead>
+                  <ul className={s.tableHeader}>
+                     <li>#</li>
+                     <li>Title</li>
+                     <li>Album</li>
+                     <li>Time</li>
+                  </ul>
+               </StickyTableHead>
+               <div className='songsContainer'>
+                  {playlistData.songs.map((song, index) =>
+                     <Song key={song.id}
+                        index={index + 1}
+                        albumId={song.album.id}
+                        singerId={song.singer.id}
+                        singerName={song.singer.name}
+                        photo={song.album.photo}
+                        albumName={song.album.name}
+                        removeSong={removeSong}
+                        {...song}
+                     />
+                  )}
+               </div>
+            </GradientContent>
          </>
       }
    </>;

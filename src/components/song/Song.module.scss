@@ -3,10 +3,17 @@
 
 .song {
    display: grid;
-   grid-template-columns: auto 1fr auto auto auto;
    align-items: center;
    padding: 10px;
    transition: $hover;
+   
+   &.notInPlaylist {
+      grid-template-columns: auto 1fr auto auto auto;
+   }
+   
+   &.inPlaylist {
+      grid-template-columns: auto auto 1fr 1fr auto auto auto;
+   }
 
    &:hover,
    &:focus-within {
@@ -33,12 +40,18 @@
    @include adaptive-value("font-size", 18.5, 15, 0);
 }
 
+.photo {
+   width: 40px;
+   height: 40px;
+   margin-right: 10px;
+}
+
 .songName {
    @include adaptive-value("font-size", 18, 15, 0);
    font-weight: 500;
 }
 
-.songSingerName {
+.songLink {
    @include adaptive-value("font-size", 14, 12.5, 0);
    font-weight: 300;
    color: #FFFFFF;

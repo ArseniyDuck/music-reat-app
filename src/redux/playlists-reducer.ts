@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { playlistsAPI } from '../tools/api';
+import { playlistsAPI, SongInPlaylistTogglerRequestType } from '../tools/api';
 import { SongType } from './album-reducer';
 
 
@@ -69,12 +69,35 @@ export const createPlaylist = createAsyncThunk(
    async (name: string, thunkAPI) => {
       try {
          const response = await playlistsAPI.createPlaylist(name);
-         console.log(JSON.stringify(response));
          return response.data;
       } catch (error) {
          return thunkAPI.rejectWithValue(error.message);
       }
    }
+);
+
+const _songInPlaylistTogglerThunkCreator = (thunkName: string, apiMethod: SongInPlaylistTogglerRequestType) => {
+   return createAsyncThunk<{ id: number }, { songId: number, playlistId: number }>(
+      `playlists/${thunkName}`,
+      async ({ songId, playlistId }, thunkAPI) => {
+         try {
+            const response = await apiMethod(songId, playlistId);
+            return response.data;
+         } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+         }
+      }
+   );
+};
+
+export const addSongToPlaylist = _songInPlaylistTogglerThunkCreator(
+   'addSongToPlaylist',
+   playlistsAPI.addSongToPlaylist,
+);
+
+export const removeSongFromPlaylist = _songInPlaylistTogglerThunkCreator(
+   'removeSongFromPlaylist',
+   playlistsAPI.removeSongFromPlaylist,
 );
 
 export const fetchPlaylistById = createAsyncThunk(
@@ -118,6 +141,19 @@ export const playlistsSlice = createSlice({
             id: action.payload.id,
             name: action.payload.name,
          }, ...state.smallPlaylists.playlists]
+      });
+
+      // addSongToPlaylist --------------------------------------------------------
+      builder.addCase(addSongToPlaylist.fulfilled, (state, action) => {
+         // todo: show string in bottom alert
+      });
+      
+      // removeSongFromPlaylist --------------------------------------------------------
+      builder.addCase(removeSongFromPlaylist.fulfilled, (state, action) => {
+         // todo: show string in bottom alert
+         if (state.playlist) {
+            state.playlist.songs = state.playlist.songs.filter(song => song.id !== action.payload.id)
+         }
       });
 
       // fetchPlaylistById --------------------------------------------------------
