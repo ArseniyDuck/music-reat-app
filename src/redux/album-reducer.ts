@@ -1,30 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { LikeTogglerRequestType, musicDataAPI } from '../tools/api';
+import { AlbumType } from '../types/data-structures';
 
-export type AlbumType = {
-   id: number
-   name: string
-   year: number
-   photo: string
-   duration: string
-   best_color: string
-   is_liked: boolean
-   singer: {
-      id: number
-      name: string
-      photo: string
-   }
-   songs: Array<SongType>
-};
-
-// todo: replace types in one file
-export type SongType = {
-   id: number
-   name: string
-   audio: string
-   duration: string
-   is_liked: boolean
-};
 
 type initialStateType = {
    data: AlbumType | null

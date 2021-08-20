@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { fetchPlaylistById, PlaylistSongType, removeSongFromPlaylist } from '../../redux/playlists-reducer';
+import { fetchPlaylistById, removeSongFromPlaylist } from '../../redux/playlists-reducer';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import Banner from '../banner/Banner';
 import GradientContent from '../gradient-content/GradientContent';
@@ -10,6 +10,7 @@ import s from './Playlist.module.scss';
 import StickyTableHead from '../sticky-table-head/StickyTableHead';
 import GradientHeader from '../gradient-header/GradientHeader';
 import PlayPauseButton from '../common/play-pause/PlayPauseButton';
+import { PlaylistSongType } from '../../types/data-structures';
 
 
 type PathParamsType = { playlistId: string };

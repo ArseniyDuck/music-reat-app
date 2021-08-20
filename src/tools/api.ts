@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
-import { AlbumType } from '../redux/album-reducer';
-import { PlaylistType, SmallPlaylistType } from '../redux/playlists-reducer';
+import { AlbumType, PlaylistType, SmallPlaylistType } from '../types/data-structures';
 
 export const instance = axios.create({
    withCredentials: true,
