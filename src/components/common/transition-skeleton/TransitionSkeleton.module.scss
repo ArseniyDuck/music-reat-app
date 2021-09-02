@@ -2,7 +2,7 @@
 
 .skeletonRectangle {
    background: $grey;
-   animation: grouplink 2s ease-in infinite;
+   animation: rectangle 2s ease-in infinite;
    background: #FFF;
 
    & + & {
@@ -10,7 +10,7 @@
    }
 }
 
-@keyframes grouplink {
+@keyframes rectangle {
    0% {background: #fff;}
    70% {background: #bbb;}
    100% {background: #fff;}
