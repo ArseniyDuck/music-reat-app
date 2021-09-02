@@ -62,17 +62,19 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
                linkText={playlistData.user}
             />
             <GradientContent rgbColor={getRgbColor(playlistData.songs)}>
-               <div className='buttonsContainer'>
-                  <PlayPauseButton size={55} />
-               </div>
-               <StickyTableHead>
-                  <ul className={s.tableHeader}>
-                     <li>#</li>
-                     <li>Title</li>
-                     <li>Album</li>
-                     <li>Time</li>
-                  </ul>
-               </StickyTableHead>
+               {playlistData.songs.length > 0 && <>
+                  <div className='buttonsContainer'>
+                     <PlayPauseButton size={55} />
+                  </div>
+                  <StickyTableHead>
+                     <ul className={s.tableHeader}>
+                        <li>#</li>
+                        <li>Title</li>
+                        <li>Album</li>
+                        <li>Time</li>
+                     </ul>
+                  </StickyTableHead>
+               </>}
                <div className='songsContainer'>
                   {playlistData.songs.map((song, index) =>
                      <Song key={song.id}
