@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function dynamicAttr(attribute: string, value: any) {
    const opts: {[k: string]: any} = {};
    opts[attribute] = value;
@@ -10,4 +12,12 @@ export function conditionClassName(initialClassName: string, condition: Boolean,
    } else {
       return initialClassName;
    }
+}
+
+export function getArrayOfComponents(Component: React.ComponentType, count: number) {
+   const components = [];
+   for (let i = 0; i < count; i++) {
+      components.push(<Component key={i} />);
+   }
+   return components;
 }

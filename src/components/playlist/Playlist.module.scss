@@ -9,6 +9,10 @@
    background: $darkGrey;
 }
 
+.error {
+   color: $red
+}
+
 .tableHeader {
    li:nth-child(1) {
       width: 30px;

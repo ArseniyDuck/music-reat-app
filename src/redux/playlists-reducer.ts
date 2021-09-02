@@ -7,7 +7,6 @@ type initialStateType = {
    playlist: null | PlaylistType
    isFetching: boolean
    error: null | string
-
    smallPlaylists: {
       playlists: Array<SmallPlaylistType>
       isFetching: boolean
