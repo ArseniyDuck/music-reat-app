@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { musicDataAPI, playlistsAPI, SongInPlaylistTogglerRequestType } from '../tools/api';
-import { PlaylistSongType, SongsType } from '../types/data-structures';
+import { SongsType } from '../types/data-structures';
 
 
 type SognsContainerType = 'album' | 'playlist';
