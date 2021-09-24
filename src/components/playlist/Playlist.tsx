@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { fetchPlaylistById, removeSongFromPlaylist } from '../../redux/playlists-reducer';
+import { fetchPlaylistById } from '../../redux/playlists-reducer';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import Banner from '../banner/Banner';
 import GradientContent from '../gradient-content/GradientContent';
@@ -11,6 +11,7 @@ import StickyTableHead from '../sticky-table-head/StickyTableHead';
 import GradientHeader from '../gradient-header/GradientHeader';
 import PlayPauseButton from '../common/play-pause/PlayPauseButton';
 import { PlaylistSongType } from '../../types/data-structures';
+import { removeSongFromPlaylist } from '../../redux/songs-reducer';
 
 
 type PathParamsType = { playlistId: string };
@@ -20,11 +21,16 @@ type PropsType = {};
 const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ match: {params: {playlistId}} }) => {
    const dispatch = useAppDispatch();
    const playlistData = useAppSelector(state => state.playlists.playlist);
+
+   const songsData = useAppSelector(state => state.songs);
+   const songs = (songsData.containerType === 'playlist' ? songsData.songs : []) as Array<PlaylistSongType>;
+
    const isFetching = useAppSelector(state => state.playlists.isFetching);
    const error = useAppSelector(state => state.playlists.error);
 
    useEffect(() => {
-      dispatch(fetchPlaylistById(Number(playlistId)))
+      dispatch(fetchPlaylistById(Number(playlistId)));
+      
    }, [dispatch, playlistId]);
 
 
@@ -50,19 +56,19 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
          :
          // else show content
          playlistData && <>
-            <GradientHeader rgbColor={getRgbColor(playlistData.songs)} title={playlistData.name} />
+            <GradientHeader rgbColor={getRgbColor(songs)} title={playlistData.name} />
             <Banner
                name={playlistData.name}
-               songsCount={playlistData.songs.length}
+               songsCount={songs.length}
                duration={playlistData.duration}
-               photo={playlistData.songs.length ? playlistData.songs[0].album.photo : ''}
-               rgbColor={getRgbColor(playlistData.songs)}
+               photo={songs.length ? songs[0].album.photo : ''}
+               rgbColor={getRgbColor(songs)}
                subTitle='Playlist'
                linkUrl='/profile'
                linkText={playlistData.user}
             />
-            <GradientContent rgbColor={getRgbColor(playlistData.songs)}>
-               {playlistData.songs.length > 0 && <>
+            <GradientContent rgbColor={getRgbColor(songs)}>
+               {songs.length > 0 && <>
                   <div className='buttonsContainer'>
                      <PlayPauseButton size={55} />
                   </div>
@@ -76,7 +82,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
                   </StickyTableHead>
                </>}
                <div className='songsContainer'>
-                  {playlistData.songs.map((song, index) =>
+                  {songs.map((song, index) =>
                      <Song key={song.id}
                         index={index + 1}
                         albumId={song.album.id}

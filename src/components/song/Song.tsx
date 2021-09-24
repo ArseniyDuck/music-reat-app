@@ -1,12 +1,11 @@
 import React, { FocusEventHandler } from 'react';
-import { likeSongById } from '../../redux/album-reducer';
+import { addSongToPlaylist, toggleSongLikeById } from '../../redux/songs-reducer';
 import { conditionClassName } from '../../tools/functions';
 import s from './Song.module.scss';
 import Dropdown from '../common/dropdown/Dropdown';
 import Heart from '../common/heart/Heart';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
-import { addSongToPlaylist } from '../../redux/playlists-reducer';
 import { SongType } from '../../types/data-structures';
 
 type PropsType = {
@@ -28,7 +27,7 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
    };
 
    const handleLikeTogglerClick = () => {
-      dispatch(likeSongById(props.id));
+      dispatch(toggleSongLikeById(props.id));
    };
 
    const hadlePlaylistButtonClick = (playlistId: number) => {

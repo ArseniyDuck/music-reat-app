@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
-import { fetchAlbumById, likeAlbumById } from '../../redux/album-reducer';
+import { fetchAlbumById, toggleAlbumLikeById } from '../../redux/album-reducer';
 import s from './Album.module.scss';
 import Spinner from '../common/spinner/Spinner';
 import Song from '../song/Song';
@@ -22,6 +22,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
    const isFetching = useAppSelector(state => state.album.isFetching);
    const error = useAppSelector(state => state.album.error);
    const albumData = useAppSelector(state => state.album.data);
+   const songs = useAppSelector(state => state.songs.songs);
 
    useEffect(() => {
       dispatch(fetchAlbumById(Number(albumId)));
@@ -45,7 +46,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
             <GradientHeader rgbColor={albumData.best_color} title={albumData.name} />
             <Banner 
                name={albumData.name}
-               songsCount={albumData.songs.length}
+               songsCount={songs.length}
                year={albumData.year}
                duration={albumData.duration}
                photo={albumData.photo}
@@ -59,7 +60,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
                <div className='buttonsContainer'>
                   {/* todo: <button className={s.mixSongsButton}>MIX SONGS</button> */}
                   <PlayPauseButton size={55} />
-                  <button onClick={() => dispatch(likeAlbumById(albumData.id))} className={s.albumLikeButton}>
+                  <button onClick={() => dispatch(toggleAlbumLikeById(albumData.id))} className={s.albumLikeButton}>
                      <Heart isLiked={albumData.is_liked} size={30} color='pink' />
                   </button>
                </div>
@@ -71,7 +72,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
                   </ul>
                </StickyTableHead>
                <div className='songsContainer'>
-                  {albumData.songs.map((song, index) =>
+                  {songs.map((song, index) =>
                      <Song
                         key={song.id}
                         index={index + 1}

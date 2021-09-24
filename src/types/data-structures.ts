@@ -1,7 +1,10 @@
 // Playlist ---------------------------------------------------------------------
-export type SmallPlaylistType = {
+export type PlaylistType = {
    id: number
    name: string
+   duration: string
+   user: string
+   songs: Array<PlaylistSongType>
 };
 
 export type PlaylistSongType = SongType & {
@@ -17,25 +20,16 @@ export type PlaylistSongType = SongType & {
    }
 };
 
-
-export type PlaylistType = {
+export type SmallPlaylistType = {
    id: number
    name: string
-   duration: string
-   user: string
-   songs: Array<PlaylistSongType>
 };
+
+
+
 
 
 // Album ---------------------------------------------------------------------
-export type SongType = {
-   id: number
-   name: string
-   audio: string
-   duration: string
-   is_liked: boolean
-};
-
 export type AlbumType = {
    id: number
    name: string
@@ -49,5 +43,24 @@ export type AlbumType = {
       name: string
       photo: string
    }
-   songs: Array<SongType>
+   songs: Array<AlbumSongType>
 };
+
+export type AlbumSongType = SongType
+
+export type SongType = {
+   id: number
+   name: string
+   audio: string
+   duration: string
+   is_liked: boolean
+};
+
+
+
+
+
+// Songs ---------------------------------------------------------------------
+export type SongsType = Array<AlbumSongType> | Array<PlaylistSongType>
+
+export type SognsContainerType = 'album' | 'playlist';

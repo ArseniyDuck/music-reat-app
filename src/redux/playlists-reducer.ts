@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { playlistsAPI, SongInPlaylistTogglerRequestType } from '../tools/api';
 import { PlaylistType, SmallPlaylistType } from '../types/data-structures';
+import { songsContainerFetcherCreator } from './songs-reducer';
 
 
 type initialStateType = {
-   playlist: null | PlaylistType
+   playlist: Omit<PlaylistType, 'songs'> | null
    isFetching: boolean
    error: null | string
    smallPlaylists: {
@@ -32,7 +34,8 @@ export const fetchSmallPlaylists = createAsyncThunk(
          const response = await playlistsAPI.getPlaylists();
          return response.data;
       } catch (error) {
-         return thunkAPI.rejectWithValue(error.message);
+         const err = error as AxiosError;
+         return thunkAPI.rejectWithValue(err.message);
       }
    }
 );
@@ -44,46 +47,14 @@ export const createPlaylist = createAsyncThunk(
          const response = await playlistsAPI.createPlaylist(name);
          return response.data;
       } catch (error) {
-         return thunkAPI.rejectWithValue(error.message);
+         const err = error as AxiosError;
+         return thunkAPI.rejectWithValue(err.message);
       }
    }
 );
 
-const _songInPlaylistTogglerThunkCreator = (thunkName: string, apiMethod: SongInPlaylistTogglerRequestType) => {
-   return createAsyncThunk<{ id: number }, { songId: number, playlistId: number }>(
-      `playlists/${thunkName}`,
-      async ({ songId, playlistId }, thunkAPI) => {
-         try {
-            const response = await apiMethod(songId, playlistId);
-            return response.data;
-         } catch (error) {
-            return thunkAPI.rejectWithValue(error.message);
-         }
-      }
-   );
-};
 
-export const addSongToPlaylist = _songInPlaylistTogglerThunkCreator(
-   'addSongToPlaylist',
-   playlistsAPI.addSongToPlaylist,
-);
-
-export const removeSongFromPlaylist = _songInPlaylistTogglerThunkCreator(
-   'removeSongFromPlaylist',
-   playlistsAPI.removeSongFromPlaylist,
-);
-
-export const fetchPlaylistById = createAsyncThunk(
-   'album/fetchPlaylistById',
-   async (playlistId: number, thunkAPI) => {
-      try {
-         const response = await playlistsAPI.getPlaylist(playlistId);
-         return response.data;
-      } catch (error) {
-         return thunkAPI.rejectWithValue(error.message);
-      }
-   }
-);
+export const fetchPlaylistById = songsContainerFetcherCreator('playlists/fetchPlaylistById',  'playlist', playlistsAPI.getPlaylist);
 
 export const playlistsSlice = createSlice({
    name: 'playlists',
@@ -114,19 +85,6 @@ export const playlistsSlice = createSlice({
             id: action.payload.id,
             name: action.payload.name,
          }, ...state.smallPlaylists.playlists]
-      });
-
-      // addSongToPlaylist --------------------------------------------------------
-      builder.addCase(addSongToPlaylist.fulfilled, (state, action) => {
-         // todo: show string in bottom alert
-      });
-      
-      // removeSongFromPlaylist --------------------------------------------------------
-      builder.addCase(removeSongFromPlaylist.fulfilled, (state, action) => {
-         // todo: show string in bottom alert
-         if (state.playlist) {
-            state.playlist.songs = state.playlist.songs.filter(song => song.id !== action.payload.id)
-         }
       });
 
       // fetchPlaylistById --------------------------------------------------------

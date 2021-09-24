@@ -1,11 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import albumReducer from './album-reducer';
 import playlistsReducer from './playlists-reducer';
+import songsReducer from './songs-reducer';
+
 
 const store = configureStore({
   reducer: {
      album: albumReducer,
      playlists: playlistsReducer,
+     songs: songsReducer,
   },
 });
 

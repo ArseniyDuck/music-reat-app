@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { LikeTogglerRequestType, musicDataAPI } from '../tools/api';
+import { AxiosError } from 'axios';
+import { musicDataAPI } from '../tools/api';
 import { AlbumType } from '../types/data-structures';
+import { songsContainerFetcherCreator } from './songs-reducer';
+
 
 
 type initialStateType = {
-   data: AlbumType | null
+   data: Omit<AlbumType, 'songs'> | null
    error: string | null
    isFetching: boolean
 };
@@ -15,39 +18,23 @@ const initialState: initialStateType = {
    isFetching: false,
 };
 
-export const fetchAlbumById = createAsyncThunk(
-   'album/fetchAlbumById',
-   async (albumId: number, thunkAPI) => {
+export const fetchAlbumById = songsContainerFetcherCreator('album/fetchAlbumById', 'album', musicDataAPI.getAlbum);
+
+export const toggleAlbumLikeById = createAsyncThunk(
+   'album/toggleAlbumLikeById',
+   async (id: number, thunkAPI) => {
       try {
-         const response = await musicDataAPI.getAlbum(albumId);
-         return response.data;
+         const response = await musicDataAPI.likeAlbum(id);
+         return {
+            data: response.data,
+            status: response.status,
+         };
       } catch (error) {
-         return thunkAPI.rejectWithValue(error.message);
+         const err = error as AxiosError;
+         return thunkAPI.rejectWithValue(err.message);
       }
    }
 );
-
-const _likeTogglerThunkCreator = (thunkName: string, apiMethod: LikeTogglerRequestType)  => {
-   return createAsyncThunk(
-      `album/${thunkName}`,
-      async (id: number, thunkAPI) => {
-         try {
-            const response = await apiMethod(id);
-            return {
-               data: response.data,
-               status: response.status,
-            };
-         } catch (error) {
-            return thunkAPI.rejectWithValue(error.message);
-         }
-      }
-   );
-};
-
-// todo: rename thunks from "like" to "toggle"
-export const likeSongById = _likeTogglerThunkCreator('likeSongById', musicDataAPI.likeSong);
-
-export const likeAlbumById = _likeTogglerThunkCreator('likeAlbumById', musicDataAPI.likeAlbum);
 
 export const albumSlice = createSlice({
    name: 'album',
@@ -70,33 +57,15 @@ export const albumSlice = createSlice({
          }
       });
 
-      // todo: handle error when user likes or dislikes a song
-      builder.addCase(likeSongById.fulfilled, (state, action) => {
-         if (action.payload.status === 201) {
-            // like
-            const song = state.data?.songs.find(song => song.id === action.payload.data.id)
-            if (song) {
-               song.is_liked = true
-            }
-         } else if (action.payload.status === 200) {
-            // dislike
-            const song = state.data?.songs.find(song => song.id === action.payload.data.id)
-            if (song) {
-               song.is_liked = false
-            }
-         }
-      });
-
-      builder.addCase(likeAlbumById.fulfilled, (state, action) => {
-         if (action.payload.status === 201) {
-            // like
-            if (state.data) {
-               state.data.is_liked = true
-            }
-         } else if (action.payload.status === 200) {
-            // dislike
-            if (state.data) {
-               state.data.is_liked = false
+      builder.addCase(toggleAlbumLikeById.fulfilled, (state, action) => {
+         if ([200, 201].includes(action.payload.status) && state.data) {
+            switch (action.payload.status) {
+               case 201:
+                  state.data.is_liked = true
+                  break;
+               case 200:
+                  state.data.is_liked = false
+                  break;    
             }
          }
       });
