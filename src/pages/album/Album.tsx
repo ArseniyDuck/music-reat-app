@@ -3,14 +3,14 @@ import { RouteComponentProps } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import { fetchAlbumById, toggleAlbumLikeById } from '../../redux/album-reducer';
 import s from './Album.module.scss';
-import Spinner from '../common/spinner/Spinner';
-import Song from '../song/Song';
-import Heart from '../common/heart/Heart';
-import PlayPauseButton from '../common/play-pause/PlayPauseButton';
-import GradientHeader from '../gradient-header/GradientHeader';
-import Banner from '../banner/Banner';
-import GradientContent from '../gradient-content/GradientContent';
-import StickyTableHead from '../sticky-table-head/StickyTableHead';
+import Spinner from '../../components/common/spinner/Spinner';
+import Song from '../../components/song/Song';
+import Heart from '../../components/common/heart/Heart';
+import PlayPauseButton from '../../components/common/play-pause/PlayPauseButton';
+import GradientHeader from '../../components/gradient-header/GradientHeader';
+import Banner from '../../components/banner/Banner';
+import GradientContent from '../../components/gradient-content/GradientContent';
+import StickyTableHead from '../../components/sticky-table-head/StickyTableHead';
 
 
 type PathParamsType = { albumId: string };
