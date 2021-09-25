@@ -17,7 +17,7 @@ const App = () => {
       <div className={s.wrapper}>
          { windowDimensions.width > breakpoints.lg && <Aside /> }
          <main className={s.content}>
-            <Avatar />
+            { windowDimensions.width > breakpoints.lg && <Avatar /> }
             <Switch>
                <Route path='/album/:albumId' component={Album} />
                <Route path='/playlist/:playlistId' component={Playlist} />
