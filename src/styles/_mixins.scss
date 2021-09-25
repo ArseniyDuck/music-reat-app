@@ -26,6 +26,18 @@
    }
 }
 
+@mixin mobile-media-query-down() {
+   @media (max-width: map-get($breakpoints, "lg")) {
+      @content;
+   }
+}
+
+@mixin mobile-media-query-up() {
+   @media (min-width: map-get($breakpoints, "lg")) {
+      @content;
+   }
+}
+
 @mixin visible-element {
    visibility: visible;
    z-index: 1;

@@ -1,0 +1,31 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+
+.wrapper {
+   position: fixed;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 55px;
+   width: 100vw;
+   bottom: 0;
+   left: 0;
+   text-align: center;
+   border-top: 1px solid #444;
+   background: $darkGrey;
+   z-index: 98;
+}
+
+.row {
+   display: inline-flex;
+   @include adaptive-value('gap', 20, 10, 0);
+   align-items: center;
+   justify-content: space-between;
+}
+
+.column {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}

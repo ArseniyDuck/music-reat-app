@@ -10,6 +10,10 @@
    box-sizing: border-box;
    padding: 15px;
    background: #000;
+
+   @include mobile-media-query-down() {
+      // display: none;
+   }
 }
 
 .playlists {
@@ -19,7 +23,7 @@
 }
 
 .playlistsBody {
-   // todo: style scrollbar
+   // todo: style scrollbar 
    overflow-y: auto;
    max-height: 250px;
 }
