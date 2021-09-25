@@ -6,10 +6,13 @@
    cursor: pointer;
    transition: $hover;
 
-   &:hover .playlistName {
-      color: #fff;
-      transition: $hover;
+   @media (any-hover: hover) {
+      &:hover .playlistName {
+         color: #fff;
+         transition: $hover;
+      }
    }
+
 }
 
 .playlistName {

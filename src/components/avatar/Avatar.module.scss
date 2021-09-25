@@ -36,9 +36,12 @@
    background: $darkGrey;
    transition: $hover;
 
-   &:hover {
-      background: $grey;
-      cursor: pointer;
-      transition: $hover;
+   @media (any-hover: hover) {
+      &:hover {
+         background: $grey;
+         cursor: pointer;
+         transition: $hover;
+      }
    }
+
 }

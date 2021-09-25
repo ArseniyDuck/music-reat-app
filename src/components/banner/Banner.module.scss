@@ -60,10 +60,13 @@
    align-items: center;
    transition: $hover;
 
-   &:hover .linkText {
-      border-color: #FFFFFF;
-      transition: $hover;
+   @media (any-hover: hover) {
+      &:hover .linkText {
+         border-color: #FFFFFF;
+         transition: $hover;
+      }
    }
+
 }
 
 .linkPhoto {

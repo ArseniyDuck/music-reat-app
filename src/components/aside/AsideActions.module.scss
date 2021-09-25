@@ -18,15 +18,18 @@
       transition: $hover;
    }
 
-   &:hover {
-      color: #fff;
-      transition: $hover;
-
-      svg {
-         background: #fff;
+   @media (any-hover: hover) {
+      &:hover {
+         color: #fff;
          transition: $hover;
+   
+         svg {
+            background: #fff;
+            transition: $hover;
+         }
       }
    }
+
 }
 
 .link {
@@ -42,13 +45,15 @@
       padding: 5px;
    }
 
-   &:hover {
-      color: #fff;
-      transition: $hover;
-
-      svg {
-         fill: #fff !important;
-         path {stroke: #fff !important;}
+   @media (any-hover: hover) {
+      &:hover {
+         color: #fff;
+         transition: $hover;
+   
+         svg {
+            fill: #fff !important;
+            path {stroke: #fff !important;}
+         }
       }
    }
 }
