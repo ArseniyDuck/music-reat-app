@@ -28,3 +28,27 @@
       }
    }
 }
+
+.link {
+   display: inline-flex;
+   align-items: center;
+   padding: 5px 10px 5px 0;
+   font-size: 17px;
+   color: $brightGrey;
+   transition: $hover;
+
+   svg {
+      margin-right: 7px;
+      padding: 5px;
+   }
+
+   &:hover {
+      color: #fff;
+      transition: $hover;
+
+      svg {
+         fill: #fff !important;
+         path {stroke: #fff !important;}
+      }
+   }
+}
