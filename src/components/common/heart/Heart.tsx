@@ -4,7 +4,7 @@ import s from './Heart.module.scss';
 
 type PropsType = {
    size?: number
-   color: 'pink' | 'green'
+   color: 'pink' | 'green' | 'grey'
    isLiked: boolean
 };
 

@@ -26,6 +26,11 @@
    &.pink .filled {
       stroke: #fff;
    }
+
+   &.grey .filled {
+      stroke: $brightGrey;
+      stroke-width: 7%;
+   }
 }
 
 .filled {
