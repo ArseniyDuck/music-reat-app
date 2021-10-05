@@ -1,9 +1,18 @@
 @import '../../styles/variables';
+@import '../../styles/mixins';
 
 .body {
    position: relative;
    flex-grow: 1;
    padding: 25px;
+
+   @include mobile-media-query-down('md') {
+      padding: 15px;
+   }
+
+   @include mobile-media-query-down('sm') {
+      padding: 10px;
+   }
 }
 
 .gradientPart,

@@ -17,6 +17,14 @@
       background: linear-gradient(to top, black -25%, rgba(255, 255, 255, 0.5));
       opacity: 0.25;
    }
+
+   @include mobile-media-query-down('md') {
+      padding: 15px;
+   }
+
+   @include mobile-media-query-down('sm') {
+      padding: 10px;
+   }
 }
 
 .image {

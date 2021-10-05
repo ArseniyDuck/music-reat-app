@@ -13,19 +13,51 @@
    
    &.inPlaylist {
       grid-template-columns: auto auto 1fr 1fr auto auto auto;
-   }
 
-   &:hover,
-   &:focus-within {
-      background: rgba(255, 255, 255, .1);
-      transition: $hover;
-
-      .dots {
-         @include visible-element();
+      @include mobile-media-query-down('md') {
+         grid-template-columns: auto auto 1fr auto auto auto;
       }
 
-      .likeSongButton {
-         @include visible-element();
+      @include mobile-media-query-down('sm') {
+         grid-template-columns: auto 1fr auto auto auto;
+
+         .songNumber {
+            display: none;
+         }
+      }
+
+      @include mobile-media-query-down('xs') {
+         left: 6px;
+         top: 8px;
+      }
+   }
+
+   @include mobile-media-query-down('sm') {
+      .songDuration {
+         margin: 0 0 0 5px;
+         font-weight: 300;
+         font-size: 14px;
+         color: $brightGrey;
+      }
+
+      .dots {
+         margin-left: 7px;
+      }
+   }
+
+   @media (any-hover: hover) {
+      &:hover,
+      &:focus-within {
+         background: rgba(255, 255, 255, .1);
+         transition: $hover;
+   
+         .dots {
+            @include visible-element();
+         }
+   
+         .likeSongButton {
+            @include visible-element();
+         }
       }
    }
 }
@@ -47,7 +79,7 @@
 }
 
 .songName {
-   @include adaptive-value("font-size", 18, 15, 0);
+   @include adaptive-value("font-size", 18, 16, 0);
    font-weight: 500;
 }
 
@@ -56,12 +88,17 @@
    font-weight: 300;
    color: #FFFFFF;
 
+   &.albumLink {
+      @include mobile-media-query-down('md') {
+         display: none;
+      }
+   }
+
    @media (any-hover: hover) {
       &:hover {
          text-decoration: underline;
       }
    }
-
 }
 
 .dots {
@@ -70,7 +107,15 @@
    height: 16px;
    margin-left: 10px;
    cursor: pointer;
-   @include hidden-element();
+
+   @include mobile-media-query-down('md') {
+      width: 16px;
+      height: 22px;  
+   }
+   
+   @media (any-hover: hover) {
+      @include hidden-element();
+   }
 
    &::before,
    &::after {
@@ -86,18 +131,39 @@
       border-radius: 50%;
       background: #fff;
       top: 5px;
+
+      @include mobile-media-query-down('md') {
+         width: 5px;
+         height: 5px;
+         top: initial;
+      }
    }
 
    &::before {
       left: 0;
+
+      @include mobile-media-query-down('md') {
+         left: 6px;
+         top: 0;
+      }
    }
 
    &::after {
       right: 0;
+
+      @include mobile-media-query-down('md') {
+         left: 6px;
+         bottom: 0;
+      }
    }
 
    span {
       left: 8px;
+
+      @include mobile-media-query-down('md') {
+         left: 6px;
+         top: 8px;
+      }
    }
 }
 
@@ -153,9 +219,16 @@
 
 .likeSongButton {
    margin-right: 10px;
-   @include hidden-element();
+   
+   @media (any-hover: hover) {
+      @include hidden-element();
+   }
 
    &.liked {
       @include visible-element();
+   }
+
+   @include mobile-media-query-down('sm') {
+      display: none;
    }
 }

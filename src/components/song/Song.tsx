@@ -42,11 +42,11 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
                <img src={props.photo} alt='album' />
             </div>
          }
-         <div className={s.songNamesWrapper}>
-            <h3 className={s.songName}>{props.name}</h3>
+         <div className={`${s.songNamesWrapper} cropTextContainer`}>
+            <h3 className={`${s.songName} ellipseOverflow`}>{props.name}</h3>
             <Link to={`/singer/${props.singerId}`} className={s.songLink}>{props.singerName}</Link>
          </div>
-         { props.albumName && <Link to={`/album/${props.albumId}`} className={s.songLink}>{props.albumName}</Link> }
+         { props.albumName && <Link to={`/album/${props.albumId}`} className={`${s.songLink} ${s.albumLink}`}>{props.albumName}</Link> }
          <button
             onClick={handleLikeTogglerClick}
             onFocus={removeFocus}
@@ -95,7 +95,7 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
             </Dropdown.Item>
             <Dropdown.Item>
                <button onClick={handleLikeTogglerClick} className={s.dropDownButton}>
-                  {props.is_liked ? 'Dislike song' : 'Like song'}
+                  { props.is_liked ? 'Dislike song' : 'Like song' }
                </button>
             </Dropdown.Item>
          </Dropdown>

@@ -1,4 +1,6 @@
 @import '../../styles/variables';
+@import '../../styles/mixins';
+
 
 .tableHeaderWrapper {
    position: relative;
@@ -21,14 +23,30 @@
          background: $greyStuck;
          border-top: 1px solid $grey;
          border-bottom: 1px solid $grey;
+
+         @include mobile-media-query-down('md') { width: 15px; }
+
+         @include mobile-media-query-down('sm') { width: 10px; }
       }
 
       &::before {
          left: -25px;
+
+         @include mobile-media-query-down('md') { left: -15px; }
+
+         @include mobile-media-query-down('sm') { left: -10px; }
       }
 
       &::after {
          right: -25px;
+
+         @include mobile-media-query-down('md') {
+            right: -15px;
+         }
+
+         @include mobile-media-query-down('sm') {
+            right: -10px;
+         }
       }
    }
 

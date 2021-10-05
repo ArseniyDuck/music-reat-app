@@ -30,5 +30,7 @@
 
    li:nth-child(3) {
       margin-right: 42px;
+      
+      @include mobile-media-query-down('sm') { margin-right: 30px; }
    }
 }

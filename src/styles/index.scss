@@ -50,4 +50,18 @@ body {
    align-items: center;
    gap: 20px;
    margin-bottom: 25px;
+
+   @include mobile-media-query-down('md') { margin-bottom: 15px; }
+   @include mobile-media-query-down('sm') { margin-bottom: 10px; }
+}
+
+.cropTextContainer {
+   width: 100%;
+   overflow: hidden;
+   white-space: nowrap;
+}
+
+.ellipseOverflow {
+   overflow: hidden;
+   text-overflow: ellipsis;
 }

@@ -26,14 +26,14 @@
    }
 }
 
-@mixin mobile-media-query-down() {
-   @media (max-width: map-get($breakpoints, "lg")) {
+@mixin mobile-media-query-down($widthType: 'lg') {
+   @media (max-width: map-get($breakpoints, $widthType)) {
       @content;
    }
 }
 
-@mixin mobile-media-query-up() {
-   @media (min-width: map-get($breakpoints, "lg")) {
+@mixin mobile-media-query-up($widthType: 'lg') {
+   @media (min-width: map-get($breakpoints, $widthType)) {
       @content;
    }
 }
