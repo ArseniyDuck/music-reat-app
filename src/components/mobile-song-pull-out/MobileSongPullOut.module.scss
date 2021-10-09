@@ -1,0 +1,37 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.wrapper {
+   display: flex;
+   flex-direction: column;
+   position: fixed;
+   top: 100%;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   box-sizing: border-box;
+   background: rgba(0, 0, 0, .85);
+   backdrop-filter: blur(3px);
+   transition: $hover;
+   z-index: 101;
+   
+   &.opened {
+      top: 0;
+      transition: $hover;
+   }
+}
+
+.body {
+   flex-grow: 1;
+   padding: 15px;
+}
+
+.cancel {
+   display: inline-block;
+   align-self: flex-end;
+   width: 100%;
+   box-sizing: border-box;
+   padding: 15px;
+   font-size: 20px;
+   color: #FFF;
+}

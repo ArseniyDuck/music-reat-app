@@ -10,7 +10,7 @@ body {
    
    @include hide-scrollbar();
 
-   &._disble-scroll {
+   &._disable-scroll {
       overflow: hidden;
    }
 }

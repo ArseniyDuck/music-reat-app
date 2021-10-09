@@ -1,4 +1,4 @@
-import React, { FocusEventHandler } from 'react';
+import React, { FocusEventHandler, useState } from 'react';
 import { addSongToPlaylist, toggleSongLikeById } from '../../redux/songs-reducer';
 import { conditionClassName } from '../../tools/functions';
 import s from './Song.module.scss';
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import { SongType } from '../../types/data-structures';
 import MediaQuery from '../common/media-query/MediaQuery';
+import MobileSongPullOut from '../mobile-song-pull-out/MobileSongPullOut';
 
 type PropsType = {
    index: number
@@ -22,6 +23,7 @@ type PropsType = {
 const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
    const dispatch = useAppDispatch();
    const playlists = useAppSelector(state => state.playlists.smallPlaylists.playlists);
+   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
 
    const removeFocus: FocusEventHandler<HTMLButtonElement> = event => {
       event.target.blur();
@@ -29,6 +31,16 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
 
    const handleLikeTogglerClick = () => {
       dispatch(toggleSongLikeById(props.id));
+   };
+
+   const hideMobileMenu = () => {
+      document.body.classList.remove('_disable-scroll');
+      setIsMobileMenuOpened(false);
+   };
+
+   const handleMobileDottsClick = () => {
+      document.body.classList.toggle('_disable-scroll');
+      setIsMobileMenuOpened(prev => !prev);
    };
 
    const hadlePlaylistButtonClick = (playlistId: number) => {
@@ -57,14 +69,15 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
          </button>
          <p className={s.songDuration}>{props.duration}</p>
          
-         {/* show dots lower SM */}
+         {/* show dots below SM */}
          <MediaQuery mode='max-width' width='sm'>
-            <div className={s.dots}>
+            <div className={s.dots} onClick={handleMobileDottsClick}>
                <span></span>
             </div>
+            <MobileSongPullOut isOpened={isMobileMenuOpened} hide={hideMobileMenu} />
          </MediaQuery>
 
-         {/* hide dropdown lower SM */}
+         {/* hide dropdown below SM */}
          <MediaQuery mode='min-width' width='sm'>
             <Dropdown
                initialPosition='top'
