@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
+import withIcon, { WrappedIconType } from '../../../high-order-components/withIcon';
 import s from './PlayPauseButton.module.scss';
 
 type PropsType = {
-   size?: number
    onClick?: () => void
 };
 
-const PlayPauseButton: React.FC<PropsType> = ({ size, onClick }) => {
+const PlayPauseButton: React.FC<PropsType & WrappedIconType> = ({ styles, onClick }) => {
    const [isPaused, setIsPaused] = useState(false);
-
-   const style = {
-      width: size ? `${size}px` : '45px',
-      height: size ? `${size}px` : '45px',
-   };
 
    const handleClick = () => {
       setIsPaused(prevMode => !prevMode);
@@ -20,7 +15,7 @@ const PlayPauseButton: React.FC<PropsType> = ({ size, onClick }) => {
    };
 
    return (
-      <button onClick={handleClick} style={style} className={s.Button}>
+      <button onClick={handleClick} style={styles} className={s.Button}>
          <svg className={s.PlayPauseSvg} viewBox='0 0 24 24'>
             {isPaused ?
                <>
@@ -35,4 +30,4 @@ const PlayPauseButton: React.FC<PropsType> = ({ size, onClick }) => {
    );
 };
 
-export default PlayPauseButton;
+export default withIcon(PlayPauseButton);

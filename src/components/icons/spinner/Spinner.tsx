@@ -1,17 +1,12 @@
 import React from 'react';
+import withIcon, { WrappedIconType } from '../../../high-order-components/withIcon';
 import s from './Spinner.module.scss';
 
-type PropsType = { size?: number };
 
-const Spinner: React.FC<PropsType> = ({ size }) => {
-   const style = {
-      width: size ? `${size}px` : '45px',
-      height: size ? `${size}px` : '45px',
-   };
-
+const Spinner: React.FC<WrappedIconType> = ({ styles }) => {
    return (
-      <div style={style} className={s.Spinner}></div>
+      <div style={styles} className={s.Spinner}></div>
    );
 };
 
-export default Spinner;
+export default withIcon(Spinner);

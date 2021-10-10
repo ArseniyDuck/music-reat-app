@@ -1,19 +1,14 @@
 import React from 'react';
+import withIcon, { WrappedIconType } from '../../../high-order-components/withIcon';
 import s from './User.module.scss';
 
 type PropsType = {
-   size?: number
    color: 'grey'
 };
 
-const User: React.FC<PropsType> = ({ size, color }) => {
-   const style = {
-      width: size ? `${size}px` : '15x',
-      height: size ? `${size}px` : '15px',
-   };
-
+const User: React.FC<PropsType & WrappedIconType> = ({ styles, color }) => {
    return (
-      <svg className={s[color]} style={style} version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 512 512">
+      <svg className={s[color]} style={styles} version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 512 512">
          <path d="M256,288.389c-153.837,0-238.56,72.776-238.56,204.925c0,10.321,8.365,18.686,18.686,18.686h439.747
             c10.321,0,18.686-8.365,18.686-18.686C494.56,361.172,409.837,288.389,256,288.389z M55.492,474.628
             c7.35-98.806,74.713-148.866,200.508-148.866s193.159,50.06,200.515,148.866H55.492z"/>
@@ -24,4 +19,4 @@ const User: React.FC<PropsType> = ({ size, color }) => {
    );
 };
 
-export default User;
+export default withIcon(User);
