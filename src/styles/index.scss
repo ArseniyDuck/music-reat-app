@@ -45,6 +45,10 @@ body {
    margin-top: 15px;
 }
 
+.error {
+   color: $red;
+}
+
 .buttonsContainer {
    display: inline-flex;
    align-items: center;

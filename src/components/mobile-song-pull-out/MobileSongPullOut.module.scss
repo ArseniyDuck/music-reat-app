@@ -77,7 +77,6 @@
 
 .selectWrapper {
    position: fixed;
-   backdrop-filter: blur(2px);
    top: 0;
    left: 0;
    width: 100vw;
@@ -89,6 +88,11 @@
    z-index: 200;
    @include hidden-element();
 
+   backdrop-filter: blur(3px);
+   @supports not (backdrop-filter: blur(3px)) {
+      background: rgba(0, 0, 0, .8);
+   }
+
    &.selectOpened {
       @include visible-element();
    }
@@ -96,18 +100,59 @@
 
 .selectBody {
    width: 80vw;
-   min-height: 500px;
-   padding: 20px;
+   padding: 20px 0 10px 0;
    text-align: left;
    background: $darkGrey;
 }
 
 .selectHeading {
-   font-size: 20px;
+   font-size: 22px;
+   margin: 0 20px 5px 20px;
 }
 
-.closeSelect {
-   
+.skeletonsContainer {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   gap: 15px;
+   margin-top: 15px;
+}
+
+.playlistSkeleton { width: 100%; }
+
+.playlistsContainer {
+   max-height: 350px;
+   overflow: auto;
+}
+
+.smallPlaylist {
+   display: flex;
+   width: 100%;
+   padding: 10px 20px;
+   flex-direction: column;
+   align-items: flex-start;
+}
+
+.playlistName,
+.playlistCount {
+   color: #FFF;
+}
+
+.playlistName {
+   font-size: 19px;
+   font-weight: 600;
+}
+
+.cancelButtonContainer {
+   text-align: right;
+   padding: 10px 15px 5px 20px;
+}
+
+.cancelSelection {
+   display: inline-block;
+   font-size: 17px;
+   padding: 5px;
+   color: #FFF;
 }
 
 .cancel {

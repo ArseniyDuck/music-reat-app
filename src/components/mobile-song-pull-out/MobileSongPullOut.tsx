@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import s from './MobileSongPullOut.module.scss';
-import { conditionClassName } from '../../tools/functions';
+import { conditionClassName, getArrayOfComponents } from '../../tools/functions';
 import Heart from '../icons/heart/Heart';
 import { Link } from 'react-router-dom';
 import Headphones from '../icons/headphones/Headphones';
@@ -9,6 +9,9 @@ import Plus from '../icons/plus/Plus';
 import Trash from '../icons/trash/Trash';
 import Arrow from '../icons/arrow/Arrow';
 import { useAppSelector, usePopUp } from '../../tools/hooks';
+import Spinner from '../icons/spinner/Spinner';
+import TransitionSkeleton from '../common/transition-skeleton/TransitionSkeleton';
+import { PlaylistCreationButton } from '../aside/Aside';
 
 type PropsType = {
    isOpened: boolean
@@ -16,6 +19,7 @@ type PropsType = {
    songData: SongDataType
    likeSong: () => void
    removeSong?: () => void
+   addSongToPlaylist: (id: number) => void
 };
 
 
@@ -52,7 +56,12 @@ const MobileSongPullOut: React.FC<PropsType> = ({ isOpened, hide, songData, ...p
                   <Trash size={20} styles={{padding: '4px'}} />
                   <span>Remove song from playlist</span>
                </Action> }
-               <MobilePlaylistSelection isOpened={isSelectionOpened} selectionBodyRef={selectionBodyRef} />
+               <MobilePlaylistSelection
+                  isOpened={isSelectionOpened}
+                  selectionBodyRef={selectionBodyRef}
+                  close={() => setIsSelectionOpened(false)}
+                  addSongToPlaylist={props.addSongToPlaylist}
+               />
             </div>
          </div>
          <button onClick={hide} className={s.cancel}>Cancel</button>
@@ -128,19 +137,63 @@ const Action: React.FC<ActionPropsType> = (actionProps) => {
 // MobilePlaylistSelection ----------------------------------------------------------
 type SelectionPropsType = {
    isOpened: boolean
-   selectionBodyRef: any
+   selectionBodyRef: React.RefObject<HTMLDivElement>
+   close: () => void 
+   addSongToPlaylist: (id: number) => void
 };
 
-const MobilePlaylistSelection: React.FC<SelectionPropsType> = ({ isOpened, selectionBodyRef }) => {
-   const { isFetching, error, playlists } = useAppSelector(state => state.playlists.smallPlaylists)
+const MobilePlaylistSelection: React.FC<SelectionPropsType> = ({ isOpened, selectionBodyRef, close, ...props }) => {
+   const { isFetching, error, playlists } = useAppSelector(state => state.playlists.smallPlaylists);
+
+   const handleSongAdding = (id: number) => {
+      props.addSongToPlaylist(id);
+      close();
+   };
 
    return (
       <div className={conditionClassName(s.selectWrapper, isOpened, s.selectOpened)}>
          <div className={s.selectBody} ref={selectionBodyRef}>
             <h3 className={s.selectHeading}>Add to playlist</h3>
+            {isFetching ? 
+               // if fetching data, show spinner
+               <div className={s.skeletonsContainer}>
+                  {getArrayOfComponents(PlaylistSkeleton, 4)}
+               </div>
+               :
+               // if fetched, but with an error, show error
+               error ?
+               <p className='error'>{error}</p>
+               :
+               // else show content
+               <>
+                  <PlaylistCreationButton size='large' onclick={() => {}} />
+                  <div className={s.playlistsContainer}>
+                     {playlists.map(playlist => (
+                        <button
+                           key={playlist.id}
+                           onClick={() => handleSongAdding(playlist.id)}
+                           className={s.smallPlaylist}
+                        >
+                           <p className={s.playlistName}>{playlist.name}</p>
+                           <p className={s.playlistCount}>100 songs</p>
+                        </button>
+                     ))}
+                  </div>
+                  <div className={s.cancelButtonContainer}>
+                     <button onClick={close} className={s.cancelSelection}>Cancel</button>
+                  </div>
+               </>
+            }
          </div>
       </div>
    );
+}
+
+const PlaylistSkeleton = () => {
+   return <div className={s.playlistSkeleton}>
+      <TransitionSkeleton width='85%' height={16} />
+      <TransitionSkeleton width='30%' height={8} />
+   </div>;
 }
 
 

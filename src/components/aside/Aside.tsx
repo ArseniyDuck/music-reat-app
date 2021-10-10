@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createPlaylist } from '../../redux/playlists-reducer';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
-import { getArrayOfComponents } from '../../tools/functions';
+import { conditionClassName, getArrayOfComponents } from '../../tools/functions';
 import s from './Aside.module.scss';
 import PlaylistCreationForm from '../playlist-creation/Form';
 import { AsideButton, AsideLink } from './AsideActions';
@@ -72,13 +72,18 @@ const MySongsLink: React.FC = () => {
    );
 };
 
-type PlaylistCreationPropsType = { onclick: () => void };
-const PlaylistCreationButton: React.FC<PlaylistCreationPropsType> = ({ onclick }) => {
+type PlaylistCreationPropsType = {
+   onclick: () => void
+   size?: 'small' | 'large'
+};
+export const PlaylistCreationButton: React.FC<PlaylistCreationPropsType> = ({ onclick, size='small' }) => {
    return (
-      <AsideButton onClick={onclick}>
-         <div className={s.plusWrapper}>
+      <AsideButton size={size} onClick={onclick}>
+         { size === 'large' ? 
+            <Plus size={15} stroke={7} />
+            :
             <Plus size={12} stroke={7} />
-         </div>
+         }
          Create playlist
       </AsideButton>
    );

@@ -1,12 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { conditionClassName } from '../../tools/functions';
 import s from './AsideActions.module.scss';
 
-type AsideButtonPropsType = { onClick: () => void };
+type AsideButtonPropsType = {
+   size?: 'small' | 'large'
+   onClick: () => void
+};
 
-export const AsideButton: React.FC<AsideButtonPropsType> = ({ onClick, children }) => {
+export const AsideButton: React.FC<AsideButtonPropsType> = ({ onClick, size='small', children }) => {
    return (
-      <button onClick={onClick} className={s.button}>
+      <button onClick={onClick} className={conditionClassName(s.button, size === 'large', s.large)}>
          {children}
       </button>
    );

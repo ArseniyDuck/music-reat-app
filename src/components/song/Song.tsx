@@ -90,6 +90,7 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, isInPlaylist=false, 
                }}
                likeSong={handleLikeTogglerClick}
                removeSong={() => removeSong && removeSong(props.id)}
+               addSongToPlaylist={hadlePlaylistButtonClick}
             />
          </MediaQuery>
 

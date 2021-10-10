@@ -86,5 +86,5 @@ export const usePopUp = <E extends HTMLElement>() => {
       };
    }, []);
 
-   return [isPopUpOpened, setIsPopUpOpened, popUpRef] as const
+   return [isPopUpOpened, setIsPopUpOpened, popUpRef] as const;
 };

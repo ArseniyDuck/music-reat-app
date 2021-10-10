@@ -16,6 +16,13 @@
       path {stroke: #000 !important;}
    }
 
+   &.large {
+      width: 100%;
+      padding: 10px 20px;
+      justify-content: flex-start;
+      font-size: 18.5px;
+   }
+
    @media (any-hover: hover) {
       &:hover {
          color: #fff;

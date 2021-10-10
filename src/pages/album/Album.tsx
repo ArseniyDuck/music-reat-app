@@ -37,7 +37,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
          :
          // if fetched, but with an error, show error
          error ?
-         <h1 className={s.error}>{error}</h1>
+         <h1 className='error'>{error}</h1>
          :
          // else show content
          albumData && <>
