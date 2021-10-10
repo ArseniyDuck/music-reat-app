@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Heart from '../common/heart/Heart';
-import Search from '../common/search/Search';
-import UserIcon from '../common/user-icon/UserIcon';
+import Heart from '../icons/heart/Heart';
+import Search from '../icons/search/Search';
+import User from '../icons/user/User';
 import s from './MobileBottom.module.scss';
 
 type PropsType = {};
@@ -20,7 +20,7 @@ const MobileBottom: React.FC<PropsType> = (props) => {
                <span>My songs</span>
             </NavLink>
             <NavLink to='/profile' className={s.link} activeClassName={s.active}>
-               <UserIcon color='grey' />
+               <User color='grey' />
                <span>Profile</span>
             </NavLink>
          </div>

@@ -3,10 +3,10 @@ import { RouteComponentProps } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import { fetchAlbumById, toggleAlbumLikeById } from '../../redux/album-reducer';
 import s from './Album.module.scss';
-import Spinner from '../../components/common/spinner/Spinner';
+import Spinner from '../../components/icons/spinner/Spinner';
 import Song from '../../components/song/Song';
-import Heart from '../../components/common/heart/Heart';
-import PlayPauseButton from '../../components/common/play-pause/PlayPauseButton';
+import Heart from '../../components/icons/heart/Heart';
+import PlayPauseButton from '../../components/icons/play-pause/PlayPauseButton';
 import GradientHeader from '../../components/gradient-header/GradientHeader';
 import Banner from '../../components/banner/Banner';
 import GradientContent from '../../components/gradient-content/GradientContent';
@@ -79,6 +79,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
                         albumId={albumData.id}
                         singerId={albumData.singer.id}
                         singerName={albumData.singer.name}
+                        photo={albumData.photo}
                         {...song}
                      />
                   )}

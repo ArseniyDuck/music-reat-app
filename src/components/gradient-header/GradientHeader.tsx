@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useOpacityPercentWithWindowScroll } from '../../tools/hooks';
-import PlayPauseButton from '../common/play-pause/PlayPauseButton';
+import PlayPauseButton from '../icons/play-pause/PlayPauseButton';
 import s from './GradientHeader.module.scss';
 
 type PropsType = {
@@ -30,13 +30,13 @@ const GradientHeader: React.FC<PropsType> = (props) => {
    });
 
    return (
-      <header className={s.header}>
+      <header className={`${s.header} cropTextContainer`}>
          <HeaderBackground rgbColor={props.rgbColor} />
          {/* todo: animate the apperience of button and album name */}
          { isHeaderDataShown && <>
             <PlayPauseButton size={35} />
             {/* todo: add text-overflow: ellipsis */}
-            <p className={s.name}>{props.title}</p>
+            <p className={`${s.name} ellipseOverflow`}>{props.title}</p>
          </> }
       </header>
    );

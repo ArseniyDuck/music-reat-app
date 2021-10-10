@@ -3,9 +3,10 @@ import s from './PlayPauseButton.module.scss';
 
 type PropsType = {
    size?: number
+   onClick?: () => void
 };
 
-const PlayPauseButton: React.FC<PropsType> = ({ size }) => {
+const PlayPauseButton: React.FC<PropsType> = ({ size, onClick }) => {
    const [isPaused, setIsPaused] = useState(false);
 
    const style = {
@@ -13,8 +14,9 @@ const PlayPauseButton: React.FC<PropsType> = ({ size }) => {
       height: size ? `${size}px` : '45px',
    };
 
-   const handleClick = async () => {
+   const handleClick = () => {
       setIsPaused(prevMode => !prevMode);
+      onClick && onClick();
    };
 
    return (

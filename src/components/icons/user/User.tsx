@@ -1,12 +1,12 @@
 import React from 'react';
-import s from './UserIcon.module.scss';
+import s from './User.module.scss';
 
 type PropsType = {
    size?: number
    color: 'grey'
 };
 
-const UserIcon: React.FC<PropsType> = ({ size, color }) => {
+const User: React.FC<PropsType> = ({ size, color }) => {
    const style = {
       width: size ? `${size}px` : '15x',
       height: size ? `${size}px` : '15px',
@@ -24,4 +24,4 @@ const UserIcon: React.FC<PropsType> = ({ size, color }) => {
    );
 };
 
-export default UserIcon;
+export default User;

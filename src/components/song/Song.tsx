@@ -3,7 +3,7 @@ import { addSongToPlaylist, toggleSongLikeById } from '../../redux/songs-reducer
 import { conditionClassName } from '../../tools/functions';
 import s from './Song.module.scss';
 import Dropdown from '../common/dropdown/Dropdown';
-import Heart from '../common/heart/Heart';
+import Heart from '../icons/heart/Heart';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import { SongType } from '../../types/data-structures';
@@ -18,9 +18,10 @@ type PropsType = {
    removeSong?: (songId: number) => void
    photo?: string
    albumName?: string
+   isInPlaylist?: boolean
 };
 
-const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
+const Song: React.FC<PropsType & SongType> = ({ removeSong, isInPlaylist=false, ...props }) => {
    const dispatch = useAppDispatch();
    const playlists = useAppSelector(state => state.playlists.smallPlaylists.playlists);
    const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
@@ -48,9 +49,9 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
    };
 
    return (
-      <div className={`${s.song} ${props.photo ? s.inPlaylist : s.notInPlaylist}`}>
+      <div className={`${s.song} ${isInPlaylist ? s.inPlaylist : s.notInPlaylist}`}>
          <p className={s.songNumber}>{props.index}</p>
-         { props.photo && 
+         { isInPlaylist && 
             <div className={s.photo + ' ibg'}>
                <img src={props.photo} alt='album' />
             </div>
@@ -74,7 +75,22 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
             <div className={s.dots} onClick={handleMobileDottsClick}>
                <span></span>
             </div>
-            <MobileSongPullOut isOpened={isMobileMenuOpened} hide={hideMobileMenu} />
+            <MobileSongPullOut
+               isOpened={isMobileMenuOpened}
+               hide={hideMobileMenu}
+               songData={{
+                  songName: props.name,
+                  singerName: props.singerName,
+                  duration: props.duration,
+                  photo: props.photo,
+                  singerId: props.singerId,
+                  isLiked: props.is_liked,
+                  albumId: props.albumId,
+                  isInPlaylist: isInPlaylist
+               }}
+               likeSong={handleLikeTogglerClick}
+               removeSong={() => removeSong && removeSong(props.id)}
+            />
          </MediaQuery>
 
          {/* hide dropdown below SM */}
@@ -92,7 +108,7 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, ...props }) => {
                   <Link className={s.dropDownLink} to={`/album/${props.albumId}`}>Go to album</Link>
                </Dropdown.Item>
                <Dropdown.Item>
-                  { removeSong ? 
+                  { isInPlaylist && removeSong  ? 
                      <button onClick={() => removeSong(props.id)} className={s.dropDownButton}>
                         Remove song
                      </button>

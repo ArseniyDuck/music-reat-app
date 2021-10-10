@@ -4,12 +4,12 @@ import { fetchPlaylistById } from '../../redux/playlists-reducer';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import Banner from '../../components/banner/Banner';
 import GradientContent from '../../components/gradient-content/GradientContent';
-import Spinner from '../../components/common/spinner/Spinner';
+import Spinner from '../../components/icons/spinner/Spinner';
 import Song from '../../components/song/Song';
 import s from './Playlist.module.scss';
 import StickyTableHead from '../../components/sticky-table-head/StickyTableHead';
 import GradientHeader from '../../components/gradient-header/GradientHeader';
-import PlayPauseButton from '../../components/common/play-pause/PlayPauseButton';
+import PlayPauseButton from '../../components/icons/play-pause/PlayPauseButton';
 import { PlaylistSongType } from '../../types/data-structures';
 import { removeSongFromPlaylist } from '../../redux/songs-reducer';
 
@@ -91,6 +91,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
                         photo={song.album.photo}
                         albumName={song.album.name}
                         removeSong={removeSong}
+                        isInPlaylist={true}
                         {...song}
                      />
                   )}

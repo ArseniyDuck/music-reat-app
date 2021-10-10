@@ -9,13 +9,11 @@
    transition: $hover;
 
    svg {
-      width: 12px;
-      height: 12px;
       margin-right: 7px;
       padding: 6px;
       background: $brightGrey;
-      fill: #000;
       transition: $hover;
+      path {stroke: #000 !important;}
    }
 
    @media (any-hover: hover) {
@@ -29,7 +27,6 @@
          }
       }
    }
-
 }
 
 .link {
