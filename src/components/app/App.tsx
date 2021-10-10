@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import s from './App.module.scss';
 import Album from '../../pages/album/Album';
@@ -7,9 +7,17 @@ import Aside from '../aside/Aside';
 import Playlist from '../../pages/playlist/Playlist';
 import MobileBottom from '../mobile-bottom/MobileBottom';
 import MediaQuery from '../common/media-query/MediaQuery';
+import { fetchSmallPlaylists } from '../../redux/playlists-reducer';
+import { useAppDispatch } from '../../tools/hooks';
 
 
 const App = () => {
+   const dispatch = useAppDispatch();
+
+   useEffect(() => {
+      dispatch(fetchSmallPlaylists());
+   }, [dispatch]);
+
    return <>
       <div className={s.wrapper}>
          <MediaQuery mode='min-width' width='lg'>

@@ -75,6 +75,41 @@
    margin-left: auto;
 }
 
+.selectWrapper {
+   position: fixed;
+   backdrop-filter: blur(2px);
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   background: transparent;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 200;
+   @include hidden-element();
+
+   &.selectOpened {
+      @include visible-element();
+   }
+}
+
+.selectBody {
+   width: 80vw;
+   min-height: 500px;
+   padding: 20px;
+   text-align: left;
+   background: $darkGrey;
+}
+
+.selectHeading {
+   font-size: 20px;
+}
+
+.closeSelect {
+   
+}
+
 .cancel {
    display: inline-block;
    align-self: flex-end;

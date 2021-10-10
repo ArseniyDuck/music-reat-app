@@ -16,7 +16,7 @@ const Arrow: React.FC<PropsType & WrappedIconType> = ({ styles, direction }) => 
          rotateDegree = -90;
          break;
       case 'bottom':
-         rotateDegree = -180;
+         rotateDegree = 0;
          break;
       case 'left':
          rotateDegree = 90;

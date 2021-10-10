@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../redux/store';
 
@@ -63,4 +63,28 @@ export const useWindowSize = (): WindowSizeType => {
    }, []);
 
    return windowDimensions;
+};
+
+
+// usePopUp -----------------------------------
+export const usePopUp = <E extends HTMLElement>() => {
+   const [isPopUpOpened, setIsPopUpOpened] = useState<boolean>(false);
+   const popUpRef = useRef<E>(null);
+   
+   useEffect(() => {
+      const handleClick = (event: MouseEvent) => {
+         const target = event.target as HTMLElement;
+         if (target.contains(popUpRef.current) && target != popUpRef.current) {
+            setIsPopUpOpened(false);
+         }
+      };
+
+      window.addEventListener('click', handleClick);
+
+      return () => {
+         window.removeEventListener('click', handleClick);
+      };
+   }, []);
+
+   return [isPopUpOpened, setIsPopUpOpened, popUpRef] as const
 };

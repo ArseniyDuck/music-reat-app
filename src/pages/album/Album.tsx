@@ -32,7 +32,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
       {isFetching ? 
          // if fetching data, show spinner
          <div className={s.spinnerBody}>
-            <Spinner />
+            <Spinner size={45} />
          </div>
          :
          // if fetched, but with an error, show error

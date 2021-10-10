@@ -86,7 +86,7 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, isInPlaylist=false, 
                   singerId: props.singerId,
                   isLiked: props.is_liked,
                   albumId: props.albumId,
-                  isInPlaylist: isInPlaylist
+                  isInPlaylist: isInPlaylist,
                }}
                likeSong={handleLikeTogglerClick}
                removeSong={() => removeSong && removeSong(props.id)}

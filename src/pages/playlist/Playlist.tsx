@@ -47,7 +47,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
       {isFetching ? 
          // if fetching data, show spinner
          <div className={s.spinnerBody}>
-            <Spinner />
+            <Spinner size={45} />
          </div>
          :
          // if fetched, but with an error, show error

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import s from './MobileSongPullOut.module.scss';
 import { conditionClassName } from '../../tools/functions';
 import Heart from '../icons/heart/Heart';
@@ -8,6 +8,7 @@ import CdDisk from '../icons/cd-disk/CdDisk';
 import Plus from '../icons/plus/Plus';
 import Trash from '../icons/trash/Trash';
 import Arrow from '../icons/arrow/Arrow';
+import { useAppSelector, usePopUp } from '../../tools/hooks';
 
 type PropsType = {
    isOpened: boolean
@@ -19,15 +20,15 @@ type PropsType = {
 
 
 const MobileSongPullOut: React.FC<PropsType> = ({ isOpened, hide, songData, ...props }) => {
-   const wrapperCLassName = conditionClassName(s.wrapper, isOpened, s.opened);
-
+   const [isSelectionOpened, setIsSelectionOpened, selectionBodyRef] = usePopUp<HTMLDivElement>();
+   
    const removeSongFromPlaylist = () => {
       props.removeSong && props.removeSong();
       hide();
    };
-
+   
    return (
-      <div className={wrapperCLassName}>
+      <div className={conditionClassName(s.wrapper, isOpened, s.opened)}>
          <div className={s.body}>
             <SongInfo {...songData} />
             <div className={s.actions}>
@@ -35,15 +36,15 @@ const MobileSongPullOut: React.FC<PropsType> = ({ isOpened, hide, songData, ...p
                   <Heart size={28} color='pink' isLiked={songData.isLiked} />
                   <span>{songData.isLiked ? 'Dislike song' : 'Like song'}</span>
                </Action>
-               <Action href={`/singer/${songData.singerId}`} hide={hide}>
+               <Action href={`/singer/${songData.singerId}`} isArrow={true} hide={hide}>
                   <Headphones size={28} />
                   <span>Go to artist</span>
                </Action>
-               <Action href={`/album/${songData.albumId}`} hide={hide}>
+               <Action href={`/album/${songData.albumId}`} isArrow={true} hide={hide}>
                   <CdDisk size={25} styles={{padding: '1.5px'}} />
                   <span>Go to album</span>
                </Action>
-               <Action onClick={() => {}} isArrow={true}>
+               <Action onClick={() => setIsSelectionOpened(prev => !prev)}>
                   <Plus size={18} styles={{padding: '5px'}} />
                   <span>Add song to playlist</span>
                </Action>
@@ -51,6 +52,7 @@ const MobileSongPullOut: React.FC<PropsType> = ({ isOpened, hide, songData, ...p
                   <Trash size={20} styles={{padding: '4px'}} />
                   <span>Remove song from playlist</span>
                </Action> }
+               <MobilePlaylistSelection isOpened={isSelectionOpened} selectionBodyRef={selectionBodyRef} />
             </div>
          </div>
          <button onClick={hide} className={s.cancel}>Cancel</button>
@@ -96,25 +98,50 @@ type ActionPropsType = {
 };
 
 const Action: React.FC<ActionPropsType> = (actionProps) => {
-   const Body: React.FC = (bodyProps) => {
-      if (actionProps.href) {
-         return (
+   const ActionBodyTag: React.FC = (bodyProps) => {
+      return <>
+         {actionProps.href ?
             <Link to={actionProps.href} onClick={actionProps.hide} className={s.action}>
                {bodyProps.children}
             </Link>
-         );
-      } else {
-         return (
-            <button className={s.action} onClick={actionProps.onClick}>{ bodyProps.children }</button>
-         );
-      }
+            :
+            <button className={s.action} onClick={actionProps.onClick}>
+               {bodyProps.children}
+            </button>
+         }
+      </>;
    };
    
    return (
-      <Body>
+      <ActionBodyTag>
          {actionProps.children}
-         {actionProps.isArrow && <span className={s.arrow}><Arrow size={16} direction='right' /></span>}
-      </Body>
+         { actionProps.isArrow && (
+            <span className={s.arrow}>
+               <Arrow size={16} direction='right' />
+            </span>
+         )}
+      </ActionBodyTag>
    );
 }
+
+
+// MobilePlaylistSelection ----------------------------------------------------------
+type SelectionPropsType = {
+   isOpened: boolean
+   selectionBodyRef: any
+};
+
+const MobilePlaylistSelection: React.FC<SelectionPropsType> = ({ isOpened, selectionBodyRef }) => {
+   const { isFetching, error, playlists } = useAppSelector(state => state.playlists.smallPlaylists)
+
+   return (
+      <div className={conditionClassName(s.selectWrapper, isOpened, s.selectOpened)}>
+         <div className={s.selectBody} ref={selectionBodyRef}>
+            <h3 className={s.selectHeading}>Add to playlist</h3>
+         </div>
+      </div>
+   );
+}
+
+
 export default MobileSongPullOut;

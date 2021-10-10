@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { createPlaylist, fetchSmallPlaylists } from '../../redux/playlists-reducer';
+import React, { useState } from 'react';
+import { createPlaylist } from '../../redux/playlists-reducer';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import { getArrayOfComponents } from '../../tools/functions';
 import s from './Aside.module.scss';
@@ -27,10 +27,6 @@ const Aside: React.FC<PropsType> = (props) => {
 
    const toggleIsFormShown = () => setIsFormShown(prev => !prev);
    const hideForm = () => setIsFormShown(false);
-
-   useEffect(() => {
-      dispatch(fetchSmallPlaylists());
-   }, [dispatch]);
 
 
    return (
