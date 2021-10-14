@@ -14,7 +14,7 @@ const PlaylistCreationForm: React.FC<PropsType> = ({ createPlaylist, hideMe }) =
    const initialValues: FormValues = { name: '' };
 
    const handleSubmit = (formData: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
-      createPlaylist(formData.name ? formData.name : 'New Playlist');
+      createPlaylist(formData.name);
       setSubmitting(false);
       resetForm({});
       hideMe();
@@ -25,7 +25,14 @@ const PlaylistCreationForm: React.FC<PropsType> = ({ createPlaylist, hideMe }) =
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
          {() => (
          <Form>
-            <Field autoFocus type='text' name='name' className={s.input} placeholder='Enter name:' />
+            <Field
+               autoFocus
+               autoComplete='off'
+               type='text'
+               name='name'
+               className={s.input}
+               placeholder='Enter name:'
+            />
          </Form>
          )}
       </Formik>

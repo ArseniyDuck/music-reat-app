@@ -44,7 +44,7 @@ export const createPlaylist = createAsyncThunk(
    'playlists/createPlaylist',
    async (name: string, thunkAPI) => {
       try {
-         const response = await playlistsAPI.createPlaylist(name);
+         const response = await playlistsAPI.createPlaylist(name !== '' ? name : 'New Playlist');
          return response.data;
       } catch (error) {
          const err = error as AxiosError;

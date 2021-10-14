@@ -4,13 +4,12 @@ import { conditionClassName } from '../../tools/functions';
 import s from './AsideActions.module.scss';
 
 type AsideButtonPropsType = {
-   size?: 'small' | 'large'
    onClick: () => void
 };
 
-export const AsideButton: React.FC<AsideButtonPropsType> = ({ onClick, size='small', children }) => {
+export const AsideButton: React.FC<AsideButtonPropsType> = ({ onClick, children }) => {
    return (
-      <button onClick={onClick} className={conditionClassName(s.button, size === 'large', s.large)}>
+      <button onClick={onClick} className={s.button}>
          {children}
       </button>
    );

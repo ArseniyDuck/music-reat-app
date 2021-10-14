@@ -74,7 +74,7 @@ export const usePopUp = <E extends HTMLElement>() => {
    useEffect(() => {
       const handleClick = (event: MouseEvent) => {
          const target = event.target as HTMLElement;
-         if (target.contains(popUpRef.current) && target != popUpRef.current) {
+         if (target.contains(popUpRef.current) && target !== popUpRef.current) {
             setIsPopUpOpened(false);
          }
       };

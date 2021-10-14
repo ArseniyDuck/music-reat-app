@@ -150,7 +150,7 @@
    padding: 10px 15px 5px 20px;
 }
 
-.cancelSelection {
+.button {
    display: inline-block;
    font-size: 17px;
    padding: 5px;
@@ -165,4 +165,29 @@
    padding: 15px;
    font-size: 20px;
    color: #FFF;
+}
+
+.input {
+   display: block;
+   width: calc(100% - 40px);
+   box-sizing: border-box;
+   margin: 10px 20px 0 20px;
+   padding: 5px 10px;
+}
+
+.createPlaylistButton {
+   display: inline-flex;
+   align-items: center;
+   justify-content: flex-start;
+   width: 100%;
+   padding: 10px 20px;
+   font-size: 19px;
+   color: $brightGrey;
+
+   svg {
+      margin-right: 7px;
+      padding: 7px;
+      background: $brightGrey;
+      path {stroke: #000 !important;}
+   }
 }

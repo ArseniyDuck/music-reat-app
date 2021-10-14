@@ -62,6 +62,19 @@ const _songInPlaylistTogglerThunkCreator = (thunkName: string, apiMethod: SongIn
    );
 };
 
+export const addSongToNewCreatedPlaylist = createAsyncThunk<void, {songId: number, playlistName: string}>(
+   'songs/addSongToNewCreatedPlaylist',
+   async ({ songId, playlistName }, thunkAPI) => {
+      try {
+         const creationResponse = await playlistsAPI.createPlaylist(playlistName !== '' ? playlistName : 'New playlist');
+         thunkAPI.dispatch(addSongToPlaylist({songId, playlistId: creationResponse.data.id}));
+      } catch (error) {
+         const err = error as AxiosError;
+         return thunkAPI.rejectWithValue(err.message);
+      }
+   }
+);
+
 export const addSongToPlaylist = _songInPlaylistTogglerThunkCreator(
    'addSongToPlaylist',
    playlistsAPI.addSongToPlaylist,
@@ -104,6 +117,16 @@ export const songsSile = createSlice({
       builder.addCase(removeSongFromPlaylist.fulfilled, (state, action) => {
          // todo: show string in bottom alert
          state.songs = state.songs.filter(song => song.id !== action.payload.id)
+      });
+
+      // addSongToNewCreatedPlaylist --------------------------------------------------------
+      builder.addCase(addSongToNewCreatedPlaylist.fulfilled, (state, action) => {
+         // todo: show string in bottom alert
+      });
+
+      // addSongToNewCreatedPlaylist --------------------------------------------------------
+      builder.addCase(addSongToNewCreatedPlaylist.rejected, (state, action) => {
+         // todo: show string in bottom alert
       });
    },
 });

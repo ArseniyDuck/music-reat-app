@@ -1,17 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-import s from './MobileSongPullOut.module.scss';
-import { conditionClassName, getArrayOfComponents } from '../../tools/functions';
-import Heart from '../icons/heart/Heart';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { useAppDispatch, useAppSelector, usePopUp } from '../../tools/hooks';
+import { addSongToNewCreatedPlaylist } from '../../redux/songs-reducer';
+import { conditionClassName, getArrayOfComponents } from '../../tools/functions';
+import s from './MobileSongPullOut.module.scss';
+import TransitionSkeleton from '../common/transition-skeleton/TransitionSkeleton';
+import Heart from '../icons/heart/Heart';
 import Headphones from '../icons/headphones/Headphones';
 import CdDisk from '../icons/cd-disk/CdDisk';
 import Plus from '../icons/plus/Plus';
 import Trash from '../icons/trash/Trash';
 import Arrow from '../icons/arrow/Arrow';
-import { useAppSelector, usePopUp } from '../../tools/hooks';
-import Spinner from '../icons/spinner/Spinner';
-import TransitionSkeleton from '../common/transition-skeleton/TransitionSkeleton';
-import { PlaylistCreationButton } from '../aside/Aside';
+
 
 type PropsType = {
    isOpened: boolean
@@ -25,10 +26,16 @@ type PropsType = {
 
 const MobileSongPullOut: React.FC<PropsType> = ({ isOpened, hide, songData, ...props }) => {
    const [isSelectionOpened, setIsSelectionOpened, selectionBodyRef] = usePopUp<HTMLDivElement>();
+   const [isCreationOpened, setIsCreationOpened, creationBodyRef] = usePopUp<HTMLDivElement>();
+
+   const hadleCreationButtonClick = () => {
+      setIsSelectionOpened(false);
+      setIsCreationOpened(true);
+   };
    
    const removeSongFromPlaylist = () => {
       props.removeSong && props.removeSong();
-      hide();
+      hide(); 
    };
    
    return (
@@ -56,11 +63,18 @@ const MobileSongPullOut: React.FC<PropsType> = ({ isOpened, hide, songData, ...p
                   <Trash size={25} styles={{padding: '4px'}} />
                   <span>Remove song from playlist</span>
                </Action> }
-               <MobilePlaylistSelection
+               <SelectionPopUp
                   isOpened={isSelectionOpened}
                   selectionBodyRef={selectionBodyRef}
+                  creationButtonOnClick={hadleCreationButtonClick}
                   close={() => setIsSelectionOpened(false)}
                   addSongToPlaylist={props.addSongToPlaylist}
+               />
+               <CreationPopUp
+                  isOpened={isCreationOpened}
+                  creationBodyRef={creationBodyRef}
+                  close={() => setIsCreationOpened(false)}
+                  songId={songData.id}
                />
             </div>
          </div>
@@ -87,6 +101,7 @@ const SongInfo: React.FC<SongDataType> = (props) => {
 };
 
 type SongDataType = {
+   id: number
    songName: string
    singerName: string
    duration: string
@@ -134,15 +149,16 @@ const Action: React.FC<ActionPropsType> = (actionProps) => {
 }
 
 
-// MobilePlaylistSelection ----------------------------------------------------------
+// Selection ----------------------------------------------------------
 type SelectionPropsType = {
    isOpened: boolean
    selectionBodyRef: React.RefObject<HTMLDivElement>
+   creationButtonOnClick: () => void
    close: () => void 
    addSongToPlaylist: (id: number) => void
 };
 
-const MobilePlaylistSelection: React.FC<SelectionPropsType> = ({ isOpened, selectionBodyRef, close, ...props }) => {
+const SelectionPopUp: React.FC<SelectionPropsType> = ({ isOpened, selectionBodyRef, close, ...props }) => {
    const { isFetching, error, playlists } = useAppSelector(state => state.playlists.smallPlaylists);
 
    const handleSongAdding = (id: number) => {
@@ -166,7 +182,10 @@ const MobilePlaylistSelection: React.FC<SelectionPropsType> = ({ isOpened, selec
                :
                // else show content
                <>
-                  <PlaylistCreationButton size='large' onclick={() => {}} />
+                  <button className={s.createPlaylistButton} onClick={props.creationButtonOnClick}>
+                     <Plus size={15} stroke={7} />
+                     Create playlist
+                  </button>
                   <div className={s.playlistsContainer}>
                      {playlists.map(playlist => (
                         <button
@@ -175,12 +194,15 @@ const MobilePlaylistSelection: React.FC<SelectionPropsType> = ({ isOpened, selec
                            className={s.smallPlaylist}
                         >
                            <p className={s.playlistName}>{playlist.name}</p>
-                           <p className={s.playlistCount}>100 songs</p>
+                           <p className={s.playlistCount}>
+                              {/* todo: select number of songs from state */}
+                              100 songs
+                           </p>
                         </button>
                      ))}
                   </div>
                   <div className={s.cancelButtonContainer}>
-                     <button onClick={close} className={s.cancelSelection}>Cancel</button>
+                     <button onClick={close} className={s.button}>Cancel</button>
                   </div>
                </>
             }
@@ -194,6 +216,57 @@ const PlaylistSkeleton = () => {
       <TransitionSkeleton width='85%' height={16} />
       <TransitionSkeleton width='30%' height={8} />
    </div>;
+}
+
+// Creation ----------------------------------------------------------
+type CreationPropsType = {
+   isOpened: boolean
+   creationBodyRef: React.RefObject<HTMLDivElement>
+   close: () => void
+   songId: number
+};
+
+type FormValues = { name: string };
+
+const CreationPopUp: React.FC<CreationPropsType> = ({ isOpened, creationBodyRef, close, ...props }) => {
+   // todo: create high order component withPopUp
+   const dispatch = useAppDispatch();
+
+   const initialValues: FormValues = { name: '' };
+
+   const handleSubmit = (formData: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
+      console.log(formData.name)
+      dispatch(addSongToNewCreatedPlaylist({ songId: props.songId, playlistName: formData.name }));
+      setSubmitting(false);
+      resetForm({});
+      close();
+   };
+
+   return (
+      <div className={conditionClassName(s.selectWrapper, isOpened, s.selectOpened)}>
+         <div className={s.selectBody} ref={creationBodyRef}>
+            <h3 className={s.selectHeading}>Create playlist</h3>
+            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+               {() => (
+               <Form>
+                  <Field 
+                     autoFocus
+                     autoComplete='off'
+                     type='text'
+                     name='name'
+                     className={s.input}
+                     placeholder='Enter name:'
+                  />
+                  <div className={s.cancelButtonContainer}>
+                     <button type='submit' className={s.button}>Create</button>
+                     <button type='button' onClick={close} className={s.button}>Cancel</button>
+                  </div>
+               </Form>
+               )}
+            </Formik>
+         </div>
+      </div>
+   );
 }
 
 

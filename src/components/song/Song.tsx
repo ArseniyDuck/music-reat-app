@@ -79,6 +79,7 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, isInPlaylist=false, 
                isOpened={isMobileMenuOpened}
                hide={hideMobileMenu}
                songData={{
+                  id: props.id,
                   songName: props.name,
                   singerName: props.singerName,
                   duration: props.duration,
