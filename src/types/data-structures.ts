@@ -64,3 +64,15 @@ export type SongType = {
 export type SongsType = Array<AlbumSongType> | Array<PlaylistSongType>
 
 export type SognsContainerType = 'album' | 'playlist';
+
+export type MobilePullOupSongType = {
+   id: number
+   songName: string
+   singerName: string
+   duration: string
+   isLiked: boolean
+   singerId: number
+   albumId: number
+   isInPlaylist: boolean
+   photo?: string
+};

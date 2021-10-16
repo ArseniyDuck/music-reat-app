@@ -69,3 +69,15 @@ body {
    overflow: hidden;
    text-overflow: ellipsis;
 }
+
+.mobilePopUpCancelButtons {
+   text-align: right;
+   padding: 10px 15px 5px 20px;
+}
+
+.mobilePopUpButton {
+   display: inline-block;
+   font-size: 17px;
+   padding: 5px;
+   color: #FFF;
+}

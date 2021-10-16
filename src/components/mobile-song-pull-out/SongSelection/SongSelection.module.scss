@@ -1,0 +1,55 @@
+@import '../../../styles/mixins';
+@import '../../../styles/variables';
+
+.skeletonsContainer {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   gap: 15px;
+   margin-top: 15px;
+}
+
+.createPlaylistButton {
+   display: inline-flex;
+   align-items: center;
+   justify-content: flex-start;
+   width: 100%;
+   padding: 10px 20px;
+   font-size: 19px;
+   color: $brightGrey;
+
+   svg {
+      margin-right: 7px;
+      padding: 7px;
+      background: $brightGrey;
+      path {stroke: #000 !important;}
+   }
+}
+
+.playlistsContainer {
+   max-height: 350px;
+   overflow: auto;
+}
+
+.smallPlaylist {
+   display: flex;
+   width: 100%;
+   padding: 10px 20px;
+   flex-direction: column;
+   align-items: flex-start;
+}
+
+.playlistName,
+.playlistCount {
+   color: #FFF;
+}
+
+.playlistName {
+   font-size: 19px;
+   font-weight: 600;
+}
+
+.cancelButtonContainer {
+   text-align: right;
+   padding: 10px 15px 5px 20px;
+}

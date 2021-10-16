@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { conditionClassName } from '../../tools/functions';
 import s from './AsideActions.module.scss';
 
 type AsideButtonPropsType = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import withIcon, { WrappedIconType } from '../../../high-order-components/withIcon';
+import withIcon, { WrappedIconType } from '../../../high-order-components/withIcon/withIcon';
 
 
 const Trash: React.FC<WrappedIconType> = ({ styles }) => {

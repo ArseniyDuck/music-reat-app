@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import withIcon, { WrappedIconType } from '../../../high-order-components/withIcon';
+import withIcon, { WrappedIconType } from '../../../high-order-components/withIcon/withIcon';
 import s from './PlayPauseButton.module.scss';
 
 type PropsType = {

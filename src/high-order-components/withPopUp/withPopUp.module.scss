@@ -1,0 +1,38 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+
+.selectWrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   background: transparent;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 200;
+   @include hidden-element();
+
+   backdrop-filter: blur(3px);
+   @supports not (backdrop-filter: blur(3px)) {
+      background: rgba(0, 0, 0, .8);
+   }
+
+   &.selectOpened {
+      @include visible-element();
+   }
+}
+
+.selectBody {
+   width: 80vw;
+   padding: 20px 0 10px 0;
+   text-align: left;
+   background: $darkGrey;
+}
+
+.selectHeading {
+   font-size: 22px;
+   margin: 0 20px 5px 20px;
+}

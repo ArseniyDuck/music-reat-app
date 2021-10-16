@@ -1,0 +1,29 @@
+@import '../../../styles/variables';
+
+.songInfo {
+   display: grid;
+   grid-template-columns: auto 1fr auto;
+   align-items: center;
+   padding: 0 0 15px 0;
+   margin: 0 15px;
+   border-bottom: 1px solid $grey;
+}
+
+.photo {
+   width: 55px;
+   height: 55px;
+   margin-right: 15px;
+}
+
+.songNamesWrapper {
+   align-self: flex-end;
+}
+
+.songName {
+   font-size: 19px;
+   margin-bottom: 3px;
+}
+
+.songDuration {
+   margin-left: 10px;
+}
