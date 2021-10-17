@@ -93,3 +93,88 @@ const DropdownItem: React.FC = ({ children }) => {
 // export 
 Dropdown.Item = DropdownItem
 export default Dropdown;
+
+/*
+// ------------------------------------------------------------------------
+type NewDropdownPropsType = {
+   isOverflow?: boolean
+   trackVerticalPosition?: boolean
+   initialPosition: 'top' | 'bottom'
+   event: 'focus' | 'hover'
+   LabelComponent: React.ComponentType
+};
+
+const Dropdown: React.FC<NewDropdownPropsType> & { Item: typeof DropdownItem } = ({ children, LabelComponent, event, ...props }) => {
+   const [isDropDownTopPositioned, setIsDropDownTopPositioned] = useState(props.initialPosition === 'top');
+   const [isDropdownOpened, setIsDropdownOpened, dropdownBodyRef] = usePopUp<HTMLDivElement>();
+
+   const labelRef = useRef<HTMLDivElement>(null);
+
+   const [dropDownMaxHeight, setDropDownMaxHeight] = useState(100);
+
+   const dropDownRef = useRef<HTMLUListElement>(null);
+
+   const calculateAndSetMaxHeight = useCallback(() => {
+      if (isDropDownTopPositioned) {
+         setDropDownMaxHeight(dropDownRef.current?.getBoundingClientRect().bottom as number);
+      } else {
+         setDropDownMaxHeight(window.innerHeight - Math.abs(dropDownRef.current?.getBoundingClientRect().top as number));
+      }
+   }, [isDropDownTopPositioned, setDropDownMaxHeight, dropDownRef]);
+
+   useEffect(() => calculateAndSetMaxHeight(), [isDropDownTopPositioned, calculateAndSetMaxHeight]);
+
+   const eventCallbackCreator = (func: () => void) => () => {
+      if (props.trackVerticalPosition) {
+         setIsDropDownTopPositioned(labelRef.current?.getBoundingClientRect().y as number > window.innerHeight / 2);
+      }
+      if (props.isOverflow) {
+         calculateAndSetMaxHeight();
+      }
+
+      func();
+   };
+
+   type eventsType = {
+      onClick?: () => void
+      onMouseEnter?: () => void
+      onMouseLeave?: () => void
+   };
+
+   let executableEvent: eventsType = {};
+
+   switch (event) {
+      case 'focus':
+         executableEvent.onClick = eventCallbackCreator(() => setIsDropdownOpened(prev => !prev));
+         break;
+      case 'hover':
+         executableEvent.onMouseEnter = eventCallbackCreator(() => setIsDropdownOpened(true));
+         // executableEvent.onMouseLeave = eventCallbackCreator(() => setyIsDropdownOpened(false));
+         break;
+   }
+
+   return (
+      <div className={s.dropDownWrapper}>
+         <div className={s.label} ref={labelRef} {...executableEvent}>
+            <LabelComponent />
+         </div>
+         <div ref={dropdownBodyRef} className={`${s.dropdownBody} ${isDropdownOpened && s.opened} ${props.trackVerticalPosition ? (isDropDownTopPositioned ? s.topPositioned : s.bottomPositioned) : s.defaultPositioned}`}>
+            <ul ref={dropDownRef} className={props.isOverflow ? `${s.dropDownList} ${s.overflow}` : s.dropDownList} style={props.isOverflow ? {maxHeight: dropDownMaxHeight} : undefined}>
+               { children }
+            </ul>
+         </div>
+      </div>
+   );
+}
+
+const DropdownItem: React.FC = ({ children }) => {
+   return (
+      <li className={s.dropDownItem}>
+         { children }
+      </li>
+   );
+};
+
+Dropdown.Item = DropdownItem
+export default Dropdown;
+*/

@@ -56,7 +56,12 @@ body {
    margin-bottom: 25px;
 
    @include mobile-media-query-down('md') { margin-bottom: 15px; }
-   @include mobile-media-query-down('sm') { margin-bottom: 10px; }
+
+   @include mobile-media-query-down('sm') {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+   }
 }
 
 .cropTextContainer {

@@ -23,13 +23,20 @@
    }
 
    @include mobile-media-query-down('sm') {
-      padding: 10px;
+      padding: 35px 0 10px 0;
+      flex-direction: column;
+      align-items: center;
    }
 }
 
 .image {
    @include adaptive-value("width", 225, 135, 0);
    @include adaptive-value("height", 225, 135, 0);
+
+   @include mobile-media-query-down('sm') {
+      width: 185px;
+      height: 185px;
+   }
 }
 
 .bannerBody {
@@ -39,10 +46,10 @@
    align-items: flex-start;
    flex-shrink: 100;
    z-index: 1;
-}
 
-.preHeading {
-   @include adaptive-value("font-size", 18, 10, 0);
+   @include mobile-media-query-down('sm') {
+      align-items: center;
+   }
 }
 
 .heading {
@@ -51,15 +58,34 @@
    line-height: 95%;
    word-spacing: -0.08em;
    letter-spacing: -0.04em;
+
+   @include mobile-media-query-down('sm') {
+      margin-bottom: 8px;
+      font-size: 40px;
+      line-height: 100%;
+   }
 }
 
 .metadata {
    display: flex;
    align-items: center;
-   gap: 20px;
+
+   @include mobile-media-query-down('sm') {
+      flex-wrap: wrap;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: 0 15px;
+   }
 
    p {
+      margin-left: 20px;
+
       @include adaptive-value("font-size", 14, 8.5, 0);
+
+      @include mobile-media-query-down('sm') {
+         font-size: 14px;
+         margin-left: 12px;
+      }
    }
 }
 
@@ -74,7 +100,6 @@
          transition: $hover;
       }
    }
-
 }
 
 .linkPhoto {
@@ -89,4 +114,8 @@
    @include adaptive-value("font-size", 16, 9.5, 0);
    font-weight: 600;
    color: #FFFFFF;
+
+   @include mobile-media-query-down('sm') {
+      font-size: 14px;
+   }
 }

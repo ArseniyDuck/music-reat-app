@@ -58,7 +58,6 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
             />
             <GradientContent rgbColor={albumData.best_color}>
                <div className='buttonsContainer'>
-                  {/* todo: <button className={s.mixSongsButton}>MIX SONGS</button> */}
                   <PlayPauseButton size={55} />
                   <button onClick={() => dispatch(toggleAlbumLikeById(albumData.id))} className={s.albumLikeButton}>
                      <Heart isLiked={albumData.is_liked} size={30} color='pink' />

@@ -11,7 +11,7 @@
    }
 
    @include mobile-media-query-down('sm') {
-      padding: 10px;
+      padding: 16px 10px 10px 10px;
    }
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import MediaQuery from '../common/media-query/MediaQuery';
 import s from './Banner.module.scss';
 
 type PropsType = {
@@ -22,7 +23,9 @@ const Banner: React.FC<PropsType> = (props) => {
             { props.photo && <img src={props.photo} alt='banner' /> }
          </div>
          <div className={s.bannerBody}>
-            <p className={s.preHeading}>{props.subTitle}</p>
+            <MediaQuery mode='min-width' width='sm'>
+               <p className={s.preHeading}>{props.subTitle}</p>
+            </MediaQuery>
             {/* todo: change font-size depending on AlbumName's length */}
             <h1 className={s.heading}>{props.name}</h1>
             <div className={s.metadata}>
@@ -34,6 +37,9 @@ const Banner: React.FC<PropsType> = (props) => {
                   }
                   <span className={s.linkText}>{props.linkText}</span>
                </Link>
+               <MediaQuery mode='max-width' width='sm'>
+                  <p className={s.preHeading}>{props.subTitle}</p>
+               </MediaQuery>
                { props.year && <p>{props.year}</p> }
                <p>{props.songsCount} songs</p>
                <p>{props.duration}</p>
