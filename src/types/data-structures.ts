@@ -23,6 +23,7 @@ export type PlaylistSongType = SongType & {
 export type SmallPlaylistType = {
    id: number
    name: string
+   songs_count: number
 };
 
 

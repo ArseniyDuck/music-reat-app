@@ -45,10 +45,7 @@ const SongSelection: React.FC<PropsType & WrappedPopUpType> = ({ close, ...props
                      className={s.smallPlaylist}
                   >
                      <p className={s.playlistName}>{playlist.name}</p>
-                     <p className={s.playlistCount}>
-                        {/* todo: select number of songs from state */}
-                        100 songs
-                     </p>
+                     <p className={s.playlistCount}>{playlist.songs_count} songs</p>
                   </button>
                ))}
             </div>

@@ -84,6 +84,7 @@ export const playlistsSlice = createSlice({
          state.smallPlaylists.playlists = [{
             id: action.payload.id,
             name: action.payload.name,
+            songs_count: 0,
          }, ...state.smallPlaylists.playlists]
       });
 
