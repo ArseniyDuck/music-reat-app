@@ -6,7 +6,7 @@ type PropsType = {};
 
 const StickyTableHead: React.FC<PropsType> = ({ children }) => {
    return (
-      <Sticky defaultWrapperClasses={s.tableHeaderWrapper} stuckClasses={s.stuck}>
+      <Sticky stuckOn={60} defaultWrapperClasses={s.tableHeaderWrapper} stuckClasses={s.stuck}>
          {children}
       </Sticky>
    );

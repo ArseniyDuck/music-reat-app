@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../tools/hooks';
+import { useAppDispatch, useAppSelector, useBannerHeight } from '../../tools/hooks';
 import { fetchAlbumById, toggleAlbumLikeById } from '../../redux/album-reducer';
 import s from './Album.module.scss';
 import Spinner from '../../components/icons/spinner/Spinner';
@@ -24,6 +24,8 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
    const albumData = useAppSelector(state => state.album.data);
    const songs = useAppSelector(state => state.songs.songs);
 
+   const [bannerRef, bannerHeight, setBannerHeight] = useBannerHeight<HTMLElement>();
+
    useEffect(() => {
       dispatch(fetchAlbumById(Number(albumId)));
    }, [dispatch, albumId]);
@@ -41,10 +43,10 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
          :
          // else show content
          albumData && <>
-            {/* reduce calling useAppSelector hook */}
-            {/* todo: create more components */}
-            <GradientHeader rgbColor={albumData.best_color} title={albumData.name} />
+            <GradientHeader rgbColor={albumData.best_color} title={albumData.name} bannerHeight={bannerHeight} />
             <Banner 
+               bannerRef={bannerRef}
+               setBannerHeight={setBannerHeight}
                name={albumData.name}
                songsCount={songs.length}
                year={albumData.year}

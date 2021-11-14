@@ -1,6 +1,7 @@
 import React, { CSSProperties, useLayoutEffect, useRef, useState } from 'react';
 
 type PropsType = {
+   stuckOn: number
    defaultWrapperClasses?: string
    stuckClasses?: string
    unstuckClasses?: string
@@ -8,7 +9,7 @@ type PropsType = {
    unstuckStyles?: CSSProperties
 };
 
-const Sticky: React.FC<PropsType> = ({ defaultWrapperClasses="", stuckClasses="", unstuckClasses="", stuckStyles={}, unstuckStyles={}, children }) => {
+const Sticky: React.FC<PropsType> = ({ stuckOn, defaultWrapperClasses='', stuckClasses='', unstuckClasses='', stuckStyles={}, unstuckStyles={}, children }) => {
    const [isStuck, setIsStuck] = useState(false)
    const wrapperRef = useRef<HTMLDivElement>(null);
  
@@ -31,15 +32,14 @@ const Sticky: React.FC<PropsType> = ({ defaultWrapperClasses="", stuckClasses=""
       };
    }, [wrapperRef])
  
-   return <>
-      {/* todo: get height from props */}
-      <div ref={wrapperRef} style={{ height: 45, position: 'absolute', top: 0, left: 0 }}>
-         {/* element for triggering the intersection observer event */}
-      </div>
+   return (
       <div style={{ position: 'sticky', ...styles }} className={`${defaultWrapperClasses} ${classes}`}>
+         <div ref={wrapperRef} style={{ height: 1,  position: 'absolute', top: -stuckOn - 3, left: 0 }}>
+            {/* element for triggering the intersection observer event */}
+         </div>
          {children}
       </div>
-   </>
+   );
 };
 
 export default Sticky;

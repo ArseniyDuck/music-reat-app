@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchPlaylistById } from '../../redux/playlists-reducer';
-import { useAppDispatch, useAppSelector } from '../../tools/hooks';
+import { useAppDispatch, useAppSelector, useBannerHeight } from '../../tools/hooks';
 import Banner from '../../components/banner/Banner';
 import GradientContent from '../../components/gradient-content/GradientContent';
 import Spinner from '../../components/icons/spinner/Spinner';
@@ -21,12 +21,12 @@ type PropsType = {};
 const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ match: {params: {playlistId}} }) => {
    const dispatch = useAppDispatch();
    const playlistData = useAppSelector(state => state.playlists.playlist);
-
    const songsData = useAppSelector(state => state.songs);
    const songs = (songsData.containerType === 'playlist' ? songsData.songs : []) as Array<PlaylistSongType>;
-
    const isFetching = useAppSelector(state => state.playlists.isFetching);
    const error = useAppSelector(state => state.playlists.error);
+
+   const [bannerRef, bannerHeight, setBannerHeight] = useBannerHeight<HTMLElement>();
 
    useEffect(() => {
       dispatch(fetchPlaylistById(Number(playlistId)));
@@ -41,8 +41,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
    const removeSong = (songId: number) => {
       dispatch(removeSongFromPlaylist({ songId, playlistId: Number(playlistId) }));
    };
-   
-   // todo: reduce jsx copy-paste here and in Album
+
    return <>
       {isFetching ? 
          // if fetching data, show spinner
@@ -56,8 +55,10 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
          :
          // else show content
          playlistData && <>
-            <GradientHeader rgbColor={getRgbColor(songs)} title={playlistData.name} />
+            <GradientHeader rgbColor={getRgbColor(songs)} title={playlistData.name} bannerHeight={bannerHeight} />
             <Banner
+               bannerRef={bannerRef}
+               setBannerHeight={setBannerHeight}
                name={playlistData.name}
                songsCount={songs.length}
                duration={playlistData.duration}

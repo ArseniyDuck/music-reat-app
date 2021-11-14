@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { RefObject, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MediaQuery from '../common/media-query/MediaQuery';
 import s from './Banner.module.scss';
 
 type PropsType = {
-   photo: string
+   bannerRef: RefObject<HTMLElement>
+   setBannerHeight: (height: number) => void
    name: string
+   photo: string
    subTitle: 'Album' | 'Playlist'
    linkPhoto?: string
    linkText: string
@@ -16,9 +18,13 @@ type PropsType = {
    rgbColor: string
 };
 
-const Banner: React.FC<PropsType> = (props) => {
+const Banner: React.FC<PropsType> = ({setBannerHeight, bannerRef, ...props}) => {
+   useEffect(() => {
+      setBannerHeight(bannerRef.current?.offsetHeight as number);
+   }, [setBannerHeight, bannerRef]);
+
    return (
-      <section className={s.banner} style={{background: `linear-gradient(transparent 0, rgba(0,0,0,.5) 100%), ${props.rgbColor}`}}>
+      <section ref={bannerRef} className={s.banner} style={{background: `linear-gradient(transparent 0, rgba(0,0,0,.5) 100%), ${props.rgbColor}`}}>
          <div className={s.image + ' ibg'}>
             { props.photo && <img src={props.photo} alt='banner' /> }
          </div>

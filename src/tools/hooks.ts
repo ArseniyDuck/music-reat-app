@@ -74,7 +74,6 @@ export const usePopUp = <E extends HTMLElement>() => {
    useEffect(() => {
       const handleClick = (event: MouseEvent) => {
          const target = event.target as HTMLElement;
-         console.log('clcik')
          if (target.contains(popUpRef.current) && target !== popUpRef.current) {
             setIsPopUpOpened(false);
          }
@@ -88,4 +87,13 @@ export const usePopUp = <E extends HTMLElement>() => {
    }, []);
 
    return [isPopUpOpened, setIsPopUpOpened, popUpRef] as const;
+};
+
+
+// useBannerHeight -----------------------------------
+export const useBannerHeight = <E extends HTMLElement>() => {
+   const bannerRef = useRef<E>(null);
+   const [bannerHeight, setBannerHeight] = useState<number | undefined>();
+
+   return [bannerRef, bannerHeight, setBannerHeight] as const;
 };
