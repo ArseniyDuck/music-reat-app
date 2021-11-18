@@ -24,6 +24,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
    const albumData = useAppSelector(state => state.album.data);
    const songs = useAppSelector(state => state.songs.songs);
 
+   // value needed for calculatings in GradientHeader
    const [bannerRef, bannerHeight, setBannerHeight] = useBannerHeight<HTMLElement>();
 
    useEffect(() => {

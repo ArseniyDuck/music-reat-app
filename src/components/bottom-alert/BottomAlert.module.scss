@@ -1,0 +1,49 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.body {
+   position: fixed;
+   bottom: 20px;
+   left: calc(240px + (100% - 240px) / 2);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   box-sizing: border-box;
+   padding: 7.5px 35px;
+   background: $grey;
+   
+   max-width: 50%;
+   overflow: hidden;
+   white-space: nowrap;
+
+   @include hidden-element();
+   transform: translateX(-50%) translateY(5px);
+   &.active {
+      @include visible-element();
+      transform: translateX(-50%) translateY(0);
+      z-index: 1000;
+   }
+
+   &.green { background: $okColor; }
+
+   &.yellow {
+      background: $yellow;
+      .message { color: #000 }
+   }
+
+   &.red { background: $red; }
+
+   @include mobile-media-query-down() {
+      left: 50%;
+      bottom: 80px;
+      max-width: 87%;
+   };
+}
+
+.message {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   @include adaptive-value("font-size", 18, 13, 0);
+   font-weight: 400;
+   color: #fff;
+}

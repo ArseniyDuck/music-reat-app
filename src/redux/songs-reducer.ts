@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { musicDataAPI, playlistsAPI, SongInPlaylistTogglerRequestType } from '../tools/api';
 import { SongsType } from '../types/data-structures';
+import { alertMessage } from './bottom-alert-reducer';
 
 
 type SognsContainerType = 'album' | 'playlist';
@@ -42,20 +43,23 @@ export const toggleSongLikeById = createAsyncThunk(
          };
       } catch (error) {
          const err = error as AxiosError;
+         thunkAPI.dispatch(alertMessage({ message: `Error occured`, messageStatus: 'error' }));
          return thunkAPI.rejectWithValue(err.message);
       }
    }
 );
 
-const _songInPlaylistTogglerThunkCreator = (thunkName: string, apiMethod: SongInPlaylistTogglerRequestType) => {
+const _songInPlaylistTogglerThunkCreator = (thunkName: string, apiMethod: SongInPlaylistTogglerRequestType, verb: 'added' | 'removed') => {
    return createAsyncThunk<{ id: number }, { songId: number, playlistId: number }>(
       `playlists/${thunkName}`,
       async ({ songId, playlistId }, thunkAPI) => {
          try {
             const response = await apiMethod(songId, playlistId);
+            thunkAPI.dispatch(alertMessage({ message: `Song was ${verb}`, messageStatus: 'ok' }));
             return response.data;
          } catch (error) {
             const err = error as AxiosError;
+            thunkAPI.dispatch(alertMessage({ message: `Song wasn\'t ${verb}`, messageStatus: 'error' }));
             return thunkAPI.rejectWithValue(err.message);
          }
       }
@@ -66,10 +70,12 @@ export const addSongToNewCreatedPlaylist = createAsyncThunk<void, {songId: numbe
    'songs/addSongToNewCreatedPlaylist',
    async ({ songId, playlistName }, thunkAPI) => {
       try {
-         const creationResponse = await playlistsAPI.createPlaylist(playlistName !== '' ? playlistName : 'New playlist');
+         const creationResponse = await playlistsAPI.createPlaylist(playlistName ? playlistName : 'New playlist');
          thunkAPI.dispatch(addSongToPlaylist({songId, playlistId: creationResponse.data.id}));
+         thunkAPI.dispatch(alertMessage({ message: 'Song was added to new playlist', messageStatus: 'ok' }));
       } catch (error) {
          const err = error as AxiosError;
+         thunkAPI.dispatch(alertMessage({ message: 'Error occured', messageStatus: 'error' }));
          return thunkAPI.rejectWithValue(err.message);
       }
    }
@@ -78,11 +84,13 @@ export const addSongToNewCreatedPlaylist = createAsyncThunk<void, {songId: numbe
 export const addSongToPlaylist = _songInPlaylistTogglerThunkCreator(
    'addSongToPlaylist',
    playlistsAPI.addSongToPlaylist,
+   'added'
 );
 
 export const removeSongFromPlaylist = _songInPlaylistTogglerThunkCreator(
    'removeSongFromPlaylist',
    playlistsAPI.removeSongFromPlaylist,
+   'removed'
 );
 
 export const songsSile = createSlice({
@@ -108,25 +116,9 @@ export const songsSile = createSlice({
          }
       });
 
-      // addSongToPlaylist --------------------------------------------------------
-      builder.addCase(addSongToPlaylist.fulfilled, (state, action) => {
-         // todo: show string in bottom alert
-      });
-
       // removeSongFromPlaylist --------------------------------------------------------
       builder.addCase(removeSongFromPlaylist.fulfilled, (state, action) => {
-         // todo: show string in bottom alert
          state.songs = state.songs.filter(song => song.id !== action.payload.id)
-      });
-
-      // addSongToNewCreatedPlaylist --------------------------------------------------------
-      builder.addCase(addSongToNewCreatedPlaylist.fulfilled, (state, action) => {
-         // todo: show string in bottom alert
-      });
-
-      // addSongToNewCreatedPlaylist --------------------------------------------------------
-      builder.addCase(addSongToNewCreatedPlaylist.rejected, (state, action) => {
-         // todo: show string in bottom alert
       });
    },
 });

@@ -26,6 +26,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
    const isFetching = useAppSelector(state => state.playlists.isFetching);
    const error = useAppSelector(state => state.playlists.error);
 
+   // value needed for calculatings in GradientHeader
    const [bannerRef, bannerHeight, setBannerHeight] = useBannerHeight<HTMLElement>();
 
    useEffect(() => {

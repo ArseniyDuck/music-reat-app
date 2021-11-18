@@ -9,10 +9,10 @@
    min-height: 100vh;
    
    @include mobile-media-query-up() {
-      padding-left: 240px; // width of sidebar
+      margin-left: 240px; // width of sidebar
    }
 
    @include mobile-media-query-down() {
-      padding-bottom: 65px; // width of mobile bottom buttons
+      margin-bottom: 65px; // width of mobile bottom buttons
    }
 }

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { musicDataAPI } from '../tools/api';
 import { AlbumType } from '../types/data-structures';
+import { alertMessage } from './bottom-alert-reducer';
 import { songsContainerFetcherCreator } from './songs-reducer';
 
 
@@ -31,6 +32,7 @@ export const toggleAlbumLikeById = createAsyncThunk(
          };
       } catch (error) {
          const err = error as AxiosError;
+         thunkAPI.dispatch(alertMessage({ message: `Error occured`, messageStatus: 'error' }));
          return thunkAPI.rejectWithValue(err.message);
       }
    }

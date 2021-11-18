@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { playlistsAPI } from '../tools/api';
 import { PlaylistType, SmallPlaylistType } from '../types/data-structures';
+import { alertMessage } from './bottom-alert-reducer';
 import { songsContainerFetcherCreator } from './songs-reducer';
 
 
@@ -35,6 +36,7 @@ export const fetchSmallPlaylists = createAsyncThunk(
          return response.data;
       } catch (error) {
          const err = error as AxiosError;
+         thunkAPI.dispatch(alertMessage({ message: 'Playlist skeletons weren\'t loaded', messageStatus: 'error' }));
          return thunkAPI.rejectWithValue(err.message);
       }
    }
@@ -44,10 +46,12 @@ export const createPlaylist = createAsyncThunk(
    'playlists/createPlaylist',
    async (name: string, thunkAPI) => {
       try {
-         const response = await playlistsAPI.createPlaylist(name !== '' ? name : 'New Playlist');
+         const response = await playlistsAPI.createPlaylist(name ? name : 'New Playlist');
+         thunkAPI.dispatch(alertMessage({ message: 'Playlist was created', messageStatus: 'ok' }));
          return response.data;
       } catch (error) {
          const err = error as AxiosError;
+         thunkAPI.dispatch(alertMessage({ message: 'Playlist wasn\'t created', messageStatus: 'ok' }));
          return thunkAPI.rejectWithValue(err.message);
       }
    }
@@ -104,16 +108,6 @@ export const playlistsSlice = createSlice({
             state.error = action.payload as string
          }
       });
-      
-      // todo: process the playlistCreationError
-      /*
-      builder.addCase(createPlaylist.rejected, (state, action) => {
-         state.smallPlaylists.isFetching = false
-         if (action.payload) {
-            state.smallPlaylists.error = action.payload as string
-         }
-      });
-      */
    },
 });
 

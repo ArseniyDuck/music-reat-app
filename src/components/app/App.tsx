@@ -9,6 +9,7 @@ import MobileBottom from '../mobile-bottom/MobileBottom';
 import MediaQuery from '../common/media-query/MediaQuery';
 import { fetchSmallPlaylists } from '../../redux/playlists-reducer';
 import { useAppDispatch } from '../../tools/hooks';
+import BottomAlert from '../bottom-alert/BottomAlert';
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
                <Route path='/album/:albumId' component={Album} />
                <Route path='/playlist/:playlistId' component={Playlist} />
             </Switch>
+            <BottomAlert />
          </main>
          <MediaQuery mode='max-width' width='lg'>
             <MobileBottom />

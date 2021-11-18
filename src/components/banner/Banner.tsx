@@ -48,6 +48,7 @@ const Banner: React.FC<PropsType> = ({setBannerHeight, bannerRef, ...props}) => 
                </MediaQuery>
                { props.year && <p>{props.year}</p> }
                <p>{props.songsCount} songs</p>
+               {/* todo: get new duration after removing song */}
                <p>{props.duration}</p>
             </div>
          </div>
