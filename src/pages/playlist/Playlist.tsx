@@ -8,10 +8,10 @@ import Spinner from '../../components/icons/spinner/Spinner';
 import Song from '../../components/song/Song';
 import s from './Playlist.module.scss';
 import StickyTableHead from '../../components/sticky-table-head/StickyTableHead';
-import GradientHeader from '../../components/gradient-header/GradientHeader';
 import PlayPauseButton from '../../components/icons/play-pause/PlayPauseButton';
 import { PlaylistSongType } from '../../types/data-structures';
 import { removeSongFromPlaylist } from '../../redux/songs-reducer';
+import SongsContainerHeader from '../../components/songs-container-header/SongsContainerHeader';
 
 
 type PathParamsType = { playlistId: string };
@@ -56,7 +56,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
          :
          // else show content
          playlistData && <>
-            <GradientHeader rgbColor={getRgbColor(songs)} title={playlistData.name} bannerHeight={bannerHeight} />
+            <SongsContainerHeader rgbColor={getRgbColor(songs)} title={playlistData.name} bannerHeight={bannerHeight} />
             <Banner
                bannerRef={bannerRef}
                setBannerHeight={setBannerHeight}

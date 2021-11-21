@@ -1,9 +1,13 @@
 @import '../../../styles/variables';
 
 .skeletonRectangle {
-   background: $grey;
    animation: rectangle 2s ease-in infinite;
    background: #FFF;
+   
+   &.dark {
+      background: $grey;
+      animation-name: dark-rectangle;
+   }
 
    & + & {
       margin-top: 10px;
@@ -14,4 +18,10 @@
    0% {background: #fff;}
    70% {background: #bbb;}
    100% {background: #fff;}
+}
+
+@keyframes dark-rectangle {
+   0% {background: #3f3f3f;}
+   70% {background: #333;}
+   100% {background: #3f3f3f;}
 }

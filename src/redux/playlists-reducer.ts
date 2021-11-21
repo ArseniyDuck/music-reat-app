@@ -51,7 +51,7 @@ export const createPlaylist = createAsyncThunk(
          return response.data;
       } catch (error) {
          const err = error as AxiosError;
-         thunkAPI.dispatch(alertMessage({ message: 'Playlist wasn\'t created', messageStatus: 'ok' }));
+         thunkAPI.dispatch(alertMessage({ message: 'Playlist wasn\'t created', messageStatus: 'error' }));
          return thunkAPI.rejectWithValue(err.message);
       }
    }
@@ -75,7 +75,6 @@ export const playlistsSlice = createSlice({
          state.smallPlaylists.playlists = action.payload
       });
       
-      // todo: don't ctrl+c ctrl+v addCase
       builder.addCase(fetchSmallPlaylists.rejected, (state, action) => {
          state.smallPlaylists.isFetching = false
          if (action.payload) {
@@ -89,6 +88,7 @@ export const playlistsSlice = createSlice({
             id: action.payload.id,
             name: action.payload.name,
             songs_count: 0,
+            photo: null,
          }, ...state.smallPlaylists.playlists]
       });
 

@@ -1,0 +1,19 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.headerData {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.name {
+   font-size: 22.5px;
+   font-weight: 800;
+   letter-spacing: -0.04em;
+   flex-shrink: 100;
+
+   @include mobile-media-query-up() {
+      padding-right: 180px;
+   }
+}

@@ -43,7 +43,7 @@ export const toggleSongLikeById = createAsyncThunk(
          };
       } catch (error) {
          const err = error as AxiosError;
-         thunkAPI.dispatch(alertMessage({ message: `Error occured`, messageStatus: 'error' }));
+         thunkAPI.dispatch(alertMessage({ message: `Error occured while toggling like`, messageStatus: 'error' }));
          return thunkAPI.rejectWithValue(err.message);
       }
    }
@@ -59,7 +59,7 @@ const _songInPlaylistTogglerThunkCreator = (thunkName: string, apiMethod: SongIn
             return response.data;
          } catch (error) {
             const err = error as AxiosError;
-            thunkAPI.dispatch(alertMessage({ message: `Song wasn\'t ${verb}`, messageStatus: 'error' }));
+            thunkAPI.dispatch(alertMessage({ message: `Song wasn't ${verb}`, messageStatus: 'error' }));
             return thunkAPI.rejectWithValue(err.message);
          }
       }
@@ -103,7 +103,6 @@ export const songsSile = createSlice({
       }
    },
    extraReducers: (builder) => {
-      // todo: handle error when user likes or dislikes a song
       builder.addCase(toggleSongLikeById.fulfilled, (state, action) => {
          if ([200, 201].includes(action.payload.status)) {
             const song = state.songs.find(song => song.id === action.payload.data.id);

@@ -10,6 +10,7 @@ import MediaQuery from '../common/media-query/MediaQuery';
 import { fetchSmallPlaylists } from '../../redux/playlists-reducer';
 import { useAppDispatch } from '../../tools/hooks';
 import BottomAlert from '../bottom-alert/BottomAlert';
+import MySongs from '../../pages/my-songs/MySongs';
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
             <Switch>
                <Route path='/album/:albumId' component={Album} />
                <Route path='/playlist/:playlistId' component={Playlist} />
+               <Route path='/my-songs' component={MySongs} />
             </Switch>
             <BottomAlert />
          </main>

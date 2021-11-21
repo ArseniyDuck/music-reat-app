@@ -23,6 +23,11 @@ export const musicDataAPI = {
       return instance.get<AlbumType>(`album/${id}/`);
    },
 
+   getAlbums() {
+      type ResponseType = Array<SmallPlaylistType>;
+      return instance.get<ResponseType>('albums/');
+   },
+
    likeSong: _likeTogglerRequestCreator('song'),
 
    likeAlbum: _likeTogglerRequestCreator('album'),

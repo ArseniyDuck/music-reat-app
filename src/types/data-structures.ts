@@ -24,6 +24,7 @@ export type SmallPlaylistType = {
    id: number
    name: string
    songs_count: number
+   photo: string | null
 };
 
 

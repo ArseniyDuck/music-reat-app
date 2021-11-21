@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { musicDataAPI } from '../tools/api';
-import { AlbumType } from '../types/data-structures';
+import { AlbumType, SmallPlaylistType } from '../types/data-structures';
 import { alertMessage } from './bottom-alert-reducer';
 import { songsContainerFetcherCreator } from './songs-reducer';
 
@@ -11,13 +11,37 @@ type initialStateType = {
    data: Omit<AlbumType, 'songs'> | null
    error: string | null
    isFetching: boolean
+   smallAlbums: {
+      albums: Array<SmallPlaylistType>
+      isFetching: boolean
+      error: null | string
+   }
 };
 
 const initialState: initialStateType = {
    data: null,
    error: null,
    isFetching: false,
+   smallAlbums: {
+      albums: [],
+      isFetching: false,
+      error: null
+   }
 };
+
+export const fetchSmallAlbums = createAsyncThunk(
+   'album/fetchSmallAlbums',
+   async (_, thunkAPI) => {
+      try {
+         const response = await musicDataAPI.getAlbums();
+         return response.data;
+      } catch (error) {
+         const err = error as AxiosError;
+         thunkAPI.dispatch(alertMessage({ message: 'Album skeletons weren\'t loaded', messageStatus: 'error' }));
+         return thunkAPI.rejectWithValue(err.message);
+      }
+   }
+);
 
 export const fetchAlbumById = songsContainerFetcherCreator('album/fetchAlbumById', 'album', musicDataAPI.getAlbum);
 
@@ -32,7 +56,7 @@ export const toggleAlbumLikeById = createAsyncThunk(
          };
       } catch (error) {
          const err = error as AxiosError;
-         thunkAPI.dispatch(alertMessage({ message: `Error occured`, messageStatus: 'error' }));
+         thunkAPI.dispatch(alertMessage({ message: `Error occured while toggling like`, messageStatus: 'error' }));
          return thunkAPI.rejectWithValue(err.message);
       }
    }
@@ -43,6 +67,24 @@ export const albumSlice = createSlice({
    initialState,
    reducers: {},
    extraReducers: (builder) => {
+      // fetchSmallAlbums --------------------------------------------------------
+      builder.addCase(fetchSmallAlbums.pending, (state, action) => {
+         state.smallAlbums.isFetching = true
+      });
+
+      builder.addCase(fetchSmallAlbums.fulfilled, (state, action) => {
+         state.smallAlbums.isFetching = false
+         state.smallAlbums.albums = action.payload
+      });
+      
+      builder.addCase(fetchSmallAlbums.rejected, (state, action) => {
+         state.smallAlbums.isFetching = false
+         if (action.payload) {
+            state.smallAlbums.error = action.payload as string
+         }
+      });
+
+      // fetchAlbumById --------------------------------------------------------
       builder.addCase(fetchAlbumById.pending, (state, action) => {
          state.isFetching = true
       });

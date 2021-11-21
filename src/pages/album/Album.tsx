@@ -7,10 +7,10 @@ import Spinner from '../../components/icons/spinner/Spinner';
 import Song from '../../components/song/Song';
 import Heart from '../../components/icons/heart/Heart';
 import PlayPauseButton from '../../components/icons/play-pause/PlayPauseButton';
-import GradientHeader from '../../components/gradient-header/GradientHeader';
 import Banner from '../../components/banner/Banner';
 import GradientContent from '../../components/gradient-content/GradientContent';
 import StickyTableHead from '../../components/sticky-table-head/StickyTableHead';
+import SongsContainerHeader from '../../components/songs-container-header/SongsContainerHeader';
 
 
 type PathParamsType = { albumId: string };
@@ -44,7 +44,7 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
          :
          // else show content
          albumData && <>
-            <GradientHeader rgbColor={albumData.best_color} title={albumData.name} bannerHeight={bannerHeight} />
+            <SongsContainerHeader rgbColor={albumData.best_color} title={albumData.name} bannerHeight={bannerHeight} />
             <Banner 
                bannerRef={bannerRef}
                setBannerHeight={setBannerHeight}
