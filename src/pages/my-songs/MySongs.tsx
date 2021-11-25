@@ -4,10 +4,13 @@ import { Switch, Route, Redirect, Link, NavLink } from 'react-router-dom';
 import MediaQuery from '../../components/common/media-query/MediaQuery';
 import TransitionSkeleton from '../../components/common/transition-skeleton/TransitionSkeleton';
 import GradientHeader from '../../components/gradient-header/GradientHeader';
+import Plus from '../../components/icons/plus/Plus';
+import PlaylistCreationPopUp from '../../components/PlaylistCreationPopUp/PlaylistCreationPopUp';
 import { fetchSmallAlbums } from '../../redux/album-reducer';
 import { getArrayOfComponents } from '../../tools/functions';
-import { useAppDispatch, useAppSelector } from '../../tools/hooks';
+import { useAppDispatch, useAppSelector, usePopUp } from '../../tools/hooks';
 import s from './MySongs.module.scss';
+import { createPlaylist } from '../../redux/playlists-reducer';
 
 type PropsType = {};
 
@@ -16,7 +19,7 @@ const MySongs: React.FC<PropsType> = (props) => {
    const location = useLocation();
 
    return <>
-      {location.pathname === '/my-songs' && <MediaQuery mode='min-width' width='lg'>
+      {location.pathname === '/my-songs' && <MediaQuery mode='min-width' width='md'>
          <Redirect to='/my-songs/playlists' />
       </MediaQuery>}
       <div className={s.wrapper}>
@@ -41,10 +44,36 @@ const MySongs: React.FC<PropsType> = (props) => {
 };
 
 const Playlists = () => {
+   // todo: don't use template string here: `http://localhost:8000${props.image}`; ctrl+f
+   const [isCreationOpened, setIsCreationOpened, creationBodyRef] = usePopUp<HTMLDivElement>();
    const { isFetching, playlists } = useAppSelector(state => state.playlists.smallPlaylists);
+   const dispatch = useAppDispatch();
+
+   const hadleCreationButtonClick = () => {
+      setIsCreationOpened(true);
+   };
+
+   const createPlaylistAfterSubmit = (name: string) => {
+      dispatch(createPlaylist(name));
+   };
    
    return <>
       <h1 className={s.heading}>Playlists</h1>
+      <MediaQuery mode='max-width' width='lg'>
+         <button style={{ display: 'block' }} onClick={hadleCreationButtonClick}>
+            <Plus
+               size={20} stroke={5}
+               styles={{
+                  padding: 8,
+                  position: 'fixed',
+                  top: 10,
+                  right: 25,
+                  zIndex: 99,
+                  border: '1.5px solid #fff',
+               }}
+            />
+         </button>
+      </MediaQuery>
       <div className={s.grid}>
          { isFetching ? getArrayOfComponents(CardSkeleton, 20) :
             playlists.map(({ id, name, songs_count, photo }) => (
@@ -58,6 +87,13 @@ const Playlists = () => {
             ))
          }
       </div>
+      <PlaylistCreationPopUp
+         heading='Create playlist'
+         isOpened={isCreationOpened}
+         popUpRef={creationBodyRef}
+         close={() => setIsCreationOpened(false)}
+         actionAfterSubmit={createPlaylistAfterSubmit}
+      />
    </>;
 }
 
@@ -83,7 +119,6 @@ const Albums = () => {
 
 type CardPropsType = { linkTo: string, image: string | null, title: string, songsCount: number }
 const Card: React.FC<CardPropsType> = (props) => {
-   // todo: don't use template string here: `http://localhost:8000${props.image}`
    return (
       <Link to={props.linkTo} className={s.card}>
          <div className={`${s.cardBody} cropTextContainer`}>

@@ -78,7 +78,7 @@ type PlaylistCreationPropsType = {
 export const PlaylistCreationButton: React.FC<PlaylistCreationPropsType> = ({ onclick }) => {
    return (
       <AsideButton onClick={onclick}>
-         <Plus size={12} stroke={7} />
+         <Plus isFilled={true} size={12} stroke={7} styles={{ padding: 6, marginRight: 7 }} />
          Create playlist
       </AsideButton>
    );

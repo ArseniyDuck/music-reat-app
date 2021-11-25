@@ -8,14 +8,6 @@
    color: $brightGrey;
    transition: $hover;
 
-   svg {
-      margin-right: 7px;
-      padding: 6px;
-      background: $brightGrey;
-      transition: $hover;
-      path {stroke: #000 !important;}
-   }
-
    @media (any-hover: hover) {
       &:hover {
          color: #fff;

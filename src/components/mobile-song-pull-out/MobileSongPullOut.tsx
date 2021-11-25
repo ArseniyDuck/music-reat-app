@@ -1,10 +1,10 @@
 import React from 'react';
-import { usePopUp } from '../../tools/hooks';
+import { useAppDispatch, usePopUp } from '../../tools/hooks';
 import { conditionClassName } from '../../tools/functions';
 import { MobilePullOupSongType } from '../../types/data-structures';
 import s from './MobileSongPullOut.module.scss';
 import SongSelection from './SongSelection/SongSelection';
-import SongCreation from './SongCreation/SongCreation';
+import PlaylistCreationPopUp from '../PlaylistCreationPopUp/PlaylistCreationPopUp';
 import SongInfo from './SongInfo/SongInfo';
 import Action from './Action/Action';
 import Heart from '../icons/heart/Heart';
@@ -12,6 +12,7 @@ import Headphones from '../icons/headphones/Headphones';
 import CdDisk from '../icons/cd-disk/CdDisk';
 import Plus from '../icons/plus/Plus';
 import Trash from '../icons/trash/Trash';
+import { addSongToNewCreatedPlaylist } from '../../redux/songs-reducer';
 
 
 type PropsType = {
@@ -26,6 +27,7 @@ type PropsType = {
 const MobileSongPullOut: React.FC<PropsType> = ({ isOpened, hide, songData, ...props }) => {
    const [isSelectionOpened, setIsSelectionOpened, selectionBodyRef] = usePopUp<HTMLDivElement>();
    const [isCreationOpened, setIsCreationOpened, creationBodyRef] = usePopUp<HTMLDivElement>();
+   const dispatch = useAppDispatch();
 
    const hadleCreationButtonClick = () => {
       setIsSelectionOpened(false);
@@ -34,7 +36,11 @@ const MobileSongPullOut: React.FC<PropsType> = ({ isOpened, hide, songData, ...p
    
    const removeSongFromPlaylist = () => {
       props.removeSong && props.removeSong();
-      hide(); 
+      hide();
+   };
+
+   const createAndAdd = (name: string) => {
+      dispatch(addSongToNewCreatedPlaylist({ songId: songData.id, playlistName: name }));
    };
    
    return (
@@ -71,12 +77,12 @@ const MobileSongPullOut: React.FC<PropsType> = ({ isOpened, hide, songData, ...p
                creationButtonOnClick={hadleCreationButtonClick}
                addSongToPlaylist={props.addSongToPlaylist}
             />
-            <SongCreation
+            <PlaylistCreationPopUp
                heading='Create playlist'
                isOpened={isCreationOpened}
                popUpRef={creationBodyRef}
                close={() => setIsCreationOpened(false)}
-               songId={songData.id}
+               actionAfterSubmit={createAndAdd}
             />
          </div>
          <button onClick={hide} className={s.cancel}>Cancel</button>

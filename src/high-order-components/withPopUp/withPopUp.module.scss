@@ -2,7 +2,7 @@
 @import '../../styles/variables';
 
 
-.selectWrapper {
+.popUpWrapper {
    position: fixed;
    top: 0;
    left: 0;
@@ -12,27 +12,29 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   z-index: 200;
    @include hidden-element();
 
    backdrop-filter: blur(3px);
+   background: rgba(0, 0, 0, .2);
    @supports not (backdrop-filter: blur(3px)) {
       background: rgba(0, 0, 0, .8);
    }
 
-   &.selectOpened {
+   &.popUpOpened {
       @include visible-element();
+      z-index: 10000;
    }
 }
 
-.selectBody {
+.popUpBody {
    width: 80vw;
+   max-width: 450px;
    padding: 20px 0 10px 0;
    text-align: left;
    background: $darkGrey;
 }
 
-.selectHeading {
+.popUpHeading {
    font-size: 22px;
    margin: 0 20px 5px 20px;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { conditionClassName } from '../../tools/functions';
 import s from './withPopUp.module.scss';
 
@@ -14,10 +14,18 @@ export type WrappedPopUpType = { close: () => void };
 
 const withPopUp = <P extends WrappedPopUpType>(Component: React.ComponentType<P>) => {
    const ContainerComponent: React.FC<ContainerPropsType & P> = ({ isOpened, popUpRef, heading, ...passThroughProps }) => {
+      useEffect(() => {
+         if (isOpened) {
+            document.body.classList.add('_disable-scroll');
+         } else {
+            document.body.classList.remove('_disable-scroll');
+         }
+      }, [isOpened]);
+      
       return (
-         <div className={conditionClassName(s.selectWrapper, isOpened, s.selectOpened)}>
-            <div className={s.selectBody} ref={popUpRef}>
-               <h3 className={s.selectHeading}>{heading}</h3>
+         <div className={conditionClassName(s.popUpWrapper, isOpened, s.popUpOpened)}>
+            <div className={s.popUpBody} ref={popUpRef}>
+               <h3 className={s.popUpHeading}>{heading}</h3>
                {/* @ts-ignore */}
                <Component {...passThroughProps} />
             </div>

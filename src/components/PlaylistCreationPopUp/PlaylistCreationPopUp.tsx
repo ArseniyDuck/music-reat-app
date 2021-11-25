@@ -1,25 +1,20 @@
 import React from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import withPopUp, { WrappedPopUpType } from '../../../high-order-components/withPopUp/withPopUp';
-import { addSongToNewCreatedPlaylist } from '../../../redux/songs-reducer';
-import { useAppDispatch } from '../../../tools/hooks';
-import s from './SongCreation.module.scss';
+import withPopUp, { WrappedPopUpType } from '../../high-order-components/withPopUp/withPopUp';
+import s from './PlaylistCreationPopUp.module.scss';
 
 
 type PropsType = {
-   songId: number
+   actionAfterSubmit: (name: string) => void
 };
 
 type FormValues = { name: string };
 
-const SongCreation: React.FC<PropsType & WrappedPopUpType> = ({ close, ...props }) => {
-   const dispatch = useAppDispatch();
-
+const PlaylistCreationPopUp: React.FC<PropsType & WrappedPopUpType> = ({ close, ...props }) => {
    const initialValues: FormValues = { name: '' };
 
    const handleSubmit = (formData: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
-      console.log(formData.name)
-      dispatch(addSongToNewCreatedPlaylist({ songId: props.songId, playlistName: formData.name }));
+      props.actionAfterSubmit(formData.name)
       setSubmitting(false);
       resetForm({});
       close();
@@ -48,4 +43,4 @@ const SongCreation: React.FC<PropsType & WrappedPopUpType> = ({ close, ...props 
 };
 
 
-export default withPopUp(SongCreation);
+export default withPopUp(PlaylistCreationPopUp);

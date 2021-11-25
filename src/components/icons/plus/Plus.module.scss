@@ -1,4 +1,12 @@
-svg {
+@import '../../../styles/variables';
+
+.plus {
    fill: #fff;
    stroke-width: 1px;
+
+   &.filled {
+      background: $brightGrey;
+      transition: $hover;
+      path {stroke: #000}
+   }
 }
