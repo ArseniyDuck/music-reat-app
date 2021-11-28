@@ -86,3 +86,9 @@ body {
    padding: 5px;
    color: #FFF;
 }
+
+.mobilePageHeading {
+   @include adaptive-value("font-size", 100, 30, 0);
+   @include adaptive-value('margin', 20, 10, 3, map-get($breakpoints, 'sm'));
+   @include adaptive-value('margin-top', 22, 16, 3, map-get($breakpoints, 'sm'));
+}

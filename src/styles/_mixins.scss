@@ -27,13 +27,13 @@
 }
 
 @mixin mobile-media-query-down($widthType: 'lg') {
-   @media (max-width: map-get($breakpoints, $widthType)) {
+   @media (max-width: #{map-get($breakpoints, $widthType) + px}) {
       @content;
    }
 }
 
 @mixin mobile-media-query-up($widthType: 'lg') {
-   @media (min-width: map-get($breakpoints, $widthType)) {
+   @media (min-width: #{map-get($breakpoints, $widthType) + px}) {
       @content;
    }
 }

@@ -1,0 +1,62 @@
+@import '../../../styles/mixins';
+@import '../../../styles/variables';
+
+
+.section {
+   // todo: make all edge paddings 15px
+   display: block;
+   @include adaptive-value('padding', 20, 10, 3, map-get($breakpoints, 'sm'));
+   background: #333;
+   color: #fff;
+
+   &.margin {
+      margin-top: 15px;
+   }
+
+   &.link:active,
+   &.likedSongs:active {
+      background: $grey;
+   }
+}
+
+.likedSongs {
+   display: flex;
+   @include adaptive-value('gap', 15, 10, 3, map-get($breakpoints, 'sm'));
+}
+
+.likedImage {
+   @include adaptive-value('width', 135, 85, 3, map-get($breakpoints, 'sm'));
+   @include adaptive-value('height', 135, 85, 3, map-get($breakpoints, 'sm'));
+   flex-shrink: 0;
+   background: $pink;
+}
+
+.likedDetails {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   @include adaptive-value('gap', 10, 7, 3, map-get($breakpoints, 'sm'));
+   @include adaptive-value('padding-right', 70, 10, 3, map-get($breakpoints, 'sm'));
+}
+
+.text {
+   @include adaptive-value('font-size', 24, 18, 3, map-get($breakpoints, 'sm'));
+
+   &.bold { font-weight: 700; }
+}
+
+.lightText {
+   @include adaptive-value('font-size', 20, 14, 3, map-get($breakpoints, 'sm'));
+   color: $brightGrey;
+   font-weight: 300;
+}
+
+.link {
+   display: flex;
+   align-items: center;
+   gap: 15px;
+}
+
+.recently {
+   min-height: 500px;
+}
