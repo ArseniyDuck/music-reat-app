@@ -1,0 +1,21 @@
+@import '../../../styles/mixins';
+@import '../../../styles/variables';
+@import '../../../styles/index';
+
+.heading {
+   @include mobile-media-query-up('sm') {
+      font-size: 30px;
+      margin: 0;
+   }
+   
+   @extend .mobilePageHeading;
+}
+
+.grid {
+   @include mobile-media-query-up('sm') {
+      display: grid;
+      grid-gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(161px, 1fr));
+      margin-top: 10px;
+   }
+}
