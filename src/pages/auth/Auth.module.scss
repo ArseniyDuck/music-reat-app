@@ -1,0 +1,111 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.wrapper {
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: $darkGrey;
+}
+
+.body {
+   width: 100%;
+   max-width: 500px;
+}
+
+.heading {
+   @include adaptive-value("font-size", 60, 40, 1);
+}
+
+.form {
+   margin-top: 10px;
+}
+
+.field {
+   position: relative;
+   padding-top: 5px;
+
+   & + & {
+      margin-top: 8px;
+   }
+}
+
+.input {
+   width: 100%;
+   box-sizing: border-box;
+   padding: 10px 15px;
+   background: $coalGrey;
+   color: #fff;
+   @include adaptive-value("font-size", 20, 16, 1);
+
+   &:focus + .label {
+      display: block;
+   }
+
+   &::placeholder {
+      color: #aaa;
+      @include adaptive-value("font-size", 19, 15, 1);
+   }
+}
+
+.label {
+   display: inline-block;
+   position: absolute;
+   color: #fff;
+   @include adaptive-value("font-size", 15, 12, 1);
+   top: -5px;
+   left: 10px;
+
+   // todo: add animation
+   display: none;
+}
+
+.submit {
+   display: block;
+   width: 100%;
+   box-sizing: border-box;
+   padding: 15px 20px;
+   background: $pink;
+   @include adaptive-value("font-size", 20, 16, 1);
+   color: $darkGrey;
+   font-weight: 600;
+   margin-top: 10px;
+
+   &:hover {
+      background: $brightPink;
+   }
+}
+
+.fieldError {
+   color: $red;
+}
+
+.serverErrors {
+   margin-top: 10px;
+   padding: 5px;
+}
+
+.serverError {
+   display: flex;
+   align-items: flex-start;
+   gap: 5px;
+   color: red;
+
+   & + & {
+      margin-top: 10px;
+   }
+}
+
+.linkText {
+   margin-top: 10px;
+   color: #aaa
+}
+
+.link {
+   color: $pink;
+
+   &:hover {
+      text-decoration: underline;
+   }
+}

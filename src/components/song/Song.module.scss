@@ -32,6 +32,10 @@
       }
    }
 
+   .songDuration {
+      width: 30px;
+   }
+
    @include mobile-media-query-down('sm') {
       .songDuration {
          margin: 0 0 0 5px;

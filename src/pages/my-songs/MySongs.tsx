@@ -1,10 +1,10 @@
 import React from 'react';
 import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import MediaQuery from '../../components/common/media-query/MediaQuery';
-import GradientHeader from '../../components/gradient-header/GradientHeader';
-import s from './MySongs.module.scss';
-import MobileMySongs from './MobileMySongs/MobileMySongs';
 import OnExactPage from '../../components/common/on-exact-page/OnExactPage';
+import s from './MySongs.module.scss';
+import GradientHeader from '../../components/gradient-header/GradientHeader';
+import MobileMySongs from './MobileMySongs/MobileMySongs';
 import Playlists from './sub-pages/Playlists';
 import Albums from './sub-pages/Albums';
 import Singers from './sub-pages/Singers';

@@ -78,3 +78,24 @@ export type MobilePullOupSongType = {
    isInPlaylist: boolean
    photo?: string
 };
+
+
+
+
+
+// Auth ---------------------------------------------------------------------
+export type UserType = {
+   id: number | null
+   username: string
+}
+
+export type SignUpUserType = {
+   username: string,
+   password1: string,
+   password2: string
+}
+
+export type SignInUserType = {
+   username: string
+   password: string
+}

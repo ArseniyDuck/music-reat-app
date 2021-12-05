@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation } from 'react-router';
-import s from './OnExactPage.module.scss';
 
 type PropsType = {
    isOnPage: boolean,

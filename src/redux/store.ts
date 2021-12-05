@@ -3,10 +3,12 @@ import albumReducer from './album-reducer';
 import bottomAlertReducer from './bottom-alert-reducer';
 import playlistsReducer from './playlists-reducer';
 import songsReducer from './songs-reducer';
+import authReducer from './auth-reducer';
 
 
 const store = configureStore({
   reducer: {
+     auth: authReducer,
      album: albumReducer,
      playlists: playlistsReducer,
      songs: songsReducer,

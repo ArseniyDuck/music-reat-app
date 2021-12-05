@@ -1,13 +1,14 @@
 import React from 'react';
+import { useAppDispatch, useAppSelector, usePopUp } from '../../../tools/hooks';
 import MediaQuery from '../../../components/common/media-query/MediaQuery';
 import OnExactPage from '../../../components/common/on-exact-page/OnExactPage';
-import Plus from '../../../components/icons/plus/Plus';
-import PlaylistCreationPopUp from '../../../components/PlaylistCreationPopUp/PlaylistCreationPopUp';
-import { createPlaylist } from '../../../redux/playlists-reducer';
 import { getArrayOfComponents } from '../../../tools/functions';
-import { useAppDispatch, useAppSelector, usePopUp } from '../../../tools/hooks';
-import Card, { CardSkeleton, MobileCardSkeleton } from '../cards/Cards';
+import { createPlaylist } from '../../../redux/playlists-reducer';
 import s from './SubPages.module.scss';
+import PlaylistCreationPopUp from '../../../components/PlaylistCreationPopUp/PlaylistCreationPopUp';
+import Card, { CardSkeleton, MobileCardSkeleton } from '../cards/Cards';
+import Plus from '../../../components/icons/plus/Plus';
+
 
 const Playlists = () => {
    const [isCreationOpened, setIsCreationOpened, creationBodyRef] = usePopUp<HTMLDivElement>();

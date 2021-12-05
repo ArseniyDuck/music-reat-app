@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { createPlaylist } from '../../redux/playlists-reducer';
+import React, { useEffect, useState } from 'react';
+import { createPlaylist, fetchSmallPlaylists } from '../../redux/playlists-reducer';
 import { useAppDispatch, useAppSelector } from '../../tools/hooks';
 import { getArrayOfComponents } from '../../tools/functions';
 import s from './Aside.module.scss';
@@ -10,16 +10,14 @@ import TransitionSkeleton from '../common/transition-skeleton/TransitionSkeleton
 import Search from '../icons/search/Search';
 import Heart from '../icons/heart/Heart';
 import Plus from '../icons/plus/Plus';
+import AuthRequired from '../common/auth-required/AuthRequired';
 
 
 type PropsType = {};
 
 const Aside: React.FC<PropsType> = (props) => {
-   const [isFormShown, setIsFormShown] = useState(false);
-
    const dispatch = useAppDispatch();
-   const playlists = useAppSelector(state => state.playlists.smallPlaylists.playlists);
-   const isFetching = useAppSelector(state => state.playlists.smallPlaylists.isFetching);
+   const [isFormShown, setIsFormShown] = useState(false);
 
    const createPlaylistCallback = (name: string) => {
       dispatch(createPlaylist(name));
@@ -35,16 +33,13 @@ const Aside: React.FC<PropsType> = (props) => {
          <MySongsLink />
          <PlaylistCreationButton onclick={toggleIsFormShown} />
          <div className={s.playlists}>
-            { isFetching ? 
-               getArrayOfComponents(() => <TransitionSkeleton width='100%' height={15} />, 6)
-               :
-               <div className={s.playlistsBody}>
-                  { isFormShown && <PlaylistCreationForm hideMe={hideForm} createPlaylist={createPlaylistCallback} />}
-                  { playlists && playlists.map(playlist => 
-                     <Playlist key={playlist.id} {...playlist} />)
-                  }
-               </div>
-            }
+            <AuthRequired>
+               <PlaylistsSkeletons
+                  isFormShown={isFormShown}
+                  hideForm={hideForm}
+                  createPlaylistCallback={createPlaylistCallback}
+               />
+            </AuthRequired>
          </div>
       </aside>
    );
@@ -83,5 +78,34 @@ export const PlaylistCreationButton: React.FC<PlaylistCreationPropsType> = ({ on
       </AsideButton>
    );
 };
+
+type PlaylistsSkeletonsProps = {
+   isFormShown: boolean
+   hideForm: () => void
+   createPlaylistCallback: (name: string) => void
+}
+const PlaylistsSkeletons: React.FC<PlaylistsSkeletonsProps> = ({ isFormShown, hideForm, createPlaylistCallback }) => {
+   const dispatch = useAppDispatch();
+   const playlists = useAppSelector(state => state.playlists.smallPlaylists.playlists);
+   const isFetching = useAppSelector(state => state.playlists.smallPlaylists.isFetching);
+   const id = useAppSelector(state => state.auth.user.id);
+
+   useEffect(() => {
+      dispatch(fetchSmallPlaylists());
+   }, [dispatch, id]);
+
+   return <>
+      { isFetching ? 
+         getArrayOfComponents(() => <TransitionSkeleton width='100%' height={15} />, 6)
+         :
+         <div className={s.playlistsBody}>
+            { isFormShown && <PlaylistCreationForm hideMe={hideForm} createPlaylist={createPlaylistCallback} />}
+            { playlists && playlists.map(playlist => 
+               <Playlist key={playlist.id} {...playlist} />)
+            }
+         </div>
+      }
+   </>;
+}
 
 export default Aside;

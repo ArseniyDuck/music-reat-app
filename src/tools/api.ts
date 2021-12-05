@@ -1,11 +1,49 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Cookie from 'js-cookie';
-import { AlbumType, PlaylistType, SmallPlaylistType } from '../types/data-structures';
+import { AlbumType, SignInUserType, PlaylistType, SignUpUserType, SmallPlaylistType, UserType } from '../types/data-structures';
 
 export const instance = axios.create({
    withCredentials: true,
    baseURL: 'http://localhost:8000/',
-})
+});
+
+instance.interceptors.request.use(
+   (config) => {
+      const token = localStorage.getItem('accessToken');
+      if (token) { config.headers['Authorization'] = `Bearer ${token}`; }
+      return config;
+   },
+   (error) => {
+      return Promise.reject(error);
+   }
+ );
+ 
+instance.interceptors.response.use(
+   (res) => {
+      return res;
+   },
+   async (err: AxiosError) => {
+      const originalConfig = err.config;
+      if (originalConfig.url !== 'token/obtain/' && err.response) {
+         // Access Token was expired
+         if (err.response.status === 401) {
+            try {
+               type ResponseType = { access: string, refresh: string }
+               const { data: { access, refresh } } = await instance.post<ResponseType>(
+                  'token/refresh/', {refresh: localStorage.getItem('refreshToken')}
+               );
+               localStorage.setItem('accessToken', access);
+               localStorage.setItem('refreshToken', refresh);
+               return instance(originalConfig);
+            } catch (_error) {
+               return Promise.reject(_error);
+            }
+         }
+      }
+      return Promise.reject(err);
+   }
+ );
+
 
 const _likeTogglerRequestCreator = (entity: 'song' | 'album') => {
    return (id: number) => {
@@ -63,4 +101,28 @@ export const playlistsAPI = {
    addSongToPlaylist: _songInPlaylistTogglerReuestCreator('add'),
 
    removeSongFromPlaylist: _songInPlaylistTogglerReuestCreator('remove'),
+};
+
+
+export const authAPI = {
+   me() {
+      return instance.get<UserType>('me/');
+   },
+   
+   signIn(user: SignInUserType) {
+      type ResponseType = { access: string, refresh: string };
+      return instance.post<ResponseType>('token/obtain/', { ...user });
+   },
+
+   refresh() {
+      type ResponseType = { access: string, refresh: string }
+      return instance.post<ResponseType>('token/refresh/', { refresh: localStorage.getItem('refreshToken') });
+   },
+
+   signUp(user: SignUpUserType) {
+      type ResponseType = {};
+      return instance.post<ResponseType>('register/', { ...user }, {
+         headers: {'X-CSRFToken': Cookie.get('csrftoken')}
+      });
+   }
 };
