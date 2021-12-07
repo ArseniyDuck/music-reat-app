@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './withLoading.module.scss';
-import Spinner from '../../components/icons/spinner/Spinner';
+import { Spinner } from 'icons';
 import { RouteComponentProps } from 'react-router';
 
 

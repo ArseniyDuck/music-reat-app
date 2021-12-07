@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Music from '../../../components/icons/music/Mucis';
-import CdDisk from '../../../components/icons/cd-disk/CdDisk';
+import { NestedRouteLinks } from 'app-routing';
 import s from './MobileMySongs.module.scss';
-import Headphones from '../../../components/icons/headphones/Headphones';
-import Arrow from '../../../components/icons/arrow/Arrow';
+import { Music, CdDisk, Headphones, Arrow } from 'icons';
 
 
 type PropsType = {};
@@ -21,17 +19,17 @@ const MobileMySongs: React.FC<PropsType> = (props) => {
          </div>
       </Link>
 
-      <Link to='/my-songs/playlists' className={`${s.section} ${s.link} ${s.margin} ${s.text}`}>
+      <Link to={NestedRouteLinks.PLAYLISTS} className={`${s.section} ${s.link} ${s.margin} ${s.text}`}>
          <Music size={25} fillColor='#fff' />
          Playlists
          <Arrow direction='right' size={15} styles={{ marginLeft: 'auto'}} />
       </Link>
-      <Link to='/my-songs/albums' className={`${s.section} ${s.link} ${s.text}`}>
+      <Link to={NestedRouteLinks.ALBUMS} className={`${s.section} ${s.link} ${s.text}`}>
          <CdDisk size={25} styles={{ strokeWidth: 5 }} />
          Albums
          <Arrow direction='right' size={15} styles={{ marginLeft: 'auto'}} />
       </Link>
-      <Link to='/my-songs/singers' className={`${s.section} ${s.link} ${s.text}`}>
+      <Link to={NestedRouteLinks.SINGERS} className={`${s.section} ${s.link} ${s.text}`}>
          <Headphones size={26} />
          Singers
          <Arrow direction='right' size={15} styles={{ marginLeft: 'auto'}} />

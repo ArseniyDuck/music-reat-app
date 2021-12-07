@@ -1,8 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Heart from '../icons/heart/Heart';
-import Search from '../icons/search/Search';
-import User from '../icons/user/User';
+import { Search, Heart, User } from 'icons';
 import s from './MobileBottom.module.scss';
 
 type PropsType = {};

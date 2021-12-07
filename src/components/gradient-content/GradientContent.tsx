@@ -2,18 +2,18 @@ import React from 'react';
 import s from './GradientContent.module.scss';
 
 type PropsType = {
-   rgbColor: string
+   color: string
    gradientHeight?: number
 };
 
-const GradientContent: React.FC<PropsType> = ({ rgbColor, gradientHeight=300, children }) => {
+const GradientContent: React.FC<PropsType> = ({ color, gradientHeight=300, children }) => {
    return (
       <div className={s.body}>
          <div
             className={s.gradientPart}
             style={{
                height: gradientHeight,
-               background: `linear-gradient(rgba(0,0,0,.65) 0, #222 100%), ${rgbColor}`,
+               background: `linear-gradient(rgba(0,0,0,.65) 0, #222 100%), ${color}`,
             }}
          />
          <div

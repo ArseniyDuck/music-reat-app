@@ -2,9 +2,10 @@ import React from 'react';
 import { Field, Form, Formik, FormikErrors, FormikHelpers } from 'formik';
 import { Link } from 'react-router-dom';
 import { signUp } from '../../redux/auth-reducer';
-import { useAppDispatch, useAppSelector } from '../../tools/hooks';
+import { useAppDispatch, useAppSelector, useInputType } from '../../tools/hooks';
 import a from './Auth.module.scss';
 import Error from '../../components/icons/error/Error';
+import Eye from '../../components/icons/eye/Eye';
 
 type PropsType = {};
 
@@ -12,9 +13,9 @@ const SignUp: React.FC<PropsType> = (props) => {
    return (
       <div className={a.wrapper}>
          <div className={a.body}>
-            <h1 className={a.heading}>Sign Up</h1>
+            <h1 className={a.heading}>Registration</h1>
             <SignUpForm />
-            <p className={a.linkText}>Already have an account? <Link className={a.link} to='/sign-in'>Sign In</Link></p>
+            <p className={a.linkText}>Already have an account? <Link className={a.link} to='/sign-in'>Sign in</Link></p>
          </div>
       </div>
    );
@@ -29,6 +30,7 @@ type FormValues = {
 const SignUpForm = () => {
    const dispatch = useAppDispatch();
    const serverErrors = useAppSelector(state => state.auth.signUpErrors);
+   const [inputType, handleEyeClick] = useInputType();
 
    const initialValues: FormValues = {
       username: '',
@@ -85,12 +87,13 @@ const SignUpForm = () => {
                <Field
                   autoComplete='off'
                   id='signUp__password1'
-                  type='password'
+                  type={inputType}
                   name='password1'
                   className={a.input}
                   placeholder='Enter password:'
                />
                <label className={a.label} htmlFor='signUp__password1'>Password</label>
+               <span className={a.eye} onClick={handleEyeClick}><Eye size={20} fillColor='#fff' /></span>
                {errors.password1 && touched.password1 ? (
                   <div className={a.fieldError}>{errors.password1}</div>
                ) : null}
@@ -99,7 +102,7 @@ const SignUpForm = () => {
                <Field
                   autoComplete='off'
                   id='signUp__password2'
-                  type='password'
+                  type={inputType}
                   name='password2'
                   className={a.input}
                   placeholder='Confirm password:'
@@ -114,7 +117,7 @@ const SignUpForm = () => {
                   <li key={index} className={a.serverError}><Error size={15} fillColor='#ff0000' />{err}</li>
                ))}
             </ul>}
-            <button type='submit' className={a.submit}>Sign Up</button>
+            <button type='submit' className={a.submit}>Registrate</button>
          </Form>
          )}
       </Formik>

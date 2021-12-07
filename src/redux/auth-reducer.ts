@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { history } from '../routing/history';
-import { authAPI } from '../tools/api';
-import { SignInUserType, SignUpUserType, UserType } from '../types/data-structures';
+import { history } from 'app-routing';
+import { authAPI } from 'tools/api';
+import { SignInUserType, SignUpUserType, UserType } from 'types/data-structures';
 import { alertMessage } from './bottom-alert-reducer';
 
 
@@ -75,11 +75,11 @@ export const me = createAsyncThunk(
          thunkAPI.dispatch(setUser(data));
       } catch (error) {
          const err = error as AxiosError;
-         if (err.response?.status === 401) {
-            thunkAPI.dispatch(alertMessage({ message: 'Refresh token is incorrect', messageStatus: 'error' }));
-         } else {
-            thunkAPI.dispatch(alertMessage({ message: 'Authentication error', messageStatus: 'error' }));
-         }
+         // if (err.response?.status === 401) {
+         //    thunkAPI.dispatch(alertMessage({ message: 'Refresh token is incorrect', messageStatus: 'error' }));
+         // } else {
+         //    thunkAPI.dispatch(alertMessage({ message: 'Authentication error', messageStatus: 'error' }));
+         // }
          return thunkAPI.rejectWithValue(err.message);
       }
    }

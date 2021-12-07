@@ -1,7 +1,8 @@
 @import '../../styles/variables';
 
 .button {
-   display: inline-flex;
+   display: flex;
+   width: 100%;
    align-items: center;
    padding: 5px 10px 5px 0;
    font-size: 17px;
@@ -22,7 +23,7 @@
 }
 
 .link {
-   display: inline-flex;
+   display: flex;
    align-items: center;
    padding: 5px 10px 5px 0;
    font-size: 17px;

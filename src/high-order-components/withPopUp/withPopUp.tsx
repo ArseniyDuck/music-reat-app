@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { conditionClassName } from '../../tools/functions';
+import { conditionClassName } from 'tools/functions';
 import s from './withPopUp.module.scss';
 
 

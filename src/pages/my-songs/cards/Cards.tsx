@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import s from './Cards.module.scss';
-import Music from '../../../components/icons/music/Mucis';
-import TransitionSkeleton from '../../../components/common/transition-skeleton/TransitionSkeleton';
+import Music from 'components/icons/music/Mucis';
+import { TransitionSkeleton } from 'components/common';
 
 
 type PropsType = {

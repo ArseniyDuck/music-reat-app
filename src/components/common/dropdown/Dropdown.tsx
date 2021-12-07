@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { dynamicAttr } from '../../../tools/functions';
+import { dynamicAttr } from 'tools/functions';
 import s from './Dropdown.module.scss';
 
 

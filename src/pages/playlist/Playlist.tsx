@@ -35,7 +35,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
    }, [dispatch, playlistId]);
 
 
-   const getRgbColor = (songs: Array<PlaylistSongType>) => {
+   const getColor = (songs: Array<PlaylistSongType>) => {
       return songs.length ? songs[0].album.best_color : 'rgb(100, 100, 100)';
    };
 
@@ -56,7 +56,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
          :
          // else show content
          playlistData && <>
-            <SongsContainerHeader rgbColor={getRgbColor(songs)} title={playlistData.name} bannerHeight={bannerHeight} />
+            <SongsContainerHeader color={getColor(songs)} title={playlistData.name} bannerHeight={bannerHeight} />
             <Banner
                bannerRef={bannerRef}
                setBannerHeight={setBannerHeight}
@@ -64,12 +64,12 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
                songsCount={songs.length}
                duration={playlistData.duration}
                photo={songs.length ? songs[0].album.photo : ''}
-               rgbColor={getRgbColor(songs)}
+               color={getColor(songs)}
                subTitle='Playlist'
                linkUrl='/profile'
                linkText={playlistData.user}
             />
-            <GradientContent rgbColor={getRgbColor(songs)}>
+            <GradientContent color={getColor(songs)}>
                {songs.length > 0 && <>
                   <div className='buttonsContainer'>
                      <PlayPauseButton size={55} />

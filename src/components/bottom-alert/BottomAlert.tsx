@@ -1,6 +1,6 @@
 import React from 'react';
-import { conditionClassName } from '../../tools/functions';
-import { useAppSelector } from '../../tools/hooks';
+import { conditionClassName } from 'tools/functions';
+import { useAppSelector } from 'tools/hooks';
 import s from './BottomAlert.module.scss';
 
 type PropsType = {};

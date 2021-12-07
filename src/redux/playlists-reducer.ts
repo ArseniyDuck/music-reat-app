@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { playlistsAPI } from '../tools/api';
-import { PlaylistType, SmallPlaylistType } from '../types/data-structures';
+import { playlistsAPI } from 'tools/api';
+import { PlaylistType, SmallPlaylistType } from 'types/data-structures';
 import { alertMessage } from './bottom-alert-reducer';
 import { songsContainerFetcherCreator } from './songs-reducer';
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { useWindowSize } from '../../../tools/hooks';
-import { breakpoints } from '../../../tools/variables';
+import { useWindowSize } from 'tools/hooks';
+import { breakpoints } from 'tools/variables';
 
 type PropsType = {
    mode: 'max-width' | 'min-width'

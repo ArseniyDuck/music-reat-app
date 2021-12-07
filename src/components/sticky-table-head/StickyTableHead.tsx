@@ -1,5 +1,5 @@
 import React from 'react';
-import Sticky from '../common/sticky/Sticky';
+import { Sticky } from 'components/common';
 import s from './StickyTableHead.module.scss';
 
 type PropsType = {};

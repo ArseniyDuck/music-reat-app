@@ -7,7 +7,7 @@ import store from './redux/store';
 import './styles/reset.scss';
 import './styles/index.scss';
 import App from './components/app/App';
-import { history } from './routing/history';
+import { history } from 'app-routing';
 
 
 ReactDOM.render(

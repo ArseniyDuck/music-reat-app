@@ -11,13 +11,12 @@ import Banner from '../../components/banner/Banner';
 import GradientContent from '../../components/gradient-content/GradientContent';
 import StickyTableHead from '../../components/sticky-table-head/StickyTableHead';
 import SongsContainerHeader from '../../components/songs-container-header/SongsContainerHeader';
+import { AuthRequired } from '../../components/common';
 
 
 type PathParamsType = { albumId: string };
 
-type PropsType = {};
-
-const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ match: {params: {albumId}} }) => {
+const Album: React.FC<RouteComponentProps<PathParamsType>> = ({ match: {params: {albumId}} }) => {
    const dispatch = useAppDispatch();
    const isFetching = useAppSelector(state => state.album.isFetching);
    const error = useAppSelector(state => state.album.error);
@@ -44,7 +43,11 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
          :
          // else show content
          albumData && <>
-            <SongsContainerHeader rgbColor={albumData.best_color} title={albumData.name} bannerHeight={bannerHeight} />
+            <SongsContainerHeader
+               color={albumData.best_color}
+               title={albumData.name}
+               bannerHeight={bannerHeight}
+            />
             <Banner 
                bannerRef={bannerRef}
                setBannerHeight={setBannerHeight}
@@ -53,18 +56,20 @@ const Album: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ matc
                year={albumData.year}
                duration={albumData.duration}
                photo={albumData.photo}
-               rgbColor={albumData.best_color}
+               color={albumData.best_color}
                subTitle='Album'
                linkUrl={`/singer/${albumData.singer.id}`}
                linkPhoto={albumData.singer.photo}
                linkText={albumData.singer.name}
             />
-            <GradientContent rgbColor={albumData.best_color}>
+            <GradientContent color={albumData.best_color}>
                <div className='buttonsContainer'>
                   <PlayPauseButton size={55} />
-                  <button onClick={() => dispatch(toggleAlbumLikeById(albumData.id))} className={s.albumLikeButton}>
-                     <Heart isLiked={albumData.is_liked} size={30} color='pink' />
-                  </button>
+                  <AuthRequired>
+                     <button onClick={() => dispatch(toggleAlbumLikeById(albumData.id))} className={s.albumLikeButton}>
+                        <Heart isLiked={albumData.is_liked} size={30} color='pink' />
+                     </button>
+                  </AuthRequired>
                </div>
                <StickyTableHead>
                   <ul className={s.tableHeader}>

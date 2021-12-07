@@ -1,20 +1,20 @@
 import React from 'react';
 import GradientHeader from '../gradient-header/GradientHeader';
-import PlayPauseButton from '../icons/play-pause/PlayPauseButton';
+import { PlayPauseButton } from 'icons';
 import s from './SongsContainerHeader.module.scss';
 
 type PropsType = {
-   rgbColor: string
+   color: string
    title: string
    bannerHeight?: number
 };
 
-const SongsContainerHeader: React.FC<PropsType> = ({ title, rgbColor, ...props }) => {
+const SongsContainerHeader: React.FC<PropsType> = ({ title, color, ...props }) => {
    const bannerHeight = props.bannerHeight as number
 
    return (
       <GradientHeader
-         rgbColor={rgbColor}
+         color={color}
          startFinish={[bannerHeight * 0.55, bannerHeight * 0.80]}
          showingSettings={{ at: bannerHeight }}
       >

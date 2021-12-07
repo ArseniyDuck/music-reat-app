@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { conditionClassName } from '../../tools/functions';
-import { useOpacityPercentWithWindowScroll } from '../../tools/hooks';
+import { conditionClassName } from 'tools/functions';
+import { useOpacityPercentWithWindowScroll } from 'tools/hooks';
 import s from './GradientHeader.module.scss';
 
 
 type PropsType = {
-   rgbColor: string
+   color: string
    startFinish: [number, number]
    showingSettings?: {
       at: number
@@ -36,7 +36,7 @@ const GradientHeader: React.FC<PropsType> = ({ children, ...props }) => {
 
    return (
       <header className={s.header}>
-         <HeaderBackground rgbColor={props.rgbColor} startFinish={props.startFinish} />
+         <HeaderBackground color={props.color} startFinish={props.startFinish} />
          <div className={conditionClassName(s.headerData, isHeaderDataShown, s.active)}>
             { children }
          </div>
@@ -45,12 +45,12 @@ const GradientHeader: React.FC<PropsType> = ({ children, ...props }) => {
 };
 
 
-const HeaderBackground: React.FC<{rgbColor: string, startFinish: [number, number]}> = (props) => {
+const HeaderBackground: React.FC<{color: string, startFinish: [number, number]}> = (props) => {
    const [startTransition, finishTransition] = props.startFinish;
    const opacity = useOpacityPercentWithWindowScroll(startTransition, finishTransition);
    
    return (
-      <div className={s.bg} style={{opacity: opacity, background: props.rgbColor}}></div>
+      <div className={s.bg} style={{opacity: opacity, background: props.color}}></div>
    );
 };
 

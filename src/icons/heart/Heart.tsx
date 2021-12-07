@@ -1,6 +1,6 @@
 import React from 'react';
-import withIcon, { WrappedIconType } from '../../../high-order-components/withIcon/withIcon';
-import { conditionClassName } from '../../../tools/functions';
+import { withIcon, WrappedIconType } from 'high-order-components';
+import { conditionClassName } from 'tools/functions';
 import s from './Heart.module.scss';
 
 type PropsType = {

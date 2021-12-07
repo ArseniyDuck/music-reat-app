@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { createPlaylist, fetchSmallPlaylists } from '../../redux/playlists-reducer';
-import { useAppDispatch, useAppSelector } from '../../tools/hooks';
-import { getArrayOfComponents } from '../../tools/functions';
+import { createPlaylist, fetchSmallPlaylists } from 'redux/playlists-reducer';
+import { useAppDispatch, useAppSelector } from 'tools/hooks';
+import { getArrayOfComponents } from 'tools/functions';
 import s from './Aside.module.scss';
 import PlaylistCreationForm from '../playlist-creation/Form';
 import { AsideButton, AsideLink } from './AsideActions';
 import Playlist from '../small-playlist/Playlist';
-import TransitionSkeleton from '../common/transition-skeleton/TransitionSkeleton';
-import Search from '../icons/search/Search';
-import Heart from '../icons/heart/Heart';
-import Plus from '../icons/plus/Plus';
-import AuthRequired from '../common/auth-required/AuthRequired';
+import { TransitionSkeleton, AuthRequired } from 'components/common';
+import { Search, Heart, Plus } from 'icons';
+import { RouteLinks } from 'app-routing';
 
 
 type PropsType = {};
@@ -48,7 +46,7 @@ const Aside: React.FC<PropsType> = (props) => {
 const SearchLink: React.FC = () => {
    return (
       <div>
-         <AsideLink to='/search'>
+         <AsideLink to={RouteLinks.SEARCH}>
             <Search color='grey' />
             Search
          </AsideLink>
@@ -59,7 +57,7 @@ const SearchLink: React.FC = () => {
 const MySongsLink: React.FC = () => {
    return (
       <div>
-         <AsideLink to='/my-songs'>
+         <AsideLink to={RouteLinks.MY_SONGS}>
             <Heart isLiked={false} color='grey' size={14} />
             My Songs
          </AsideLink>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MobilePullOupSongType } from '../../../types/data-structures';
+import { MobilePullOupSongType } from 'types/data-structures';
 import s from './SongInfo.module.scss';
 
 

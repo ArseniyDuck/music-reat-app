@@ -97,3 +97,14 @@ export const useBannerHeight = <E extends HTMLElement>() => {
 
    return [bannerRef, bannerHeight, setBannerHeight] as const;
 };
+
+
+// useInputType -----------------------------------
+export const useInputType = () => {
+   const [inputType, setInutType] = useState<'password' | 'text'>('password');
+   const handleEyeClick = () => setInutType(prev => {
+      return prev === 'password' ? 'text' : 'password';
+   });
+
+   return [inputType, handleEyeClick] as const;
+}

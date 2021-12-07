@@ -1,19 +1,15 @@
 import React, { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import { useAppDispatch } from 'tools/hooks';
+import { composeRoutesFromArr } from 'tools/functions';
+import { Routes } from 'app-routing';
 import s from './App.module.scss';
-import Album from '../../pages/album/Album';
+import { me } from 'redux/auth-reducer';
 import Avatar from '../avatar/Avatar';
 import Aside from '../aside/Aside';
-import Playlist from '../../pages/playlist/Playlist';
 import MobileBottom from '../mobile-bottom/MobileBottom';
-import MediaQuery from '../common/media-query/MediaQuery';
+import { MediaQuery, ScrollToTop } from 'components/common';
 import BottomAlert from '../bottom-alert/BottomAlert';
-import MySongs from '../../pages/my-songs/MySongs';
-import ScrollToTop from '../common/scroll-to-top/ScrollToTop';
-import SignIn from '../../pages/auth/SignIn';
-import SignUp from '../../pages/auth/SignUp';
-import { useAppDispatch } from '../../tools/hooks';
-import { me } from '../../redux/auth-reducer';
 
 
 const App = () => {
@@ -34,11 +30,7 @@ const App = () => {
             </MediaQuery>
             <ScrollToTop>
                <Switch>
-                  <Route exact path='/album/:albumId' component={Album} />
-                  <Route exact path='/playlist/:playlistId' component={Playlist} />
-                  <Route path='/my-songs' component={MySongs} />
-                  <Route exact path='/sign-up' component={SignUp} />
-                  <Route exact path='/sign-in' component={SignIn} />
+                  {composeRoutesFromArr(Routes)}
                </Switch>
             </ScrollToTop>
             <BottomAlert />

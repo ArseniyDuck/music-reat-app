@@ -1,19 +1,24 @@
-import React from 'react';
-import { useAppDispatch, useAppSelector, usePopUp } from '../../../tools/hooks';
-import MediaQuery from '../../../components/common/media-query/MediaQuery';
-import OnExactPage from '../../../components/common/on-exact-page/OnExactPage';
-import { getArrayOfComponents } from '../../../tools/functions';
-import { createPlaylist } from '../../../redux/playlists-reducer';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector, usePopUp } from 'tools/hooks';
+import { MediaQuery, OnExactPage } from 'components/common';
+import { getArrayOfComponents } from 'tools/functions';
+import { createPlaylist, fetchSmallPlaylists } from 'redux/playlists-reducer';
 import s from './SubPages.module.scss';
-import PlaylistCreationPopUp from '../../../components/PlaylistCreationPopUp/PlaylistCreationPopUp';
+import PlaylistCreationPopUp from 'components/PlaylistCreationPopUp/PlaylistCreationPopUp';
 import Card, { CardSkeleton, MobileCardSkeleton } from '../cards/Cards';
-import Plus from '../../../components/icons/plus/Plus';
+import Plus from 'components/icons/plus/Plus';
 
 
 const Playlists = () => {
    const [isCreationOpened, setIsCreationOpened, creationBodyRef] = usePopUp<HTMLDivElement>();
    const { isFetching, playlists } = useAppSelector(state => state.playlists.smallPlaylists);
    const dispatch = useAppDispatch();
+   const id = useAppSelector(state => state.auth.user.id);
+
+   useEffect(() => {
+      dispatch(fetchSmallPlaylists());
+   }, [dispatch, id]);
+
 
    const hadleCreationButtonClick = () => {
       setIsCreationOpened(true);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppSelector } from '../../../tools/hooks';
+import { useAppSelector } from 'tools/hooks';
 
 
 const AuthRequired: React.FC= (props) => {

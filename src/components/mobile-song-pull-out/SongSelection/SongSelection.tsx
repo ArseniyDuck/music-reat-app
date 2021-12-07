@@ -1,10 +1,10 @@
 import React from 'react';
-import withPopUp, { WrappedPopUpType } from '../../../high-order-components/withPopUp/withPopUp';
-import { getArrayOfComponents } from '../../../tools/functions';
-import { useAppSelector } from '../../../tools/hooks';
-import TransitionSkeleton from '../../common/transition-skeleton/TransitionSkeleton';
-import Plus from '../../icons/plus/Plus';
+import { withPopUp, WrappedPopUpType } from 'high-order-components';
+import { getArrayOfComponents } from 'tools/functions';
+import { useAppSelector } from 'tools/hooks';
 import s from './SongSelection.module.scss';
+import { TransitionSkeleton } from 'components/common';  
+import { Plus } from 'icons';
 
 
 type PropsType = {

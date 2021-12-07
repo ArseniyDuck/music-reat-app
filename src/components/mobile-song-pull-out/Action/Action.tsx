@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Arrow from '../../icons/arrow/Arrow';
+import { Arrow } from 'icons';
 import s from './Action.module.scss';
 
 type PropsType = {

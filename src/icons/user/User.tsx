@@ -1,5 +1,5 @@
 import React from 'react';
-import withIcon, { WrappedIconType } from '../../../high-order-components/withIcon/withIcon';
+import { withIcon, WrappedIconType } from 'high-order-components';
 import s from './User.module.scss';
 
 type PropsType = {

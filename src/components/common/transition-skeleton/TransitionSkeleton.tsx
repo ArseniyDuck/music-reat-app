@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { conditionClassName } from '../../../tools/functions';
+import { conditionClassName } from 'tools/functions';
 import s from './TransitionSkeleton.module.scss';
 
 type PropsType = {

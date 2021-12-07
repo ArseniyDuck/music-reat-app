@@ -1,4 +1,6 @@
 import React from 'react';
+import { Route } from 'react-router';
+import { RouteType } from 'app-routing';
 
 export function dynamicAttr(attribute: string, value: any) {
    const opts: {[k: string]: any} = {};
@@ -20,4 +22,15 @@ export function getArrayOfComponents(Component: React.ComponentType, count: numb
       components.push(<Component key={i} />);
    }
    return components;
+}
+
+export function composeRoutesFromArr(arr: Array<RouteType>) {
+   return arr.map((r, i) => (
+      <Route
+         key={i}
+         exact={r.exact}
+         path={r.parameter ? (r.path + r.parameter) : r.path}
+         component={r.component}
+      />
+   ))
 }

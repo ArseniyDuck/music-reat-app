@@ -1,14 +1,13 @@
 import React, { FocusEventHandler, useState } from 'react';
-import { addSongToPlaylist, toggleSongLikeById } from '../../redux/songs-reducer';
-import { conditionClassName } from '../../tools/functions';
+import { addSongToPlaylist, toggleSongLikeById } from 'redux/songs-reducer';
+import { conditionClassName } from 'tools/functions';
 import s from './Song.module.scss';
-import Dropdown from '../common/dropdown/Dropdown';
-import Heart from '../icons/heart/Heart';
+import { MediaQuery, AuthRequired, Dropdown } from 'components/common';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../tools/hooks';
-import { SongType } from '../../types/data-structures';
-import MediaQuery from '../common/media-query/MediaQuery';
+import { useAppDispatch, useAppSelector } from 'tools/hooks';
+import { SongType } from 'types/data-structures';
 import MobileSongPullOut from '../mobile-song-pull-out/MobileSongPullOut';
+import { Heart } from 'icons';
 
 type PropsType = {
    index: number
@@ -61,16 +60,16 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, isInPlaylist=false, 
             <Link to={`/singer/${props.singerId}`} className={s.songLink}>{props.singerName}</Link>
          </div>
          { props.albumName && <Link to={`/album/${props.albumId}`} className={`${s.songLink} ${s.albumLink}`}>{props.albumName}</Link> }
-         <button
-            onClick={handleLikeTogglerClick}
-            onFocus={removeFocus}
-            className={conditionClassName(s.likeSongButton, props.is_liked, s.liked)}
-         >
-            <Heart isLiked={props.is_liked} color='pink' />
-         </button>
+         <AuthRequired>
+            <button
+               onClick={handleLikeTogglerClick}
+               onFocus={removeFocus}
+               className={conditionClassName(s.likeSongButton, props.is_liked, s.liked)}
+            >
+               <Heart isLiked={props.is_liked} color='pink' />
+            </button>
+         </AuthRequired>
          <p className={s.songDuration}>{props.duration}</p>
-         
-         {/* show dots below SM */}
          <MediaQuery mode='max-width' width='sm'>
             <div className={s.dots} onClick={handleMobileDottsClick}>
                <span></span>
@@ -94,8 +93,6 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, isInPlaylist=false, 
                addSongToPlaylist={hadlePlaylistButtonClick}
             />
          </MediaQuery>
-
-         {/* hide dropdown below SM */}
          <MediaQuery mode='min-width' width='sm'>
             <Dropdown
                initialPosition='top'
@@ -110,35 +107,40 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, isInPlaylist=false, 
                   <Link className={s.dropDownLink} to={`/album/${props.albumId}`}>Go to album</Link>
                </Dropdown.Item>
                <Dropdown.Item>
-                  { isInPlaylist && removeSong  ? 
-                     <button onClick={() => removeSong(props.id)} className={s.dropDownButton}>
-                        Remove song
-                     </button>
-                     :
-                     <Dropdown
-                        initialPosition='bottom'
-                        isOverflow={true}
-                        trackVerticalPosition={true}
-                        LabelComponent={() => <span className={s.playListsLabel}>Add to playlist</span>}
-                        event='hover'
-                     >
-                        { playlists.map(playlist => (
-                           <Dropdown.Item key={playlist.id}>
-                              <button
-                                 onClick={() => hadlePlaylistButtonClick(playlist.id)}
-                                 className={s.dropDownButtonPlayList}
-                              >
-                                 {playlist.name}
-                              </button>
-                           </Dropdown.Item>
-                        )) }
-                     </Dropdown>
-                  }
+                  <AuthRequired>
+                     { isInPlaylist && removeSong  ? 
+                        <button onClick={() => removeSong(props.id)} className={s.dropDownButton}>
+                           Remove song
+                        </button>
+                        :
+                        <Dropdown
+                           initialPosition='bottom'
+                           isOverflow={true}
+                           trackVerticalPosition={true}
+                           LabelComponent={() => <span className={s.playListsLabel}>Add to playlist</span>}
+                           event='hover'
+                        >
+                           { playlists.map(playlist => (
+                              <Dropdown.Item key={playlist.id}>
+                                 <button
+                                    onClick={() => hadlePlaylistButtonClick(playlist.id)}
+                                    className={s.dropDownButtonPlayList}
+                                 >
+                                    {playlist.name}
+                                 </button>
+                              </Dropdown.Item>
+                           )) }
+                        </Dropdown>
+                     }
+                  </AuthRequired>
                </Dropdown.Item>
                <Dropdown.Item>
-                  <button onClick={handleLikeTogglerClick} className={s.dropDownButton}>
-                     { props.is_liked ? 'Dislike song' : 'Like song' }
-                  </button>
+                  {/* todo: show notification instead of hiding */}
+                  <AuthRequired>
+                     <button onClick={handleLikeTogglerClick} className={s.dropDownButton}>
+                        { props.is_liked ? 'Dislike song' : 'Like song' }
+                     </button>
+                  </AuthRequired>
                </Dropdown.Item>
             </Dropdown>
          </MediaQuery>

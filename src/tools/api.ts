@@ -1,6 +1,10 @@
 import axios, { AxiosError } from 'axios';
 import Cookie from 'js-cookie';
-import { AlbumType, SignInUserType, PlaylistType, SignUpUserType, SmallPlaylistType, UserType } from '../types/data-structures';
+import {
+   AlbumType, SignInUserType, PlaylistType,
+   SignUpUserType, SmallPlaylistType, UserType, 
+} from 'types/data-structures';
+
 
 export const instance = axios.create({
    withCredentials: true,

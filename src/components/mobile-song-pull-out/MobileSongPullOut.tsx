@@ -1,18 +1,14 @@
 import React from 'react';
-import { useAppDispatch, usePopUp } from '../../tools/hooks';
-import { conditionClassName } from '../../tools/functions';
-import { MobilePullOupSongType } from '../../types/data-structures';
+import { useAppDispatch, usePopUp } from 'tools/hooks';
+import { conditionClassName } from 'tools/functions';
+import { MobilePullOupSongType } from 'types/data-structures';
 import s from './MobileSongPullOut.module.scss';
 import SongSelection from './SongSelection/SongSelection';
 import PlaylistCreationPopUp from '../PlaylistCreationPopUp/PlaylistCreationPopUp';
 import SongInfo from './SongInfo/SongInfo';
 import Action from './Action/Action';
-import Heart from '../icons/heart/Heart';
-import Headphones from '../icons/headphones/Headphones';
-import CdDisk from '../icons/cd-disk/CdDisk';
-import Plus from '../icons/plus/Plus';
-import Trash from '../icons/trash/Trash';
-import { addSongToNewCreatedPlaylist } from '../../redux/songs-reducer';
+import { Heart, Headphones, CdDisk, Plus, Trash } from 'icons';
+import { addSongToNewCreatedPlaylist } from 'redux/songs-reducer';
 
 
 type PropsType = {

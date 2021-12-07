@@ -12,14 +12,12 @@
 .body {
    width: 100%;
    max-width: 500px;
+   padding: 15px;
 }
 
 .heading {
-   @include adaptive-value("font-size", 60, 40, 1);
-}
-
-.form {
-   margin-top: 10px;
+   @include adaptive-value("font-size", 60, 45, 1);
+   margin-bottom: 0.1em;
 }
 
 .field {
@@ -29,18 +27,28 @@
    & + & {
       margin-top: 8px;
    }
+
+   &:focus-within .eye {
+      @include visible-element();
+   }
+
+   @media (any-hover: hover) {
+      &:hover .eye {
+         @include visible-element();
+      }
+   }
 }
 
 .input {
    width: 100%;
    box-sizing: border-box;
-   padding: 10px 15px;
+   padding: 10px 35px 10px 15px;
    background: $coalGrey;
    color: #fff;
    @include adaptive-value("font-size", 20, 16, 1);
 
    &:focus + .label {
-      display: block;
+      @include visible-element();
    }
 
    &::placeholder {
@@ -56,9 +64,7 @@
    @include adaptive-value("font-size", 15, 12, 1);
    top: -5px;
    left: 10px;
-
-   // todo: add animation
-   display: none;
+   @include hidden-element();
 }
 
 .submit {
@@ -107,5 +113,17 @@
 
    &:hover {
       text-decoration: underline;
+   }
+}
+
+.eye {
+   display: inline-block;
+   position: absolute;
+   right: 10px;
+   transform: translateY(50%);
+   cursor: pointer;
+
+   @media (any-hover: hover) {
+      @include hidden-element();
    }
 }

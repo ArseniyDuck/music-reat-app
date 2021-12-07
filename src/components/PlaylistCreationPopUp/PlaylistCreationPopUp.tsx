@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import withPopUp, { WrappedPopUpType } from '../../high-order-components/withPopUp/withPopUp';
+import { withPopUp, WrappedPopUpType } from 'high-order-components';
 import s from './PlaylistCreationPopUp.module.scss';
 
 
