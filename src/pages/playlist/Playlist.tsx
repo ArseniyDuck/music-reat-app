@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { fetchPlaylistById } from '../../redux/playlists-reducer';
-import { useAppDispatch, useAppSelector, useBannerHeight } from '../../tools/hooks';
-import Banner from '../../components/banner/Banner';
-import GradientContent from '../../components/gradient-content/GradientContent';
-import Spinner from '../../components/icons/spinner/Spinner';
-import Song from '../../components/song/Song';
+import { fetchPlaylistById } from 'redux/playlists-reducer';
+import { useAppDispatch, useAppSelector, useBannerHeight } from 'tools/hooks';
+import Banner from 'components/banner/Banner';
+import GradientContent from 'components/gradient-content/GradientContent';
+import { Spinner, PlayPauseButton } from 'icons';
+import Song from 'components/song/Song';
 import s from './Playlist.module.scss';
-import StickyTableHead from '../../components/sticky-table-head/StickyTableHead';
-import PlayPauseButton from '../../components/icons/play-pause/PlayPauseButton';
-import { PlaylistSongType } from '../../types/data-structures';
-import { removeSongFromPlaylist } from '../../redux/songs-reducer';
-import SongsContainerHeader from '../../components/songs-container-header/SongsContainerHeader';
+import StickyTableHead from 'components/sticky-table-head/StickyTableHead';
+import { PlaylistSongType } from 'types/data-structures';
+import { removeSongFromPlaylist } from 'redux/songs-reducer';
+import SongsContainerHeader from 'components/songs-container-header/SongsContainerHeader';
 
 
 type PathParamsType = { playlistId: string };
@@ -31,7 +30,6 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
 
    useEffect(() => {
       dispatch(fetchPlaylistById(Number(playlistId)));
-      
    }, [dispatch, playlistId]);
 
 

@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useAppDispatch, useAppSelector, useBannerHeight } from '../../tools/hooks';
-import { fetchAlbumById, toggleAlbumLikeById } from '../../redux/album-reducer';
+import { useAppDispatch, useAppSelector, useBannerHeight } from 'tools/hooks';
+import { fetchAlbumById, toggleAlbumLikeById } from 'redux/album-reducer';
 import s from './Album.module.scss';
-import Spinner from '../../components/icons/spinner/Spinner';
-import Song from '../../components/song/Song';
-import Heart from '../../components/icons/heart/Heart';
-import PlayPauseButton from '../../components/icons/play-pause/PlayPauseButton';
-import Banner from '../../components/banner/Banner';
-import GradientContent from '../../components/gradient-content/GradientContent';
-import StickyTableHead from '../../components/sticky-table-head/StickyTableHead';
-import SongsContainerHeader from '../../components/songs-container-header/SongsContainerHeader';
-import { AuthRequired } from '../../components/common';
+import { Spinner, PlayPauseButton, Heart } from 'icons';
+import Song from 'components/song/Song';
+import Banner from 'components/banner/Banner';
+import GradientContent from 'components/gradient-content/GradientContent';
+import StickyTableHead from 'components/sticky-table-head/StickyTableHead';
+import SongsContainerHeader from 'components/songs-container-header/SongsContainerHeader';
+import { AuthRequired } from 'components/common';
 
 
 type PathParamsType = { albumId: string };

@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import { signUp } from '../../redux/auth-reducer';
 import { useAppDispatch, useAppSelector, useInputType } from '../../tools/hooks';
 import a from './Auth.module.scss';
-import Error from '../../components/icons/error/Error';
-import Eye from '../../components/icons/eye/Eye';
+import { Eye, Error } from 'icons';
 
 type PropsType = {};
 

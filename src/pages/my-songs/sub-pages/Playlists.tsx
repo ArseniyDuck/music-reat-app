@@ -6,19 +6,13 @@ import { createPlaylist, fetchSmallPlaylists } from 'redux/playlists-reducer';
 import s from './SubPages.module.scss';
 import PlaylistCreationPopUp from 'components/PlaylistCreationPopUp/PlaylistCreationPopUp';
 import Card, { CardSkeleton, MobileCardSkeleton } from '../cards/Cards';
-import Plus from 'components/icons/plus/Plus';
+import { Plus } from 'icons';
 
 
 const Playlists = () => {
    const [isCreationOpened, setIsCreationOpened, creationBodyRef] = usePopUp<HTMLDivElement>();
    const { isFetching, playlists } = useAppSelector(state => state.playlists.smallPlaylists);
    const dispatch = useAppDispatch();
-   const id = useAppSelector(state => state.auth.user.id);
-
-   useEffect(() => {
-      dispatch(fetchSmallPlaylists());
-   }, [dispatch, id]);
-
 
    const hadleCreationButtonClick = () => {
       setIsCreationOpened(true);
@@ -30,6 +24,9 @@ const Playlists = () => {
    
    return <>
       <h1 className={s.heading}>Playlists</h1>
+      <MediaQuery mode='max-width' width='lg'>
+         <SyncPlaylistsOnMobiles />
+      </MediaQuery>
       <MediaQuery mode='min-width' width='sm'>
          <MediaQuery mode='max-width' width='lg'>
             <OnExactPage isOnPage={false} page='/my-songs'>
@@ -76,6 +73,17 @@ const Playlists = () => {
          actionAfterSubmit={createPlaylistAfterSubmit}
       />
    </>;
+}
+
+const SyncPlaylistsOnMobiles: React.FC = () => {
+   const dispatch = useAppDispatch();
+   const id = useAppSelector(state => state.auth.user.id);
+
+   useEffect(() => {
+      dispatch(fetchSmallPlaylists());
+   }, [dispatch, id]);
+
+   return null;
 }
 
 export default Playlists;

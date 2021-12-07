@@ -4,7 +4,7 @@ import { Field, Form, Formik, FormikErrors, FormikHelpers } from 'formik';
 import { signIn } from '../../redux/auth-reducer';
 import { useAppDispatch, useInputType } from '../../tools/hooks';
 import a from './Auth.module.scss';
-import Eye from '../../components/icons/eye/Eye';
+import { Eye } from 'icons';
 
 type PropsType = {};
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import s from './Cards.module.scss';
-import Music from 'components/icons/music/Mucis';
+import { Music } from 'icons';
 import { TransitionSkeleton } from 'components/common';
 
 
