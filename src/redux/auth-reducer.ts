@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { history } from 'app-routing';
-import { authAPI } from 'tools/api';
-import { SignInUserType, SignUpUserType, UserType } from 'types/data-structures';
+import AuthService from 'services/AuthService';
 import { alertMessage } from './bottom-alert-reducer';
 
 
@@ -24,7 +23,7 @@ export const signIn = createAsyncThunk(
    'auth/signIn',
    async (user: SignInUserType, thunkAPI) => {
       try {
-         const { data: { access, refresh } } = await authAPI.signIn(user);
+         const { data: { access, refresh } } = await AuthService.signIn(user);
          localStorage.setItem('accessToken', access)
          localStorage.setItem('refreshToken', refresh);
          thunkAPI.dispatch(me());
@@ -45,7 +44,7 @@ export const signUp = createAsyncThunk(
    'auth/signUp',
    async (user: SignUpUserType, thunkAPI) => {
       try {
-         const response = await authAPI.signUp(user);
+         const response = await AuthService.signUp(user);
          if (response.status === 201) {
             thunkAPI.dispatch(signIn({ username: user.username, password: user.password1 }));
             thunkAPI.dispatch(setErrors([]));
@@ -71,7 +70,7 @@ export const me = createAsyncThunk(
    'auth/me',
    async (_, thunkAPI) => {
       try {
-         const { data } = await authAPI.me();
+         const { data } = await AuthService.me();
          thunkAPI.dispatch(setUser(data));
       } catch (error) {
          const err = error as AxiosError;

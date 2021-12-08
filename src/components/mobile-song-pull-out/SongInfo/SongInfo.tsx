@@ -1,9 +1,8 @@
 import React from 'react';
-import { MobilePullOupSongType } from 'types/data-structures';
 import s from './SongInfo.module.scss';
 
 
-type PropsType = MobilePullOupSongType;
+type PropsType = MobilePullOutSongType;
 
 const SongInfo: React.FC<PropsType> = (props) => {
    return (

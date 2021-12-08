@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { musicDataAPI } from 'tools/api';
-import { AlbumType, SmallPlaylistType } from 'types/data-structures';
+import MusicService from 'services/MusicService';
 import { alertMessage } from './bottom-alert-reducer';
 import { songsContainerFetcherCreator } from './songs-reducer';
 
@@ -33,7 +32,7 @@ export const fetchSmallAlbums = createAsyncThunk(
    'album/fetchSmallAlbums',
    async (_, thunkAPI) => {
       try {
-         const response = await musicDataAPI.getAlbums();
+         const response = await MusicService.getAlbums();
          return response.data;
       } catch (error) {
          const err = error as AxiosError;
@@ -43,13 +42,13 @@ export const fetchSmallAlbums = createAsyncThunk(
    }
 );
 
-export const fetchAlbumById = songsContainerFetcherCreator('album/fetchAlbumById', 'album', musicDataAPI.getAlbum);
+export const fetchAlbumById = songsContainerFetcherCreator('album/fetchAlbumById', 'album', MusicService.getAlbum);
 
 export const toggleAlbumLikeById = createAsyncThunk(
    'album/toggleAlbumLikeById',
    async (id: number, thunkAPI) => {
       try {
-         const response = await musicDataAPI.likeAlbum(id);
+         const response = await MusicService.likeAlbum(id);
          return {
             data: response.data,
             status: response.status,

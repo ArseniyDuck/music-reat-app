@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { playlistsAPI } from 'tools/api';
-import { PlaylistType, SmallPlaylistType } from 'types/data-structures';
+import PlaylistService from 'services/PlaylistService';
 import { alertMessage } from './bottom-alert-reducer';
 import { songsContainerFetcherCreator } from './songs-reducer';
 
@@ -32,7 +31,7 @@ export const fetchSmallPlaylists = createAsyncThunk(
    'playlists/fetchSmallPlaylists',
    async (_, thunkAPI) => {
       try {
-         const response = await playlistsAPI.getPlaylists();
+         const response = await PlaylistService.getPlaylists();
          return response.data;
       } catch (error) {
          const err = error as AxiosError;
@@ -46,7 +45,7 @@ export const createPlaylist = createAsyncThunk(
    'playlists/createPlaylist',
    async (name: string, thunkAPI) => {
       try {
-         const response = await playlistsAPI.createPlaylist(name ? name : 'New Playlist');
+         const response = await PlaylistService.createPlaylist(name ? name : 'New Playlist');
          thunkAPI.dispatch(alertMessage({ message: 'Playlist was created', messageStatus: 'ok' }));
          return response.data;
       } catch (error) {
@@ -58,7 +57,7 @@ export const createPlaylist = createAsyncThunk(
 );
 
 
-export const fetchPlaylistById = songsContainerFetcherCreator('playlists/fetchPlaylistById',  'playlist', playlistsAPI.getPlaylist);
+export const fetchPlaylistById = songsContainerFetcherCreator('playlists/fetchPlaylistById',  'playlist', PlaylistService.getPlaylist);
 
 export const playlistsSlice = createSlice({
    name: 'playlists',

@@ -6,3 +6,5 @@ export enum breakpoints {
    xl = 1200,
    xxl = 1400,
 };
+
+export const unsafeMethods = ['OPTIONS', 'HEAD', 'GET', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT'];

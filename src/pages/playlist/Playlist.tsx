@@ -8,7 +8,6 @@ import { Spinner, PlayPauseButton } from 'icons';
 import Song from 'components/song/Song';
 import s from './Playlist.module.scss';
 import StickyTableHead from 'components/sticky-table-head/StickyTableHead';
-import { PlaylistSongType } from 'types/data-structures';
 import { removeSongFromPlaylist } from 'redux/songs-reducer';
 import SongsContainerHeader from 'components/songs-container-header/SongsContainerHeader';
 

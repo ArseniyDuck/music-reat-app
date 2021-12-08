@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAppDispatch, usePopUp } from 'tools/hooks';
 import { conditionClassName } from 'tools/functions';
-import { MobilePullOupSongType } from 'types/data-structures';
 import s from './MobileSongPullOut.module.scss';
 import SongSelection from './SongSelection/SongSelection';
 import PlaylistCreationPopUp from '../PlaylistCreationPopUp/PlaylistCreationPopUp';
@@ -14,7 +13,7 @@ import { addSongToNewCreatedPlaylist } from 'redux/songs-reducer';
 type PropsType = {
    isOpened: boolean
    hide: () => void
-   songData: MobilePullOupSongType
+   songData: MobilePullOutSongType
    likeSong: () => void
    removeSong?: () => void
    addSongToPlaylist: (id: number) => void

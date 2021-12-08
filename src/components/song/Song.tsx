@@ -5,7 +5,6 @@ import s from './Song.module.scss';
 import { MediaQuery, AuthRequired, Dropdown } from 'components/common';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'tools/hooks';
-import { SongType } from 'types/data-structures';
 import MobileSongPullOut from '../mobile-song-pull-out/MobileSongPullOut';
 import { Heart } from 'icons';
 

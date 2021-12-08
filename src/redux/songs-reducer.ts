@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { musicDataAPI, playlistsAPI, SongInPlaylistTogglerRequestType } from 'tools/api';
-import { SongsType } from 'types/data-structures';
+import PlaylistService, { SongInPlaylistTogglerRequestType } from 'services/PlaylistService';
+import MusicService from 'services/MusicService';
 import { alertMessage } from './bottom-alert-reducer';
 
 
@@ -36,7 +36,7 @@ export const toggleSongLikeById = createAsyncThunk(
    'songs/toggleSongLikeById',
    async (id: number, thunkAPI) => {
       try {
-         const response = await musicDataAPI.likeSong(id);
+         const response = await MusicService.likeSong(id);
          return {
             data: response.data,
             status: response.status,
@@ -70,7 +70,7 @@ export const addSongToNewCreatedPlaylist = createAsyncThunk<void, {songId: numbe
    'songs/addSongToNewCreatedPlaylist',
    async ({ songId, playlistName }, thunkAPI) => {
       try {
-         const creationResponse = await playlistsAPI.createPlaylist(playlistName ? playlistName : 'New playlist');
+         const creationResponse = await PlaylistService.createPlaylist(playlistName ? playlistName : 'New playlist');
          thunkAPI.dispatch(addSongToPlaylist({songId, playlistId: creationResponse.data.id}));
          thunkAPI.dispatch(alertMessage({ message: 'Song was added to new playlist', messageStatus: 'ok' }));
       } catch (error) {
@@ -83,13 +83,13 @@ export const addSongToNewCreatedPlaylist = createAsyncThunk<void, {songId: numbe
 
 export const addSongToPlaylist = _songInPlaylistTogglerThunkCreator(
    'addSongToPlaylist',
-   playlistsAPI.addSongToPlaylist,
+   PlaylistService.addSongToPlaylist,
    'added'
 );
 
 export const removeSongFromPlaylist = _songInPlaylistTogglerThunkCreator(
    'removeSongFromPlaylist',
-   playlistsAPI.removeSongFromPlaylist,
+   PlaylistService.removeSongFromPlaylist,
    'removed'
 );
 
