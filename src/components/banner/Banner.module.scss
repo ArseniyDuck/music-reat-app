@@ -5,7 +5,7 @@
    display: flex;
    position: relative;
    @include adaptive-value("gap", 20, 15, 0);
-   padding: 25px;
+   padding: 70px 25px 25px 25px;
 
    &::before {
       content: '';
@@ -19,11 +19,11 @@
    }
 
    @include mobile-media-query-down('md') {
-      padding: 15px;
+      padding: 45px 15px 15px 15px;
    }
 
    @include mobile-media-query-down('sm') {
-      padding: 35px 0 10px 0;
+      padding: 45px 0 10px 0;
       flex-direction: column;
       align-items: center;
    }

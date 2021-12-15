@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector, usePopUp } from 'tools/hooks';
-import { MediaQuery, OnExactPage } from 'components/common';
+import { AuthRequired, MediaQuery, OnExactPage } from 'components/common';
 import { getArrayOfComponents } from 'tools/functions';
-import { createPlaylist, fetchSmallPlaylists } from 'redux/playlists-reducer';
+import { clearPlaylist, createPlaylist, fetchSmallPlaylists } from 'redux/playlists-reducer';
 import s from './SubPages.module.scss';
-import PlaylistCreationPopUp from 'components/PlaylistCreationPopUp/PlaylistCreationPopUp';
-import Card, { CardSkeleton, MobileCardSkeleton } from '../cards/Cards';
+import PlaylistCreationPopUp from 'components/playlist-creation-pop-up/PlaylistCreationPopUp';
+import Card, { CardSkeleton, LikedSongsCard, MobileCardSkeleton } from '../cards/Cards';
 import { Plus } from 'icons';
+import CreatePlaylistButton from '../cards/CreatePlaylistButton';
+import MySongsBackground from 'components/my-songs-background/MySongsBackground';
 
 
 const Playlists = () => {
+   const dispatch = useAppDispatch();
    const [isCreationOpened, setIsCreationOpened, creationBodyRef] = usePopUp<HTMLDivElement>();
    const { isFetching, playlists } = useAppSelector(state => state.playlists.smallPlaylists);
-   const dispatch = useAppDispatch();
 
    const hadleCreationButtonClick = () => {
       setIsCreationOpened(true);
@@ -47,22 +49,37 @@ const Playlists = () => {
          </MediaQuery>
       </MediaQuery>
       <div className={s.grid}>
+         <MediaQuery mode='max-width' width='sm'>
+            <CreatePlaylistButton onClick={hadleCreationButtonClick} />
+            <Card
+               linkTo={'/liked'}
+               imageComponent={MySongsBackground}
+               title={'Liked songs'}
+               songsCount={1000}
+            />
+         </MediaQuery>
          { isFetching ?
             <>
                <MediaQuery width='sm' mode='min-width'>{getArrayOfComponents(CardSkeleton, 20)}</MediaQuery>
                <MediaQuery width='sm' mode='max-width'>{getArrayOfComponents(MobileCardSkeleton, 10)}</MediaQuery>
             </>
          :
-            playlists.map(({ id, name, songs_count, photo }) => (
-               <Card
-                  key={id}
-                  linkTo={`/playlist/${id}`}
-                  // todo: don't use template string here: `http://localhost:8000${props.image}`
-                  image={photo && `http://localhost:8000${photo}`}
-                  title={name}
-                  songsCount={songs_count}   
-               />
-            ))
+            <AuthRequired>
+               {/* todo: turn on slow 3g and fix bug with with displaying */}
+               <MediaQuery mode='min-width' width='sm'>
+                  <LikedSongsCard />
+               </MediaQuery>
+               {playlists.map(({ id, name, songs_count, photo }) => (
+                  <Card
+                     key={id}
+                     linkTo={`/playlist/${id}`}
+                     // todo: don't use template string here: `http://localhost:8000${props.image}`
+                     image={photo && `http://localhost:8000${photo}`}
+                     title={name}
+                     songsCount={songs_count}
+                  />
+               ))}
+            </AuthRequired>
          }
       </div>
       <PlaylistCreationPopUp
@@ -81,6 +98,10 @@ const SyncPlaylistsOnMobiles: React.FC = () => {
 
    useEffect(() => {
       dispatch(fetchSmallPlaylists());
+
+      return () => {
+         dispatch(clearPlaylist());
+      }
    }, [dispatch, id]);
 
    return null;

@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import s from './Cards.module.scss';
 import { Music } from 'icons';
 import { TransitionSkeleton } from 'components/common';
+import { RouteLinks } from 'app-routing';
 
 
 type PropsType = {
    linkTo: string,
-   image: string | null,
+   image?: string | null,
+   imageComponent?: React.ComponentType
    title: string,
    songsCount: number
 }
@@ -17,17 +19,22 @@ const Card: React.FC<PropsType> = (props) => {
       <Link to={props.linkTo} className={s.card}>
          <div className={`${s.cardBody} cropTextContainer`}>
             <div className={`${s.cardImage} ibg`}>
-               { props.image ? <img src={props.image} alt='album' /> :
-                  <Music
-                     size={50}
-                     fillColor='#333'
-                     styles={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)'
-                     }}
-                  />
+               {
+                  // If image is a component:
+                  props.imageComponent ?
+                  <props.imageComponent /> :
+                  // If image is a path
+                  props.image ? <img src={props.image} alt='album' /> :
+                     <Music
+                        size={50}
+                        fillColor='#333'
+                        styles={{
+                           position: 'absolute',
+                           top: '50%',
+                           left: '50%',
+                           transform: 'translate(-50%, -50%)'
+                        }}
+                     />
                }
             </div>
             <div className={s.cardInfo}>
@@ -64,6 +71,14 @@ export const MobileCardSkeleton = () => {
             <TransitionSkeleton width={'20%'} height={8} />
          </div>
       </div>
+   );
+}
+
+export const LikedSongsCard: React.FC = () => {
+   return (
+      <Link to={RouteLinks.LIKED_SONGS} className={s.likedSongs}>
+         <p>Liked Songs</p>
+      </Link>
    );
 }
 

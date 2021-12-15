@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'tools/hooks';
 import { getArrayOfComponents } from 'tools/functions';
 import { MediaQuery } from 'components/common';
-import { fetchSmallAlbums } from 'redux/album-reducer';
+import { fetchSmallAlbums, clearSmallAlbums } from 'redux/album-reducer';
 import s from './SubPages.module.scss';
 import Card, { CardSkeleton, MobileCardSkeleton } from '../cards/Cards';
 
@@ -13,6 +13,10 @@ const Albums = () => {
 
    useEffect(() => {
       dispatch(fetchSmallAlbums());
+
+      return () => {
+         dispatch(clearSmallAlbums());
+      }
    }, [dispatch]);
    
    return <>

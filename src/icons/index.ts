@@ -11,6 +11,7 @@ import Search from './search/Search';
 import Spinner from './spinner/Spinner';
 import Trash from './trash/Trash';
 import User from './user/User';
+import Dots from './dots/Dots';
 
 export {
    Arrow,
@@ -26,4 +27,5 @@ export {
    Spinner,
    Trash,
    User,
+   Dots,
 }

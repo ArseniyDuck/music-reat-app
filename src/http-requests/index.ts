@@ -22,8 +22,9 @@ $api.interceptors.request.use(
    (error) => {
       return Promise.reject(error);
    }
- );
- 
+);
+
+// todo: fix bug with endless loop
 $api.interceptors.response.use(
    (res) => {
       return res;
@@ -32,7 +33,10 @@ $api.interceptors.response.use(
       const originalConfig = err.config;
       if (originalConfig.url !== 'token/obtain/' && err.response) {
          // Access Token was expired
-         if (err.response.status === 401) {
+         // @ts-ignore
+         if (err.response.status === 401 && !originalConfig._retry) {
+            // @ts-ignore
+            originalConfig._retry = true
             try {
                type ResponseType = { access: string, refresh: string }
                const { data: { access, refresh } } = await $api.post<ResponseType>(
@@ -40,7 +44,7 @@ $api.interceptors.response.use(
                );
                localStorage.setItem('accessToken', access);
                localStorage.setItem('refreshToken', refresh);
-               return $api(originalConfig);
+               return  $api(originalConfig);
             } catch (_error) {
                return Promise.reject(_error);
             }

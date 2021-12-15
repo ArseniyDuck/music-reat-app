@@ -7,7 +7,8 @@ type PropsType = {
    bannerRef: RefObject<HTMLElement>
    setBannerHeight: (height: number) => void
    name: string
-   photo: string
+   photo?: string
+   photoComponent?: React.ComponentType
    subTitle: 'Album' | 'Playlist'
    linkPhoto?: string
    linkText: string
@@ -26,7 +27,9 @@ const Banner: React.FC<PropsType> = ({setBannerHeight, bannerRef, ...props}) => 
    return (
       <section ref={bannerRef} className={s.banner} style={{background: `linear-gradient(transparent 0, rgba(0,0,0,.5) 100%), ${props.color}`}}>
          <div className={s.image + ' ibg'}>
-            { props.photo && <img src={props.photo} alt='banner' /> }
+            {/* todo: write comment */}
+            { props.photoComponent ? <props.photoComponent /> : 
+            props.photo && <img src={props.photo} alt='banner' /> }
          </div>
          <div className={s.bannerBody}>
             <MediaQuery mode='min-width' width='sm'>

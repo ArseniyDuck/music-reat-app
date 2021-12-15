@@ -4,6 +4,7 @@ import bottomAlertReducer from './bottom-alert-reducer';
 import playlistsReducer from './playlists-reducer';
 import songsReducer from './songs-reducer';
 import authReducer from './auth-reducer';
+import likedSongsReducer from './liked-songs-reducer';
 
 
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
      auth: authReducer,
      album: albumReducer,
      playlists: playlistsReducer,
+     likedSongs: likedSongsReducer,
      songs: songsReducer,
      bottomAlert: bottomAlertReducer,
   },

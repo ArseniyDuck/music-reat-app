@@ -93,6 +93,26 @@ export const removeSongFromPlaylist = _songInPlaylistTogglerThunkCreator(
    'removed'
 );
 
+export const removeSongFromLiked = createAsyncThunk(
+   'songs/removeSongFromLiked',
+   async (id: number, thunkAPI) => {
+      try {
+         const response = await MusicService.likeSong(id);
+         // 200 means that song was disliked
+         if (response.status === 200) {
+            thunkAPI.dispatch(alertMessage({ message: 'Song was removed from Liked Songs', messageStatus: 'ok' }));
+            return response.data;
+         } else {
+            throw Error('Something went wrong while removing')
+         }
+      } catch (error) {
+         const err = error as AxiosError;
+         thunkAPI.dispatch(alertMessage({ message: err.message, messageStatus: 'error' }));
+         return thunkAPI.rejectWithValue(err.message);
+      }
+   }
+)
+
 export const songsSile = createSlice({
    name: 'songs',
    initialState,
@@ -117,6 +137,11 @@ export const songsSile = createSlice({
 
       // removeSongFromPlaylist --------------------------------------------------------
       builder.addCase(removeSongFromPlaylist.fulfilled, (state, action) => {
+         state.songs = state.songs.filter(song => song.id !== action.payload.id)
+      });
+
+      // removeSongFromLiked --------------------------------------------------------
+      builder.addCase(removeSongFromLiked.fulfilled, (state, action) => {
          state.songs = state.songs.filter(song => song.id !== action.payload.id)
       });
    },

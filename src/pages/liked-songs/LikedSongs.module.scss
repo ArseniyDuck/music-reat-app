@@ -1,0 +1,51 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.spinnerBody {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background: $darkGrey;
+}
+
+.error {
+   color: $red
+}
+
+.tableHeader {
+   li:nth-child(1) {
+      width: 30px;
+      text-align: center;
+      padding: 0 10px;
+
+      @include mobile-media-query-down('sm') {
+         display: none;
+      }
+   }
+
+   li:nth-child(2) {
+      @include mobile-media-query-down('sm') {
+         padding: 0 10px;
+      }
+   }
+
+   li:nth-child(2),
+   li:nth-child(3) {
+      flex-grow: 1;
+   }
+
+   li:nth-child(3) {
+      margin-left: 40px;
+
+      @include mobile-media-query-down('md') {
+         display: none;
+      }
+   }
+
+   li:nth-child(4) {
+      margin-right: 42px;
+
+      @include mobile-media-query-down('sm') { margin-right: 30px; }
+   }
+}

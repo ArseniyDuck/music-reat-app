@@ -8,6 +8,10 @@ export default class PlaylistService {
       return $api.get('playlists/');
    }
 
+   static async getLikedSongs(): Promise<AxiosResponse<{ username: string, songs: SongType[], duration: string }>> {
+      return $api.get('liked/');
+   }
+
    static async createPlaylist(name: string): Promise<AxiosResponse<SmallPlaylistType>> {
       return $api.post('create_playlist/', { name });
    }

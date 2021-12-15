@@ -28,7 +28,6 @@
    @include adaptive-value('width', 135, 85, 3, map-get($breakpoints, 'sm'));
    @include adaptive-value('height', 135, 85, 3, map-get($breakpoints, 'sm'));
    flex-shrink: 0;
-   background: $pink;
 }
 
 .likedDetails {

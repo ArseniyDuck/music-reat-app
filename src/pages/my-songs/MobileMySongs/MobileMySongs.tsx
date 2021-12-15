@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { NestedRouteLinks } from 'app-routing';
 import s from './MobileMySongs.module.scss';
 import { Music, CdDisk, Headphones, Arrow } from 'icons';
+import MySongsBackground from 'components/my-songs-background/MySongsBackground';
 
 
 type PropsType = {};
@@ -12,7 +13,9 @@ const MobileMySongs: React.FC<PropsType> = (props) => {
       <h1 className='mobilePageHeading'>My songs</h1>
 
       <Link to='/liked' className={`${s.section} ${s.likedSongs}`}>
-         <div className={s.likedImage}></div>
+         <div className={s.likedImage}>
+            <MySongsBackground />
+         </div>
          <div className={s.likedDetails}>
             <p className={s.text}>Liked songs</p>
             <p className={s.lightText}>This includes all tracks marked with a "heart"</p>

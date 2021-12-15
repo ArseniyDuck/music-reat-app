@@ -1,35 +1,60 @@
-import React, { FocusEventHandler, useState } from 'react';
-import { addSongToPlaylist, toggleSongLikeById } from 'redux/songs-reducer';
-import { conditionClassName } from 'tools/functions';
-import s from './Song.module.scss';
-import { MediaQuery, AuthRequired, Dropdown } from 'components/common';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { addSongToPlaylist, removeSongFromLiked,
+         removeSongFromPlaylist, toggleSongLikeById } from 'redux/songs-reducer';
+import { RouteLinks } from 'app-routing';
 import { useAppDispatch, useAppSelector } from 'tools/hooks';
+import s from './Song.module.scss';
+import { MediaQuery, Dropdown } from 'components/common';
 import MobileSongPullOut from '../mobile-song-pull-out/MobileSongPullOut';
-import { Heart } from 'icons';
+import { DropdownAction, SongRowAlbumLink, SongRowDuration,
+         SongRowIndex, SongRowLikeButton, SongRowNames, SongRowPhoto } from './SonParts';
+import { Dots } from 'icons';
+
 
 type PropsType = {
-   index: number
-   albumId: number
-   singerId: number
-   singerName: string
-   removeSong?: (songId: number) => void
-   photo?: string
-   albumName?: string
-   isInPlaylist?: boolean
+   id: number
+   index: { number: number, hideIndex?: boolean }
+   photo: { path: string, isShownOnDesktop: boolean }
+   name: string
+   singer: { id: number, name: string }
+   album: { id: number, name?: string }
+   isLiked: boolean
+   duration: string
+   audio: string
+   songActions?: SongActionsType
 };
 
-const Song: React.FC<PropsType & SongType> = ({ removeSong, isInPlaylist=false, ...props }) => {
+const Song: React.FC<PropsType> = (props) => {
    const dispatch = useAppDispatch();
    const playlists = useAppSelector(state => state.playlists.smallPlaylists.playlists);
    const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
 
-   const removeFocus: FocusEventHandler<HTMLButtonElement> = event => {
-      event.target.blur();
+   const onLikeToggleClick = () => {
+      if (props.songActions?.toggleSongLike) {
+         dispatch(toggleSongLikeById(props.id));
+      }
    };
 
-   const handleLikeTogglerClick = () => {
-      dispatch(toggleSongLikeById(props.id));
+   const onRemoveClick = () => {
+      if (props.songActions?.removeSongFromPlaylist) {
+         dispatch(removeSongFromPlaylist({
+            songId: props.id,
+            playlistId: props.songActions?.removeSongFromPlaylist.playlistId
+         }));
+      }
+   }
+
+   const onRemoveFromLikedClick = () => {
+      if (props.songActions?.removeSongFromLiked) {
+         dispatch(removeSongFromLiked(props.id))
+      }
+   };
+
+   const addSongInSelectedPlaylist = (playlistId: number) => {
+      if (props.songActions?.addSongToPlaylist) {
+         dispatch(addSongToPlaylist({ songId: props.id, playlistId }));
+      }
    };
 
    const hideMobileMenu = () => {
@@ -37,111 +62,117 @@ const Song: React.FC<PropsType & SongType> = ({ removeSong, isInPlaylist=false, 
       setIsMobileMenuOpened(false);
    };
 
-   const handleMobileDottsClick = () => {
+   const onMobileDotsClick = () => {
       document.body.classList.toggle('_disable-scroll');
       setIsMobileMenuOpened(prev => !prev);
    };
 
-   const hadlePlaylistButtonClick = (playlistId: number) => {
-      dispatch(addSongToPlaylist({ songId: props.id, playlistId }));
-   };
-
    return (
-      <div className={`${s.song} ${isInPlaylist ? s.inPlaylist : s.notInPlaylist}`}>
-         <p className={s.songNumber}>{props.index}</p>
-         { isInPlaylist && 
-            <div className={s.photo + ' ibg'}>
-               <img src={props.photo} alt='album' />
-            </div>
-         }
-         <div className={`${s.songNamesWrapper} cropTextContainer`}>
-            <h3 className={`${s.songName} ellipseOverflow`}>{props.name}</h3>
-            <Link to={`/singer/${props.singerId}`} className={s.songLink}>{props.singerName}</Link>
-         </div>
-         { props.albumName && <Link to={`/album/${props.albumId}`} className={`${s.songLink} ${s.albumLink}`}>{props.albumName}</Link> }
-         <AuthRequired>
-            <button
-               onClick={handleLikeTogglerClick}
-               onFocus={removeFocus}
-               className={conditionClassName(s.likeSongButton, props.is_liked, s.liked)}
-            >
-               <Heart isLiked={props.is_liked} color='pink' />
-            </button>
-         </AuthRequired>
-         <p className={s.songDuration}>{props.duration}</p>
-         <MediaQuery mode='max-width' width='sm'>
-            <div className={s.dots} onClick={handleMobileDottsClick}>
-               <span></span>
-            </div>
-            <MobileSongPullOut
-               isOpened={isMobileMenuOpened}
-               hide={hideMobileMenu}
-               songData={{
-                  id: props.id,
-                  songName: props.name,
-                  singerName: props.singerName,
-                  duration: props.duration,
-                  photo: props.photo,
-                  singerId: props.singerId,
-                  isLiked: props.is_liked,
-                  albumId: props.albumId,
-                  isInPlaylist: isInPlaylist,
-               }}
-               likeSong={handleLikeTogglerClick}
-               removeSong={() => removeSong && removeSong(props.id)}
-               addSongToPlaylist={hadlePlaylistButtonClick}
-            />
-         </MediaQuery>
+      <div className={s.song}>
+         <SongRowIndex index={props.index.number} hideIndex={props.index.hideIndex} />
+         <SongRowPhoto
+            photo={props.photo.path}
+            isShownOnDesktop={props.photo.isShownOnDesktop}
+            // if 'isShownOnDesktop' is passed as true, photo'll be shown
+         />
+         <SongRowNames
+            songName={props.name}
+            singerName={props.singer.name}
+            singerId={props.singer.id}
+            // 'singerId' is required for link to a singer
+         />
+         <SongRowAlbumLink
+            id={props.album.id}
+            name={props.album.name}
+            // if 'name' is passed, link'll be shown
+         />
+         <SongRowLikeButton
+            onClick={onLikeToggleClick}
+            isLiked={props.isLiked}
+            isShown={!!props.songActions?.toggleSongLike}
+         />
+         <SongRowDuration duration={props.duration} />
+
+         {/* Dots on desktop */}
          <MediaQuery mode='min-width' width='sm'>
             <Dropdown
                initialPosition='top'
                trackVerticalPosition={true}
-               LabelComponent={() => <div className={s.dots}><span></span></div>}
+               LabelComponent={() => <Dots size={25} />}
                event='focus'
             >
                <Dropdown.Item>
-                  <Link className={s.dropDownLink} to={`/singer/${props.singerId}`}>Go to artist</Link>
+                  <Link className={s.dropDownLink} to={`${RouteLinks.SINGER}/${props.singer.id}`}>
+                     Go to artist
+                  </Link>
                </Dropdown.Item>
                <Dropdown.Item>
-                  <Link className={s.dropDownLink} to={`/album/${props.albumId}`}>Go to album</Link>
+                  <Link className={s.dropDownLink} to={`${RouteLinks.ALBUM}/${props.album.id}`}>
+                     Go to album
+                  </Link>
                </Dropdown.Item>
-               <Dropdown.Item>
-                  <AuthRequired>
-                     { isInPlaylist && removeSong  ? 
-                        <button onClick={() => removeSong(props.id)} className={s.dropDownButton}>
-                           Remove song
-                        </button>
-                        :
-                        <Dropdown
-                           initialPosition='bottom'
-                           isOverflow={true}
-                           trackVerticalPosition={true}
-                           LabelComponent={() => <span className={s.playListsLabel}>Add to playlist</span>}
-                           event='hover'
-                        >
-                           { playlists.map(playlist => (
-                              <Dropdown.Item key={playlist.id}>
-                                 <button
-                                    onClick={() => hadlePlaylistButtonClick(playlist.id)}
-                                    className={s.dropDownButtonPlayList}
-                                 >
-                                    {playlist.name}
-                                 </button>
-                              </Dropdown.Item>
-                           )) }
-                        </Dropdown>
-                     }
-                  </AuthRequired>
-               </Dropdown.Item>
-               <Dropdown.Item>
-                  {/* todo: show notification instead of hiding */}
-                  <AuthRequired>
-                     <button onClick={handleLikeTogglerClick} className={s.dropDownButton}>
-                        { props.is_liked ? 'Dislike song' : 'Like song' }
-                     </button>
-                  </AuthRequired>
-               </Dropdown.Item>
+               <DropdownAction requires={!!props.songActions?.removeSongFromPlaylist}>
+                  <button onClick={onRemoveClick} className={s.dropDownButton}>
+                     Remove song
+                  </button>
+               </DropdownAction>
+               <DropdownAction requires={!!props.songActions?.addSongToPlaylist}>
+                  <Dropdown
+                     initialPosition='bottom'
+                     isOverflow={true}
+                     trackVerticalPosition={true}
+                     LabelComponent={() => <span className={s.playListsLabel}>Add to playlist</span>}
+                     event='hover'
+                  >
+                     {playlists.map(playlist => (
+                        <Dropdown.Item key={playlist.id}>
+                           <button onClick={() => addSongInSelectedPlaylist(playlist.id)} className={s.dropDownButtonPlayList}>
+                              {playlist.name}
+                           </button>
+                        </Dropdown.Item>
+                     ))}
+                  </Dropdown>
+               </DropdownAction>
+               <DropdownAction requires={!!props.songActions?.toggleSongLike}>
+                  <button onClick={onLikeToggleClick} className={s.dropDownButton}>
+                     {props.isLiked ? 'Dislike song' : 'Like song'}
+                  </button>
+               </DropdownAction>
+               <DropdownAction requires={!!props.songActions?.removeSongFromLiked}>
+                  <button className={s.dropDownButton} onClick={onRemoveFromLikedClick}>
+                     Remove from Liked Songs
+                  </button>
+               </DropdownAction>
             </Dropdown>
+         </MediaQuery>
+
+         {/* Dots on mobile */}
+         <MediaQuery mode='max-width' width='sm'>
+            <button onClick={onMobileDotsClick}>
+               <Dots size={25} />
+            </button>
+            <MobileSongPullOut
+               id={props.id}
+               songName={props.name}
+               singerName={props.singer.name}
+               duration={props.duration}
+               photo={props.photo.path}
+               singerId={props.singer.id}
+               isLiked={props.isLiked}
+               albumId={props.album.id}
+               isOpened={isMobileMenuOpened}
+               hide={hideMobileMenu}
+               songActions={{
+                  toggleSongLike:
+                     props.songActions?.toggleSongLike ? onLikeToggleClick : undefined,
+                  removeSong:
+                     props.songActions?.removeSongFromPlaylist ? onRemoveClick : undefined,
+                  removeSongFromLiked:
+                     props.songActions?.removeSongFromLiked ? onRemoveFromLikedClick : undefined,
+                  addSongToPlaylist:
+                     props.songActions?.addSongToPlaylist ? addSongInSelectedPlaylist : undefined,
+               }}
+            />
          </MediaQuery>
       </div>
    );

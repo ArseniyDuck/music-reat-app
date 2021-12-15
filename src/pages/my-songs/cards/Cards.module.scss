@@ -46,10 +46,15 @@
       padding-bottom: 100%;
       box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
    }
-
+   
    @include mobile-media-query-down('sm') {
+      background: $coalGrey !important;
       @include adaptive-value('width', 125, 85, 3, map-get($breakpoints, 'sm'));
       @include adaptive-value('height', 125, 85, 3, map-get($breakpoints, 'sm'));
+      
+      svg {
+         fill: $brightGrey !important
+      }
    }
 }
 
@@ -59,7 +64,7 @@
 
    @include mobile-media-query-down('sm') {
       margin: 0;
-      @include adaptive-value('font-size', 23, 16, 3, map-get($breakpoints, 'sm'));
+      @include adaptive-value('font-size', 24, 17, 3, map-get($breakpoints, 'sm'));
    }
 }
 
@@ -70,4 +75,12 @@
    @include mobile-media-query-down('sm') {
       @include adaptive-value('font-size', 18, 14, 3, map-get($breakpoints, 'sm'));
    }
+}
+
+.likedSongs {
+   grid-column: 1 / 3;
+   padding: 20px;
+   font-size: 40px;
+   color: #fff;
+   background: $pink;
 }

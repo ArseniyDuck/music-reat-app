@@ -64,7 +64,14 @@ export const toggleAlbumLikeById = createAsyncThunk(
 export const albumSlice = createSlice({
    name: 'album',
    initialState,
-   reducers: {},
+   reducers: {
+      clearSmallAlbums(state) {
+         state.smallAlbums.albums = [];
+      },
+      clearAlbum(state) {
+         state.data = null
+      },
+   },
    extraReducers: (builder) => {
       // fetchSmallAlbums --------------------------------------------------------
       builder.addCase(fetchSmallAlbums.pending, (state, action) => {
@@ -115,4 +122,5 @@ export const albumSlice = createSlice({
    },
 });
 
+export const { clearAlbum, clearSmallAlbums } = albumSlice.actions
 export default albumSlice.reducer;

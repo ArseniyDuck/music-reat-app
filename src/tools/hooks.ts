@@ -108,3 +108,10 @@ export const useInputType = () => {
 
    return [inputType, handleEyeClick] as const;
 }
+
+
+// useAuth -----------------------------------
+export const useAuth = () => {
+   const id = useAppSelector(state => state.auth.user.id);
+   return !!id;
+}

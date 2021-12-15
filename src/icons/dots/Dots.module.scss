@@ -1,0 +1,15 @@
+@import '../../styles/mixins';
+
+.dots {
+   margin-left: 10px;
+   cursor: pointer;
+
+   @include mobile-media-query-down('md') {
+      margin: 0 0 0 0;
+      transform: rotate(90deg);
+   }
+   
+   // @media (any-hover: hover) {
+   //    @include hidden-element();
+   // }
+}

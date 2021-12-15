@@ -60,9 +60,16 @@ export const createPlaylist = createAsyncThunk(
 export const fetchPlaylistById = songsContainerFetcherCreator('playlists/fetchPlaylistById',  'playlist', PlaylistService.getPlaylist);
 
 export const playlistsSlice = createSlice({
-   name: 'playlists',
+   name: 'likedSongs',
    initialState,
-   reducers: {},
+   reducers: {
+      clearSmallPlaylists(state) {
+         state.smallPlaylists.playlists = []
+      },
+      clearPlaylist(state) {
+         state.playlist = null;
+      },
+   },
    extraReducers: (builder) => {
       // fetchSmallPlaylists --------------------------------------------------------
       builder.addCase(fetchSmallPlaylists.pending, (state, action) => {
@@ -110,4 +117,5 @@ export const playlistsSlice = createSlice({
    },
 });
 
+export const { clearPlaylist, clearSmallPlaylists } = playlistsSlice.actions;
 export default playlistsSlice.reducer;

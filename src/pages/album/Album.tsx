@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useAppDispatch, useAppSelector, useBannerHeight } from 'tools/hooks';
-import { fetchAlbumById, toggleAlbumLikeById } from 'redux/album-reducer';
+import { clearAlbum, fetchAlbumById, toggleAlbumLikeById } from 'redux/album-reducer';
 import s from './Album.module.scss';
 import { Spinner, PlayPauseButton, Heart } from 'icons';
 import Song from 'components/song/Song';
@@ -26,6 +26,10 @@ const Album: React.FC<RouteComponentProps<PathParamsType>> = ({ match: {params: 
 
    useEffect(() => {
       dispatch(fetchAlbumById(Number(albumId)));
+
+      return () => {
+         dispatch(clearAlbum());
+      }
    }, [dispatch, albumId]);
 
    return <>
@@ -80,12 +84,30 @@ const Album: React.FC<RouteComponentProps<PathParamsType>> = ({ match: {params: 
                   {songs.map((song, index) =>
                      <Song
                         key={song.id}
-                        index={index + 1}
-                        albumId={albumData.id}
-                        singerId={albumData.singer.id}
-                        singerName={albumData.singer.name}
-                        photo={albumData.photo}
-                        {...song}
+                        id={song.id}
+                        index={{
+                           number: index + 1,
+                           hideIndex: false,
+                        }}
+                        photo={{
+                           path: albumData.photo,
+                           isShownOnDesktop: false,
+                        }}
+                        name={song.name}
+                        singer={{
+                           id: albumData.singer.id,
+                           name: albumData.singer.name
+                        }}
+                        album={{
+                           id: albumData.id
+                        }}
+                        isLiked={song.is_liked}
+                        duration={song.duration}
+                        audio={song.audio}
+                        songActions={{
+                           addSongToPlaylist: true,
+                           toggleSongLike: true,
+                        }}
                      />
                   )}
                </div>
