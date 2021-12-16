@@ -1,8 +1,8 @@
-import { RouteLinks } from "app-routing";
-import { AuthRequired, Dropdown } from "components/common";
-import { Heart } from "icons";
-import { Link } from "react-router-dom";
-import { conditionClassName } from "tools/functions";
+import { RouteLinks } from 'app-routing';
+import { AuthRequired, Dropdown } from 'components/common';
+import { Heart } from 'icons';
+import { Link } from 'react-router-dom';
+import { conditionClassName } from 'tools/functions';
 import s from './Song.module.scss';
 
 export const SongRowIndex: React.FC<{index: number, hideIndex?: boolean}> = ({ hideIndex=true, index }) => {
@@ -64,12 +64,6 @@ export const SongRowDuration: React.FC<{duration: string}> = (props) => {
 
 export const DropdownAction: React.FC<{requires: boolean}> = (props) => {
    return (
-      <AuthRequired>{
-         props.requires && (
-            <Dropdown.Item>
-               {props.children}
-            </Dropdown.Item>
-         )
-      }</AuthRequired>
+      <AuthRequired>{props.requires && props.children}</AuthRequired>
    );
 }

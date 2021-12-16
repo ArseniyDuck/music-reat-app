@@ -20,13 +20,14 @@ const Avatar: React.FC<PropsType> = (props) => {
    return (
       <AuthRequired>
          <div className={s.avatarWrapper}>
-            <Dropdown event='focus' initialPosition='top' LabelComponent={AvatarLabel} >
-               <Dropdown.Item>
-                  <Link className={s.dropdownAction} to='/profile'>Go to profile</Link>
-               </Dropdown.Item>
-               <Dropdown.Item>
-                  <button onClick={handleClick} className={`${s.dropdownAction} ${s.logout}`}>Logout</button>
-               </Dropdown.Item>
+            <Dropdown
+               showOn='click'
+               label={<AvatarLabel />}
+               initialPosition='top'
+               dropdownStyles={{transform: 'translateY(5px)'}}
+            >
+               <Link className={s.dropdownAction} to='/profile'>Go to profile</Link>
+               <button onClick={handleClick} className={`${s.dropdownAction} ${s.logout}`}>Logout</button>
             </Dropdown>
          </div>
       </AuthRequired>

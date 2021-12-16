@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { conditionClassName } from 'tools/functions';
+import { useDisableScroll } from 'tools/hooks';
 import s from './withPopUp.module.scss';
 
 
@@ -14,13 +15,7 @@ export type WrappedPopUpType = { close: () => void };
 
 const withPopUp = <P extends WrappedPopUpType>(Component: React.ComponentType<P>) => {
    const ContainerComponent: React.FC<ContainerPropsType & P> = ({ isOpened, popUpRef, heading, ...passThroughProps }) => {
-      useEffect(() => {
-         if (isOpened) {
-            document.body.classList.add('_disable-scroll');
-         } else {
-            document.body.classList.remove('_disable-scroll');
-         }
-      }, [isOpened]);
+      useDisableScroll(isOpened);
       
       return (
          <div className={conditionClassName(s.popUpWrapper, isOpened, s.popUpOpened)}>

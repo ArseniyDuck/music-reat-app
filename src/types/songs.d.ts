@@ -21,11 +21,3 @@ type MobilePullOutSongType = {
    photo?: string
 };
 
-type SongActionsType = {
-   addSongToPlaylist?: boolean
-   removeSongFromPlaylist?: {
-      playlistId: number
-   }
-   removeSongFromLiked?: boolean
-   toggleSongLike?: boolean
-}

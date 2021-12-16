@@ -73,18 +73,19 @@ export const usePopUp = <E extends HTMLElement>() => {
    
    useEffect(() => {
       const handleClick = (event: MouseEvent) => {
-         const target = event.target as HTMLElement;
-         if (target.contains(popUpRef.current) && target !== popUpRef.current) {
-            setIsPopUpOpened(false);
+         if (popUpRef.current) {
+            const { top, bottom, left, right } = popUpRef.current.getBoundingClientRect();
+            // click was ouside the popUpRef
+            if (isPopUpOpened && !((left <= event.x && event.x <= right) && (top <= event.y && event.y <= bottom))) {
+               setIsPopUpOpened(false);
+            }
          }
-      };
-
-      window.addEventListener('click', handleClick);
-
+      }
+      document.addEventListener('click', handleClick);
       return () => {
-         window.removeEventListener('click', handleClick);
-      };
-   }, []);
+         document.removeEventListener('click', handleClick);
+      }
+   }, [isPopUpOpened]);
 
    return [isPopUpOpened, setIsPopUpOpened, popUpRef] as const;
 };
@@ -114,4 +115,19 @@ export const useInputType = () => {
 export const useAuth = () => {
    const id = useAppSelector(state => state.auth.user.id);
    return !!id;
+}
+
+
+// useDisableScroll -----------------------------------
+export const useDisableScroll = (flag: boolean) => {
+   useEffect(() => {
+      if (flag) {
+         document.body.classList.add('_disable-scroll');
+      } else {
+         document.body.classList.remove('_disable-scroll');
+   }
+      return () => {
+         document.body.classList.remove('_disable-scroll');
+      }
+   }, [flag]);
 }

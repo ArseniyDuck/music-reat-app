@@ -1,62 +1,58 @@
-@import '../../../styles/variables';
 @import '../../../styles/mixins';
+@import '../../../styles/variables';
 
-.dropDownWrapper {
-   position: relative;
+@mixin show-dropdown() {
+   @include visible-element();
+   z-index: 200;
 }
 
-.dropdownLabel {
-   &.eventFocus:focus-within > .dropdownBody,
-   &.eventHover:hover > .dropdownBody {
-      @include visible-element();
-      z-index: 200;
+.dropdown {
+   position: relative;
+   
+   @media (any-hover: hover) {
+      &.hoverIsEnabled:hover > .dropdownBody {
+         @include show-dropdown();
+      }
    }
+}
 
-   &.eventHover > .dropdownBody {
-      right: 160px;
-   }
+.label {
+   display: inline-block;
 }
 
 .dropdownBody {
    position: absolute;
-   // z-index: 200;
    right: 0;
-   border: 1px solid #fff; // border to separate dropdowns
+   box-shadow: 0 16px 24px rgba(0, 0, 0, .3), 0 6px 8px rgba(0, 0, 0, .2);
    @include hidden-element();
 
-   /* react add classes depending on dropdown position
-   in the browser viewport. if dropdown open too close to top of the viewport,
-   it'll be positioned in the bottom and vice versa */
-   &.bottomPositioned {
-      .eventFocus > & {
-         top: 5px;
+   &.clickIsEnabled.clicked {
+      @include show-dropdown();
+   }
+
+   @media (any-hover: none) {
+      &.clicked { 
+         @include show-dropdown();
       }
+   }
+
+   &.bottomPositioned {
       top: 0px;
+      bottom: auto;
    }
 
    &.topPositioned {
-      .eventFocus > & {
-         bottom: 5px;
-      }
-
+      top: auto;
       bottom: 0px;
    }
 
    &.defaultPositioned {
-      .eventFocus > & {
-         top: calc(100% + 5px);
-      }
-
       top: 100%;
+      bottom: auto;
    }
 
-   .dropDownList.overflow {
-      /* if the viewport is smaller than dropdown,
-      user won't be albe to press on hidden buttons.
-      so, in order to let them iteract with dropdown,
-      "overflow: auto" propery added. */
+   &.overflow {
       overflow-y: auto;
-      // todo: add scrollbar in dropdown
       @include hide-scrollbar();
    }
 }
