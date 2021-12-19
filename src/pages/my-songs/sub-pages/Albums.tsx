@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'tools/hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { getArrayOfComponents } from 'tools/functions';
 import { MediaQuery } from 'components/common';
 import { fetchSmallAlbums, clearSmallAlbums } from 'redux/album-reducer';
 import s from './SubPages.module.scss';
-import Card, { CardSkeleton, MobileCardSkeleton } from '../cards/Cards';
+import Card, { CardsContainer } from '../../../components/cards/Cards';
+import { RouteLinks } from 'app-routing';
+import { DesktopCardSkeleton, MobileCardSkeleton } from 'components/cards/skeletons';
 
 
 const Albums = () => {
@@ -21,18 +23,24 @@ const Albums = () => {
    
    return <>
       <h1 className={s.heading}>Albums</h1>
-      <div className={s.grid}>
+      <CardsContainer>
          { isFetching ?
             <>
-               <MediaQuery width='sm' mode='min-width'>{getArrayOfComponents(CardSkeleton, 20)}</MediaQuery>
+               <MediaQuery width='sm' mode='min-width'>{getArrayOfComponents(DesktopCardSkeleton, 20)}</MediaQuery>
                <MediaQuery width='sm' mode='max-width'>{getArrayOfComponents(MobileCardSkeleton, 10)}</MediaQuery>
             </>
          :
             albums.map(({ id, name, songs_count, photo }) => (
-               <Card key={id} linkTo={`/album/${id}`} image={photo} title={name} songsCount={songs_count} />
+               <Card
+                  key={id}
+                  title={name}
+                  subTitle={songs_count ? `${songs_count} songs` : 'Empty'}
+                  linkTo={`${RouteLinks.ALBUM}/${id}`}
+                  image={photo}
+               />
             ))
          }
-      </div>
+      </CardsContainer>
    </>;
 }
 

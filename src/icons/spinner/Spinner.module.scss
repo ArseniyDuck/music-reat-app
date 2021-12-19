@@ -4,7 +4,7 @@
    display: inline-block;
    border-radius: 50%;
    border: 3px solid #ccc;
-   border-top: 3px solid $pink;
+   border-top: 3px solid var(--main-color);
    animation: spinner .7s linear infinite;
 }
 

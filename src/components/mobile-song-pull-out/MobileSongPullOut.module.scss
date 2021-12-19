@@ -12,12 +12,12 @@
    box-sizing: border-box;
    background: rgba(0, 0, 0, .85);
    backdrop-filter: blur(3px);
-   transition: $move;
+   transition: var(--move);
    z-index: 101;
    
    &.opened {
       top: 0;
-      transition: $move;
+      transition: var(--move);
    }
 }
 

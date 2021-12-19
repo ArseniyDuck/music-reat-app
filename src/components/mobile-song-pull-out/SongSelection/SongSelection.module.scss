@@ -16,12 +16,12 @@
    width: 100%;
    padding: 10px 20px;
    font-size: 19px;
-   color: $brightGrey;
+   color: var(--bright-grey);
 
    svg {
       margin-right: 7px;
       padding: 7px;
-      background: $brightGrey;
+      background: var(--bright-grey);
       path {stroke: #000 !important;}
    }
 }

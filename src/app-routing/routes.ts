@@ -41,7 +41,7 @@ export type RouteType = {
    exact?: boolean
 }
 
-export const Routes: Array<RouteType> = [
+export const Routes: RouteType[] = [
    { path: RouteLinks.ALBUM, component: Album, parameter: '/:albumId', exact: true },
    { path: RouteLinks.SINGER, component: Singer, parameter: '/:singerId', exact: true },
    { path: RouteLinks.PLAYLIST, component: Playlist, parameter: '/:playlistId', exact: true },
@@ -52,7 +52,7 @@ export const Routes: Array<RouteType> = [
    { path: RouteLinks.LIKED_SONGS, component: LikedSongs, exact: true },
 ];
 
-export const NestedRoutes: Array<RouteType> = [
+export const NestedRoutes: RouteType[] = [
    { path: RouteLinks.MY_SONGS, component: MobileMySongs, exact: true },
    { path: NestedRouteLinks.PLAYLISTS, component: Playlists, exact: true },
    { path: NestedRouteLinks.ALBUMS, component: Albums, exact: true },

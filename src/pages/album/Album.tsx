@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useAppDispatch, useAppSelector, useBannerHeight } from 'tools/hooks';
-import { clearAlbum, fetchAlbumById, toggleAlbumLikeById } from 'redux/album-reducer';
-import s from './Album.module.scss';
-import { Spinner, PlayPauseButton, Heart } from 'icons';
+import { useAppDispatch, useAppSelector, useBannerHeight } from 'hooks';
+import { clearAlbum, fetchAlbum, switchAlbumLike } from 'redux/album-reducer';
+import { PlayPauseButton, Heart } from 'icons';
 import Song from 'components/song/Song';
-import Banner from 'components/banner/Banner';
+import CollectionsBanner from 'components/collections-banner/CollectionsBanner';
 import GradientContent from 'components/gradient-content/GradientContent';
 import StickyTableHead from 'components/sticky-table-head/StickyTableHead';
 import SongsContainerHeader from 'components/songs-container-header/SongsContainerHeader';
 import { AuthRequired } from 'components/common';
+import WindowLoader from 'components/common/window-loader/WindowLoader';
+import { withMobilePlaylists } from 'high-order-components';
+import ButtonsContainer from 'components/buttons-container/ButtonsContainer';
 
 
 type PathParamsType = { albumId: string };
@@ -22,35 +24,25 @@ const Album: React.FC<RouteComponentProps<PathParamsType>> = ({ match: {params: 
    const songs = useAppSelector(state => state.songs.songs);
 
    // value needed for calculatings in GradientHeader
-   const [bannerRef, bannerHeight, setBannerHeight] = useBannerHeight<HTMLElement>();
+   const [bannerRef, bannerHeight, setBannerHeight] = useBannerHeight<HTMLDivElement>();
 
    useEffect(() => {
-      dispatch(fetchAlbumById(Number(albumId)));
+      dispatch(fetchAlbum(Number(albumId)));
 
       return () => {
          dispatch(clearAlbum());
       }
    }, [dispatch, albumId]);
 
-   return <>
-      {isFetching ? 
-         // if fetching data, show spinner
-         <div className={s.spinnerBody}>
-            <Spinner size={45} />
-         </div>
-         :
-         // if fetched, but with an error, show error
-         error ?
-         <h1 className='error'>{error}</h1>
-         :
-         // else show content
-         albumData && <>
+   return (
+      <WindowLoader isFetching={isFetching} error={error}>
+         {albumData && <>
             <SongsContainerHeader
                color={albumData.best_color}
                title={albumData.name}
                bannerHeight={bannerHeight}
             />
-            <Banner 
+            <CollectionsBanner 
                bannerRef={bannerRef}
                setBannerHeight={setBannerHeight}
                name={albumData.name}
@@ -65,21 +57,15 @@ const Album: React.FC<RouteComponentProps<PathParamsType>> = ({ match: {params: 
                linkText={albumData.singer.name}
             />
             <GradientContent color={albumData.best_color}>
-               <div className='buttonsContainer'>
+               <ButtonsContainer>
                   <PlayPauseButton size={55} />
                   <AuthRequired>
-                     <button onClick={() => dispatch(toggleAlbumLikeById(albumData.id))} className={s.albumLikeButton}>
+                     <button onClick={() => dispatch(switchAlbumLike(albumData.id))} style={{display: 'contents'}}>
                         <Heart isLiked={albumData.is_liked} size={30} color='pink' />
                      </button>
                   </AuthRequired>
-               </div>
-               <StickyTableHead>
-                  <ul className={s.tableHeader}>
-                     <li>#</li>
-                     <li>Title</li>
-                     <li>Time</li>
-                  </ul>
-               </StickyTableHead>
+               </ButtonsContainer>
+               <StickyTableHead index title time hideIndex={false} />
                <div className='songsContainer'>
                   {songs.map((song, index) =>
                      <Song
@@ -105,16 +91,16 @@ const Album: React.FC<RouteComponentProps<PathParamsType>> = ({ match: {params: 
                         duration={song.duration}
                         audio={song.audio}
                         songActions={{
-                           addSongToPlaylist: true,
+                           addSongInPlaylist: true,
                            toggleSongLike: true,
                         }}
                      />
                   )}
                </div>
             </GradientContent>
-         </>
-      }
-   </>;
+         </>}
+      </WindowLoader>
+   );
 };
 
-export default Album;
+export default withMobilePlaylists(Album);

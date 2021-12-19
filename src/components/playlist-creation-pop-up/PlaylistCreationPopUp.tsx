@@ -8,10 +8,10 @@ type PropsType = {
    actionAfterSubmit: (name: string) => void
 };
 
-type FormValues = { name: string };
+type FormValues = {name: string};
 
 const PlaylistCreationPopUp: React.FC<PropsType & WrappedPopUpType> = ({ close, ...props }) => {
-   const initialValues: FormValues = { name: '' };
+   const initialValues: FormValues = {name: ''};
 
    const handleSubmit = (formData: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
       props.actionAfterSubmit(formData.name)

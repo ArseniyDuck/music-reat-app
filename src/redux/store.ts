@@ -5,6 +5,7 @@ import playlistsReducer from './playlists-reducer';
 import songsReducer from './songs-reducer';
 import authReducer from './auth-reducer';
 import likedSongsReducer from './liked-songs-reducer';
+import singerReducer from './singer-reducer';
 
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
      auth: authReducer,
      album: albumReducer,
      playlists: playlistsReducer,
+     singer: singerReducer,
      likedSongs: likedSongsReducer,
      songs: songsReducer,
      bottomAlert: bottomAlertReducer,

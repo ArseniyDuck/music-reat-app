@@ -10,20 +10,86 @@
    box-sizing: border-box;
    padding: 15px;
    background: #000;
-
-   @include mobile-media-query-down() {
-      // display: none;
-   }
 }
 
 .playlists {
-   border-top: 1px solid $brightGrey;
+   border-top: 1px solid var(--bright-grey);
    margin-top: 15px;
    padding: 5px 0;
 }
 
 .playlistsBody {
-   // todo: style scrollbar 
    overflow-y: auto;
    max-height: 250px;
+
+   &::-webkit-scrollbar {
+      width: 13px;
+   }
+
+   &::-webkit-scrollbar-track {
+      background: #f9f9f9;
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: #777;
+   }
+
+   
+   @media (any-hover: hover) {
+      &::-webkit-scrollbar-thumb:hover {
+         background: #666;
+      }
+   }
+
+   &::-webkit-scrollbar-thumb:active {
+      background: #4c4c4c;
+   }
+}
+
+.button {
+   display: flex;
+   width: 100%;
+   align-items: center;
+   padding: 5px 10px 5px 0;
+   font-size: 17px;
+   color: var(--bright-grey);
+   transition: var(--hover);
+
+   @media (any-hover: hover) {
+      &:hover {
+         color: #fff;
+         transition: var(--hover);
+   
+         svg {
+            background: #fff;
+            transition: var(--hover);
+         }
+      }
+   }
+}
+
+.link {
+   display: flex;
+   align-items: center;
+   padding: 5px 10px 5px 0;
+   font-size: 17px;
+   color: var(--bright-grey);
+   transition: var(--hover);
+
+   svg {
+      margin-right: 7px;
+      padding: 5px;
+   }
+
+   @media (any-hover: hover) {
+      &:hover {
+         color: #fff;
+         transition: var(--hover);
+   
+         svg {
+            fill: #fff !important;
+            path {stroke: #fff !important;}
+         }
+      }
+   }
 }

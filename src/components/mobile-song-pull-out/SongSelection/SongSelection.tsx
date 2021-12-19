@@ -1,7 +1,7 @@
 import React from 'react';
 import { withPopUp, WrappedPopUpType } from 'high-order-components';
 import { getArrayOfComponents } from 'tools/functions';
-import { useAppSelector } from 'tools/hooks';
+import { useAppSelector } from 'hooks';
 import s from './SongSelection.module.scss';
 import { TransitionSkeleton } from 'components/common';  
 import { Plus } from 'icons';

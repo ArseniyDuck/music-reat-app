@@ -4,17 +4,19 @@ import { Arrow } from 'icons';
 import s from './Action.module.scss';
 
 type PropsType = {
-   href?: string
-   hide?: () => void
+   to?: string
+   close?: () => void
    onClick?: () => void
    isArrow?: boolean
 };
 
 const Action: React.FC<PropsType> = (actionProps) => {
+   // todo: refactor component inside another component
+
    const ActionBodyTag: React.FC = (bodyProps) => {
       return <>
-         {actionProps.href ?
-            <Link to={actionProps.href} onClick={actionProps.hide} className={s.action}>
+         {actionProps.to ?
+            <Link to={actionProps.to} onClick={actionProps.close} className={s.action}>
                {bodyProps.children}
             </Link>
             :

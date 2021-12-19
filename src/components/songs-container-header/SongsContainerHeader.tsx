@@ -16,7 +16,7 @@ const SongsContainerHeader: React.FC<PropsType> = ({ title, color, ...props }) =
       <GradientHeader
          color={color}
          startFinish={[bannerHeight * 0.55, bannerHeight * 0.80]}
-         showingSettings={{ at: bannerHeight }}
+         showingSettings={{at: bannerHeight}}
       >
          <div className={`${s.headerData} cropTextContainer`}>
             <PlayPauseButton size={35} />

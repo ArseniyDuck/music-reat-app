@@ -24,7 +24,7 @@ export function getArrayOfComponents(Component: React.ComponentType, count: numb
    return components;
 }
 
-export function composeRoutesFromArr(arr: Array<RouteType>) {
+export function composeRoutesFromArr(arr: RouteType[]) {
    return arr.map((r, i) => (
       <Route
          key={i}

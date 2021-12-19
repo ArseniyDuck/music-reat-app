@@ -11,7 +11,10 @@ type PropsType = {
 
 const TransitionSkeleton: React.FC<PropsType> = ({ width, height, ...props }) => {
    return (
-      <div style={{ width, height, ...props.styles }} className={conditionClassName(s.skeletonRectangle, !!props.dark, s.dark)}>
+      <div
+         style={{ width, height, ...props.styles }}
+         className={conditionClassName(s.skeletonRectangle, !!props.dark, s.dark)}
+      >
          {props.children}
       </div>
    );

@@ -1,9 +1,11 @@
-import { RouteLinks } from 'app-routing';
-import { AuthRequired, Dropdown } from 'components/common';
-import { Heart } from 'icons';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { RouteLinks } from 'app-routing';
 import { conditionClassName } from 'tools/functions';
 import s from './Song.module.scss';
+import { AuthRequired } from 'components/common';
+import { Heart } from 'icons';
+
 
 export const SongRowIndex: React.FC<{index: number, hideIndex?: boolean}> = ({ hideIndex=true, index }) => {
    return (
@@ -20,11 +22,13 @@ export const SongRowPhoto: React.FC<{photo: string, isShownOnDesktop: boolean}> 
    }</>;
 }
 
-export const SongRowNames: React.FC<{songName: string, singerName: string, singerId: number}> = (props) => {
+export const SongRowNames: React.FC<{songName: string, singerName: string, singerId: number, showSingerName: boolean}> = (props) => {
    return (
       <div className={`${s.songNamesWrapper} cropTextContainer`}>
          <h3 className={`${s.songName} ellipseOverflow`}>{props.songName}</h3>
-         <Link to={`/singer/${props.singerId}`} className={s.songLink}>{props.singerName}</Link>
+         {props.showSingerName && (
+            <Link to={`${RouteLinks.SINGER}/${props.singerId}`} className={s.songLink}>{props.singerName}</Link>
+         )}
       </div>
    );
 }
@@ -32,8 +36,8 @@ export const SongRowNames: React.FC<{songName: string, singerName: string, singe
 export const SongRowAlbumLink: React.FC<{id: number, name?: string}> = (props) => {
    return <>{
       props.name && 
-      <div className={s.songLink+' '+s.albumLink}>
-         <Link to={RouteLinks.ALBUM+'/'+props.id}>
+      <div className={`${s.songLink} ${s.albumLink}`}>
+         <Link to={`${RouteLinks.ALBUM}/${props.id}`}>
             {props.name}
          </Link>
       </div>

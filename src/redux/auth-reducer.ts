@@ -7,7 +7,7 @@ import { alertMessage } from './bottom-alert-reducer';
 
 type initialStateType = {
    user: UserType
-   signUpErrors: Array<string>
+   signUpErrors: string[]
 };
 
 const initialState: initialStateType = {

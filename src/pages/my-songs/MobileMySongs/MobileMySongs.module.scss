@@ -15,7 +15,7 @@
 
    &.link:active,
    &.likedSongs:active {
-      background: $grey;
+      background: var(--grey);
    }
 }
 
@@ -46,7 +46,7 @@
 
 .lightText {
    @include adaptive-value('font-size', 20, 14, 3, map-get($breakpoints, 'sm'));
-   color: $brightGrey;
+   color: var(--bright-grey);
    font-weight: 300;
 }
 

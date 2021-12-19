@@ -23,7 +23,7 @@ export const fetchLikedSongs = createAsyncThunk(
    async (_, thunkAPI) => {
       try {
          const response = await PlaylistService.getLikedSongs();
-         thunkAPI.dispatch(setSongs({ songs: response.data.songs, containerType: 'playlist' }));
+         thunkAPI.dispatch(setSongs({ songs: response.data.songs }));
          const { songs, ...dataWithoutSongs } = response.data;
          return dataWithoutSongs;
       } catch (error) {

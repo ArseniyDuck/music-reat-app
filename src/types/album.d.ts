@@ -13,3 +13,10 @@ type AlbumType = {
    }
    songs: SongType[]
 }
+
+type SmallAlbumType = {
+   id: number
+   name: string
+   year: number
+   photo: string | null
+}

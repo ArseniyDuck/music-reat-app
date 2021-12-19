@@ -1,5 +1,43 @@
-.block {
-   width: 200px;
-   height: 200px;
-   background: #000;
+@import '../../styles/mixins';
+
+.follow {
+   box-sizing: border-box;
+   border: 1px solid rgba(255, 255, 255, 0.5);
+   padding: 8px 20px;
+   font-size: 18px;
+   color: #fff;
+
+   &:hover,
+   &.followed {
+      border-color: #fff;
+   }
+}
+
+.subHeading {
+   @include adaptive-value("font-size", 26, 20, 0);
+
+   @include mobile-media-query-down('sm') {
+      margin: 0 10px;
+   }
+}
+
+.more {
+   padding: 10px 15px;
+   font-size: 16px;
+   color: var(--bright-grey);
+   transition: var(--hover);
+
+   &:hover {
+      color: #fff;
+      transition: var(--hover);
+   }
+
+   @include mobile-media-query-down('sm') {
+      width: 100%;
+      text-align: left;
+   }
+}
+
+.section {
+   margin-top: 35px;
 }

@@ -4,17 +4,17 @@
    display: block;
    padding: 5px 0;
    cursor: pointer;
-   transition: $hover;
+   transition: var(--hover);
 
    @media (any-hover: hover) {
       &:hover .playlistName {
          color: #fff;
-         transition: $hover;
+         transition: var(--hover);
       }
    }
 
 }
 
 .playlistName {
-   color: $brightGrey;
+   color: var(--bright-grey);
 }

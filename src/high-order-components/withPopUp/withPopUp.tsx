@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { conditionClassName } from 'tools/functions';
-import { useDisableScroll } from 'tools/hooks';
+import { useDisableScroll } from 'hooks';
 import s from './withPopUp.module.scss';
 
 

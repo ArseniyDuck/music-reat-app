@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from 'tools/hooks';
+import { useAuth } from 'hooks';
 
 
 const AuthRequired: React.FC= (props) => {

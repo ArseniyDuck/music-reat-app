@@ -31,6 +31,8 @@ const Sticky: React.FC<PropsType> = ({ stuckOn, defaultWrapperClasses='', stuckC
          }
       };
    }, [wrapperRef])
+
+   // todo: refactor Sticky component
  
    return (
       <div style={{ position: 'sticky', ...styles }} className={`${defaultWrapperClasses} ${classes}`}>

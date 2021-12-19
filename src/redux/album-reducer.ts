@@ -11,7 +11,7 @@ type initialStateType = {
    error: string | null
    isFetching: boolean
    smallAlbums: {
-      albums: Array<SmallPlaylistType>
+      albums: SmallPlaylistType[]
       isFetching: boolean
       error: null | string
    }
@@ -42,17 +42,14 @@ export const fetchSmallAlbums = createAsyncThunk(
    }
 );
 
-export const fetchAlbumById = songsContainerFetcherCreator('album/fetchAlbumById', 'album', MusicService.getAlbum);
+export const fetchAlbum = songsContainerFetcherCreator('album/fetchAlbum', MusicService.getAlbum);
 
-export const toggleAlbumLikeById = createAsyncThunk(
-   'album/toggleAlbumLikeById',
+export const switchAlbumLike = createAsyncThunk(
+   'album/switchAlbumLike',
    async (id: number, thunkAPI) => {
       try {
-         const response = await MusicService.likeAlbum(id);
-         return {
-            data: response.data,
-            status: response.status,
-         };
+         const { data, status } = await MusicService.switchAlbumLike(id);
+         return { data, status };
       } catch (error) {
          const err = error as AxiosError;
          thunkAPI.dispatch(alertMessage({ message: `Error occured while toggling like`, messageStatus: 'error' }));
@@ -90,24 +87,24 @@ export const albumSlice = createSlice({
          }
       });
 
-      // fetchAlbumById --------------------------------------------------------
-      builder.addCase(fetchAlbumById.pending, (state, action) => {
+      // fetchAlbum --------------------------------------------------------
+      builder.addCase(fetchAlbum.pending, (state, action) => {
          state.isFetching = true
       });
 
-      builder.addCase(fetchAlbumById.fulfilled, (state, action) => {
+      builder.addCase(fetchAlbum.fulfilled, (state, action) => {
          state.isFetching = false
          state.data = action.payload
       });
       
-      builder.addCase(fetchAlbumById.rejected, (state, action) => {
+      builder.addCase(fetchAlbum.rejected, (state, action) => {
          state.isFetching = false
          if (action.payload) {
             state.error = action.payload as string
          }
       });
 
-      builder.addCase(toggleAlbumLikeById.fulfilled, (state, action) => {
+      builder.addCase(switchAlbumLike.fulfilled, (state, action) => {
          if ([200, 201].includes(action.payload.status) && state.data) {
             switch (action.payload.status) {
                case 201:

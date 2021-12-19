@@ -3,7 +3,7 @@ type PlaylistType = {
    name: string
    duration: string
    user: string
-   songs: Array<PlaylistSongType>
+   songs: PlaylistSongType[]
 };
 
 type PlaylistSongType = SongType & {

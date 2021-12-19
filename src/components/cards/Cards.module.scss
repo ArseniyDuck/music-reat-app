@@ -1,6 +1,6 @@
-@import '../../../styles/mixins';
-@import '../../../styles/variables';
-@import '../../../styles/index.scss';
+@import '../../styles/mixins';
+@import '../../styles/variables';
+@import '../../styles/index.scss';
 
 
 .card {
@@ -42,19 +42,25 @@
 }
 
 .cardImage {
+   overflow: hidden;
+   
    @include mobile-media-query-up('sm') {
       padding-bottom: 100%;
       box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
    }
    
    @include mobile-media-query-down('sm') {
-      background: $coalGrey !important;
+      background: var(--dark-grey) !important;
       @include adaptive-value('width', 125, 85, 3, map-get($breakpoints, 'sm'));
       @include adaptive-value('height', 125, 85, 3, map-get($breakpoints, 'sm'));
       
       svg {
-         fill: $brightGrey !important
+         fill: var(--bright-grey) !important
       }
+   }
+
+   &.round {
+      border-radius: 50%;
    }
 }
 
@@ -70,7 +76,7 @@
 
 .cardSubTitle {
    font-size: 14px;
-   color: $brightGrey;
+   color: var(--bright-grey);
 
    @include mobile-media-query-down('sm') {
       @include adaptive-value('font-size', 18, 14, 3, map-get($breakpoints, 'sm'));
@@ -82,5 +88,14 @@
    padding: 20px;
    font-size: 40px;
    color: #fff;
-   background: $pink;
+   background: var(--main-color);
+}
+
+.grid {
+   @include mobile-media-query-up('sm') {
+      display: grid;
+      grid-gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(161px, 1fr));
+      margin-top: 10px;
+   }
 }

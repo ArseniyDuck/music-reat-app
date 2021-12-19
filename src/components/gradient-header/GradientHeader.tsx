@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { conditionClassName } from 'tools/functions';
-import { useOpacityPercentWithWindowScroll } from 'tools/hooks';
+import { useOpacity } from 'hooks';
 import s from './GradientHeader.module.scss';
 
 
@@ -13,7 +13,7 @@ type PropsType = {
 };
 
 const GradientHeader: React.FC<PropsType> = ({ children, ...props }) => {
-   const [isHeaderDataShown, setIsHeaderDataShown] = useState(!Boolean(props.showingSettings));
+   const [isHeaderDataShown, setIsHeaderDataShown] = useState(!props.showingSettings);
    let handleScroll: () => void;
 
    if (props.showingSettings) {
@@ -47,7 +47,7 @@ const GradientHeader: React.FC<PropsType> = ({ children, ...props }) => {
 
 const HeaderBackground: React.FC<{color: string, startFinish: [number, number]}> = (props) => {
    const [startTransition, finishTransition] = props.startFinish;
-   const opacity = useOpacityPercentWithWindowScroll(startTransition, finishTransition);
+   const opacity = useOpacity(startTransition, finishTransition);
    
    return (
       <div className={s.bg} style={{opacity: opacity, background: props.color}}></div>

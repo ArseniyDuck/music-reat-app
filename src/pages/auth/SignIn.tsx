@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Field, Form, Formik, FormikErrors, FormikHelpers } from 'formik';
 import { signIn } from '../../redux/auth-reducer';
-import { useAppDispatch, useInputType } from '../../tools/hooks';
+import { useAppDispatch, useInputType } from '../../hooks';
 import a from './Auth.module.scss';
 import { Eye } from 'icons';
+import { RouteLinks } from 'app-routing';
 
 type PropsType = {};
 
@@ -14,7 +15,7 @@ const SignIn: React.FC<PropsType> = (props) => {
          <div className={a.body}>
             <h1 className={a.heading}>Sign In</h1>
             <SignInForm />
-            <p className={a.linkText}>Don't have an account? <Link className={a.link} to='/sign-up'>Registration</Link></p>
+            <p className={a.linkText}>Don't have an account? <Link className={a.link} to={RouteLinks.SIGN_UP}>Registration</Link></p>
          </div>
       </div>
    );

@@ -1,6 +1,6 @@
 import React from 'react';
-import { useWindowSize } from 'tools/hooks';
 import { breakpoints } from 'tools/variables';
+import { useGlobalContext } from 'globalContext';
 
 type PropsType = {
    mode: 'max-width' | 'min-width'
@@ -8,7 +8,7 @@ type PropsType = {
 };
 
 const MediaQuery: React.FC<PropsType> = (props) => {
-   const { width } = useWindowSize();
+   const { windowSize: { width } } = useGlobalContext()
    let checkQueryCondition: (() => boolean);
 
    switch (props.mode) {

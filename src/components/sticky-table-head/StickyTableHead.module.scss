@@ -10,7 +10,7 @@
 
    &.stuck {
       background: $greyStuck;
-      border-top: 1px solid $grey;
+      border-top: 1px solid var(--grey);
       z-index: 98;
 
       &::before,
@@ -21,8 +21,8 @@
          width: 25px;
          height: calc(100% - 1px);
          background: $greyStuck;
-         border-top: 1px solid $grey;
-         border-bottom: 1px solid $grey;
+         border-top: 1px solid var(--grey);
+         border-bottom: 1px solid var(--grey);
 
          @include mobile-media-query-down('md') { width: 15px; }
 
@@ -34,19 +34,15 @@
 
          @include mobile-media-query-down('md') { left: -15px; }
 
-         @include mobile-media-query-down('sm') { left: -10px; }
+         @include mobile-media-query-down('sm') { left: 0px; }
       }
 
       &::after {
          right: -25px;
 
-         @include mobile-media-query-down('md') {
-            right: -15px;
-         }
+         @include mobile-media-query-down('md') { right: -15px; }
 
-         @include mobile-media-query-down('sm') {
-            right: -10px;
-         }
+         @include mobile-media-query-down('sm') { right: 0px; }
       }
    }
 
@@ -54,11 +50,51 @@
       display: flex;
       align-items: center;
       padding: 7.5px 0;
-      border-bottom: 1px solid $grey;
+      border-bottom: 1px solid var(--grey);
    
       li {
          font-size: 15px;
-         color: $lightGrey;
+         color: var(--light-grey);
       }
+   }
+}
+
+.tableHeader {
+   @include mobile-media-query-down('sm') {
+      margin: 0 10px;
+   }   
+
+   .index {
+      width: 35px;
+      text-align: center;
+      padding: 0 10px;
+
+      @include mobile-media-query-down('sm') {
+         padding: 0 10px 0 0;
+      }
+
+      &.hideIndex {         
+         @include mobile-media-query-down('sm') {
+            display: none;
+         }
+      }
+   }
+
+   .title,
+   .album {
+      flex-grow: 1;
+   }
+
+   .album {
+      margin-left: 75px;
+      @include mobile-media-query-down('md') {
+         display: none;
+      }
+   }
+
+   .time {
+      margin-right: 45px;
+      @include mobile-media-query-down('md') { margin-right: 35px; }
+      @include mobile-media-query-down('sm') { margin-right: 25px; }
    }
 }

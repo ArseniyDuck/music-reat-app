@@ -6,9 +6,7 @@ type SongType = {
    is_liked: boolean
 };
 
-type SongsType = Array<SongType> | Array<PlaylistSongType>
-
-type SognsContainerType = 'album' | 'playlist';
+type SongsType = SongType[] | PlaylistSongType[]
 
 type MobilePullOutSongType = {
    id: number
@@ -20,4 +18,3 @@ type MobilePullOutSongType = {
    albumId: number
    photo?: string
 };
-

@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { clearPlaylist, fetchPlaylistById } from 'redux/playlists-reducer';
-import { useAppDispatch, useAppSelector, useBannerHeight } from 'tools/hooks';
-import Banner from 'components/banner/Banner';
+import { clearPlaylist, fetchPlaylist } from 'redux/playlists-reducer';
+import { useAppDispatch, useAppSelector, useBannerHeight } from 'hooks';
+import CollectionsBanner from 'components/collections-banner/CollectionsBanner';
 import GradientContent from 'components/gradient-content/GradientContent';
-import { Spinner, PlayPauseButton } from 'icons';
+import { PlayPauseButton } from 'icons';
 import Song from 'components/song/Song';
-import s from './Playlist.module.scss';
 import StickyTableHead from 'components/sticky-table-head/StickyTableHead';
 import SongsContainerHeader from 'components/songs-container-header/SongsContainerHeader';
+import WindowLoader from 'components/common/window-loader/WindowLoader';
+import { withMobilePlaylists } from 'high-order-components';
+import ButtonsContainer from 'components/buttons-container/ButtonsContainer';
 
 
 type PathParamsType = { playlistId: string };
@@ -19,15 +21,15 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
    const dispatch = useAppDispatch();
    const playlistData = useAppSelector(state => state.playlists.playlist);
    const songsData = useAppSelector(state => state.songs);
-   const songs = (songsData.containerType === 'playlist' ? songsData.songs : []) as Array<PlaylistSongType>;
+   const songs = songsData.songs as PlaylistSongType[];
    const isFetching = useAppSelector(state => state.playlists.isFetching);
    const error = useAppSelector(state => state.playlists.error);
 
    // value needed for calculatings in GradientHeader
-   const [bannerRef, bannerHeight, setBannerHeight] = useBannerHeight<HTMLElement>();
+   const [bannerRef, bannerHeight, setBannerHeight] = useBannerHeight<HTMLDivElement>();
 
    useEffect(() => {
-      dispatch(fetchPlaylistById(Number(playlistId)));
+      dispatch(fetchPlaylist(Number(playlistId)));
 
       return () => {
          dispatch(clearPlaylist());
@@ -35,25 +37,15 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
    }, [dispatch, playlistId]);
 
 
-   const getColor = (songs: Array<PlaylistSongType>) => {
+   const getColor = (songs: PlaylistSongType[]) => {
       return songs.length ? songs[0].album.best_color : 'rgb(100, 100, 100)';
    };
 
-   return <>
-      {isFetching ? 
-         // if fetching data, show spinner
-         <div className={s.spinnerBody}>
-            <Spinner size={45} />
-         </div>
-         :
-         // if fetched, but with an error, show error
-         error ?
-         <h1 className='error'>{error}</h1>
-         :
-         // else show content
-         playlistData && <>
+   return (
+      <WindowLoader isFetching={isFetching} error={error}>
+         {playlistData && <>
             <SongsContainerHeader color={getColor(songs)} title={playlistData.name} bannerHeight={bannerHeight} />
-            <Banner
+            <CollectionsBanner
                bannerRef={bannerRef}
                setBannerHeight={setBannerHeight}
                name={playlistData.name}
@@ -67,17 +59,10 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
             />
             <GradientContent color={getColor(songs)}>
                {songs.length > 0 && <>
-                  <div className='buttonsContainer'>
+                  <ButtonsContainer>
                      <PlayPauseButton size={55} />
-                  </div>
-                  <StickyTableHead>
-                     <ul className={s.tableHeader}>
-                        <li>#</li>
-                        <li>Title</li>
-                        <li>Album</li>
-                        <li>Time</li>
-                     </ul>
-                  </StickyTableHead>
+                  </ButtonsContainer>
+                  <StickyTableHead index title album time />
                </>}
                <div className='songsContainer'>
                   {songs.map((song, index) =>
@@ -104,7 +89,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
                         duration={song.duration}
                         audio={song.audio}
                         songActions={{
-                           addSongToPlaylist: true,
+                           addSongInPlaylist: true,
                            removeSongFromPlaylist: {playlistId: playlistData.id},
                            toggleSongLike: true,
                         }}
@@ -112,9 +97,9 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
                   )}
                </div>
             </GradientContent>
-         </>
-      }
-   </>;
+         </>}
+      </WindowLoader>
+   );
 };
 
-export default Playlist;
+export default withMobilePlaylists(Playlist);

@@ -1,0 +1,16 @@
+@import '../../../styles/mixins';
+
+.fullscreen {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background: var(--black-grey);
+}
+
+.error {
+   @include adaptive-value("font-size", 40, 20, 0);
+   margin-top: 0.2em;
+   color: red;
+}

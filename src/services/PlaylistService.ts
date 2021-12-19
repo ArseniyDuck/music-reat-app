@@ -1,7 +1,7 @@
 import $api from 'http-requests';
 import { AxiosResponse } from 'axios';
 
-export type SongInPlaylistTogglerRequestType = (song_id: number, playlist_id: number) => Promise<AxiosResponse<{id: number}>>
+export type SongInPlaylistSwitcherRequestType = (song_id: number, playlist_id: number) => Promise<AxiosResponse<{id: number}>>
 
 export default class PlaylistService {
    static async getPlaylists(): Promise<AxiosResponse<SmallPlaylistType[]>> {
@@ -20,7 +20,7 @@ export default class PlaylistService {
       return $api.get(`playlist/${id}/`);
    }
 
-   static async addSongToPlaylist(song_id: number, playlist_id: number): Promise<AxiosResponse<{id: number}>> {
+   static async addSongInPlaylist(song_id: number, playlist_id: number): Promise<AxiosResponse<{id: number}>> {
       return $api.post('add_song/', { song_id, playlist_id });
    }
 

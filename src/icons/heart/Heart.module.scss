@@ -1,7 +1,7 @@
 @import '../../styles/variables';
 
 @mixin colorize-heart($color) {
-   transition: $hover;
+   transition: var(--hover);
    filter: drop-shadow(0 0 5px $color);
 
    .filled {
@@ -12,15 +12,15 @@
 
 .heart {
    &.liked.pink {
-      @include colorize-heart($pink);
+      @include colorize-heart(var(--main-color));
    }
 
    &.liked.green {
-      @include colorize-heart($green);
+      @include colorize-heart(var(--secondary-color));
    }
 
    &.green .filled {
-      stroke: $green;
+      stroke: var(--secondary-color);
    }
 
    &.pink .filled {
@@ -28,7 +28,7 @@
    }
 
    &.grey .filled {
-      stroke: $brightGrey;
+      stroke: var(--bright-grey);
       stroke-width: 7%;
    }
 }
@@ -37,5 +37,5 @@
    fill: transparent;
    stroke: white;
    stroke-width: 25px;
-   transition: $hover;
+   transition: var(--hover);
 }

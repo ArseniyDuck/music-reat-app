@@ -10,7 +10,7 @@ type initialStateType = {
    isFetching: boolean
    error: null | string
    smallPlaylists: {
-      playlists: Array<SmallPlaylistType>
+      playlists: SmallPlaylistType[]
       isFetching: boolean
       error: null | string
    }
@@ -57,7 +57,7 @@ export const createPlaylist = createAsyncThunk(
 );
 
 
-export const fetchPlaylistById = songsContainerFetcherCreator('playlists/fetchPlaylistById',  'playlist', PlaylistService.getPlaylist);
+export const fetchPlaylist = songsContainerFetcherCreator('playlists/fetchPlaylist', PlaylistService.getPlaylist);
 
 export const playlistsSlice = createSlice({
    name: 'likedSongs',
@@ -98,17 +98,17 @@ export const playlistsSlice = createSlice({
          }, ...state.smallPlaylists.playlists]
       });
 
-      // fetchPlaylistById --------------------------------------------------------
-      builder.addCase(fetchPlaylistById.pending, (state, action) => {
+      // fetchPlaylist --------------------------------------------------------
+      builder.addCase(fetchPlaylist.pending, (state, action) => {
          state.isFetching = true
       });
 
-      builder.addCase(fetchPlaylistById.fulfilled, (state, action) => {
+      builder.addCase(fetchPlaylist.fulfilled, (state, action) => {
          state.isFetching = false
          state.playlist = action.payload
       });
       
-      builder.addCase(fetchPlaylistById.rejected, (state, action) => {
+      builder.addCase(fetchPlaylist.rejected, (state, action) => {
          state.isFetching = false
          if (action.payload) {
             state.error = action.payload as string

@@ -94,12 +94,12 @@
 .linkToSomebody {
    display: flex;
    align-items: center;
-   transition: $hover;
+   transition: var(--hover);
 
    @media (any-hover: hover) {
       &:hover .linkText {
          border-color: #FFFFFF;
-         transition: $hover;
+         transition: var(--hover);
       }
    }
 }
@@ -119,5 +119,17 @@
 
    @include mobile-media-query-down('sm') {
       font-size: 14px;
+   }
+}
+
+.preHeadingDesktop {
+   @include mobile-media-query-down('sm') {
+      display: none;
+   }
+}
+
+.preHeadingMobile {
+   @include mobile-media-query-up('sm') {
+      display: none;
    }
 }

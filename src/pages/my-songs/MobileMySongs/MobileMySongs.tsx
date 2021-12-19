@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { NestedRouteLinks } from 'app-routing';
+import { NestedRouteLinks, RouteLinks } from 'app-routing';
 import s from './MobileMySongs.module.scss';
 import { Music, CdDisk, Headphones, Arrow } from 'icons';
 import MySongsBackground from 'components/my-songs-background/MySongsBackground';
@@ -12,7 +12,7 @@ const MobileMySongs: React.FC<PropsType> = (props) => {
    return <>
       <h1 className='mobilePageHeading'>My songs</h1>
 
-      <Link to='/liked' className={`${s.section} ${s.likedSongs}`}>
+      <Link to={RouteLinks.LIKED_SONGS} className={`${s.section} ${s.likedSongs}`}>
          <div className={s.likedImage}>
             <MySongsBackground />
          </div>

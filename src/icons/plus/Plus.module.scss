@@ -5,8 +5,8 @@
    stroke-width: 1px;
 
    &.filled {
-      background: $brightGrey;
-      transition: $hover;
+      background: var(--bright-grey);
+      transition: var(--hover);
       path {stroke: #000}
    }
 }

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { conditionClassName } from 'tools/functions';
-import { useDisableScroll, usePopUp } from 'tools/hooks';
-import s from './NewDropdown.module.scss';
+import { useDisableScroll, usePopUp } from 'hooks';
+import s from './Dropdown.module.scss';
 
 
 type PropsType = {
@@ -15,7 +15,7 @@ type PropsType = {
 
 export const Dropdown: React.FC<PropsType> = (props) => {
    const [isOpened, setIsOpened, dropdownRef] = usePopUp<HTMLDivElement>();
-   useDisableScroll(isOpened); // disable body scroll
+   useDisableScroll(isOpened);
    const labelRef = useRef<HTMLButtonElement>(null);
 
    const [maxHeight, setMaxHeight] = useState(0);

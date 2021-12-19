@@ -6,7 +6,7 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   background: $darkGrey;
+   background: var(--black-grey);
 }
 
 .body {
@@ -43,7 +43,7 @@
    width: 100%;
    box-sizing: border-box;
    padding: 10px 35px 10px 15px;
-   background: $coalGrey;
+   background: var(--dark-grey);
    color: #fff;
    @include adaptive-value("font-size", 20, 16, 1);
 
@@ -72,19 +72,19 @@
    width: 100%;
    box-sizing: border-box;
    padding: 15px 20px;
-   background: $pink;
+   background: var(--main-color);
    @include adaptive-value("font-size", 20, 16, 1);
-   color: $darkGrey;
+   color: var(--black-grey);
    font-weight: 600;
    margin-top: 10px;
 
    &:hover {
-      background: $brightPink;
+      background: var(--bright-main-color);
    }
 }
 
 .fieldError {
-   color: $red;
+   color: red;
 }
 
 .serverErrors {
@@ -109,7 +109,7 @@
 }
 
 .link {
-   color: $pink;
+   color: var(--main-color);
 
    &:hover {
       text-decoration: underline;

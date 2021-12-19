@@ -1,26 +1,28 @@
 import React from 'react';
+import { useAppDispatch } from 'hooks';
+import { createPlaylist } from 'redux/playlists-reducer';
+import s from './AsidePlaylistCreation.module.scss';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import s from './Form.module.scss';
 
 
 type FormValues = { name: string };
 
 type PropsType = {
-   hideMe: () => void
-   createPlaylist: (name: string) => void
+   close: () => void
 };
 
-const PlaylistCreationForm: React.FC<PropsType> = ({ createPlaylist, hideMe }) => {
-   const initialValues: FormValues = { name: '' };
+const AsidePlaylistCreation: React.FC<PropsType> = ({ close }) => {
+   const dispatch = useAppDispatch();
+
+   const initialValues: FormValues = {name: ''};
 
    const handleSubmit = (formData: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
-      createPlaylist(formData.name);
+      dispatch(createPlaylist(formData.name));
       setSubmitting(false);
       resetForm({});
-      hideMe();
+      close();
    };
 
-   
    return (
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
          {() => (
@@ -39,4 +41,4 @@ const PlaylistCreationForm: React.FC<PropsType> = ({ createPlaylist, hideMe }) =
    );
 };
 
-export default PlaylistCreationForm;
+export default AsidePlaylistCreation;

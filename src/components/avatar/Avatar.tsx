@@ -1,20 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { history, RouteLinks } from 'app-routing';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { logout } from 'redux/auth-reducer';
-import { history } from 'app-routing';
-import { useAppDispatch, useAppSelector } from 'tools/hooks';
+import s from './Avatar.module.scss';
 import { AuthRequired, Dropdown } from 'components/common';
 import { Arrow } from 'icons';
-import s from './Avatar.module.scss';
 
 type PropsType = {};
 
 const Avatar: React.FC<PropsType> = (props) => {
    const dispatch = useAppDispatch();
    
-   const handleClick = () => {
+   const handleLogoutClick = () => {
       dispatch(logout());
-      history.push('/sign-in');
+      history.push(RouteLinks.SIGN_IN);
    }
 
    return (
@@ -26,8 +26,8 @@ const Avatar: React.FC<PropsType> = (props) => {
                initialPosition='top'
                dropdownStyles={{transform: 'translateY(5px)'}}
             >
-               <Link className={s.dropdownAction} to='/profile'>Go to profile</Link>
-               <button onClick={handleClick} className={`${s.dropdownAction} ${s.logout}`}>Logout</button>
+               <Link className={s.action} to='/profile'>Go to profile</Link>
+               <button onClick={handleLogoutClick} className={`${s.action} ${s.logout}`}>Logout</button>
             </Dropdown>
          </div>
       </AuthRequired>

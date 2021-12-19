@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { addSongToPlaylist, removeSongFromLiked,
-         removeSongFromPlaylist, toggleSongLikeById } from 'redux/songs-reducer';
+import { addSongInPlaylist, removeSongFromLiked,
+         removeSongFromPlaylist, switchSongLike } from 'redux/songs-reducer';
 import { RouteLinks } from 'app-routing';
-import { useAppDispatch, useAppSelector } from 'tools/hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import s from './Song.module.scss';
 import { MediaQuery, Dropdown } from 'components/common';
 import MobileSongPullOut from '../mobile-song-pull-out/MobileSongPullOut';
 import { DropdownAction, SongRowAlbumLink, SongRowDuration,
-         SongRowIndex, SongRowLikeButton, SongRowNames, SongRowPhoto } from './SonFragments';
+         SongRowIndex, SongRowLikeButton, SongRowNames, SongRowPhoto } from './SongFragments';
 import { Dots } from 'icons';
 
 
@@ -17,13 +17,13 @@ type PropsType = {
    index: {number: number, hideIndex?: boolean}
    photo: {path: string, isShownOnDesktop: boolean}
    name: string
-   singer: {id: number, name: string}
+   singer: {id: number, name: string, showName?: boolean}
    album: {id: number, name?: string}
    isLiked: boolean
    duration: string
    audio: string
    songActions?: {
-      addSongToPlaylist?: boolean
+      addSongInPlaylist?: boolean
       removeSongFromPlaylist?: {playlistId: number}
       removeSongFromLiked?: boolean
       toggleSongLike?: boolean
@@ -37,7 +37,7 @@ const Song: React.FC<PropsType> = (props) => {
 
    const onLikeToggleClick = () => {
       if (props.songActions?.toggleSongLike) {
-         dispatch(toggleSongLikeById(props.id));
+         dispatch(switchSongLike(props.id));
       }
    };
 
@@ -57,12 +57,12 @@ const Song: React.FC<PropsType> = (props) => {
    };
 
    const addSongInSelectedPlaylist = (playlistId: number) => {
-      if (props.songActions?.addSongToPlaylist) {
-         dispatch(addSongToPlaylist({ songId: props.id, playlistId }));
+      if (props.songActions?.addSongInPlaylist) {
+         dispatch(addSongInPlaylist({ songId: props.id, playlistId }));
       }
    };
 
-   const hideMobileMenu = () => {
+   const closeMobileMenu = () => {
       document.body.classList.remove('_disable-scroll');
       setIsMobileMenuOpened(false);
    };
@@ -83,6 +83,7 @@ const Song: React.FC<PropsType> = (props) => {
             songName={props.name}
             singerName={props.singer.name}
             singerId={props.singer.id}
+            showSingerName={props.singer.showName !== false}
          />
          <SongRowAlbumLink
             id={props.album.id}
@@ -102,13 +103,16 @@ const Song: React.FC<PropsType> = (props) => {
                showOn='click'
                initialPosition='top'
                trackVerticalPosition={true}
+               dropdownStyles={{
+                  transform: 'translateY(-37px)'
+               }}
             >
                <Link to={`${RouteLinks.SINGER}/${props.singer.id}`} className={s.elem} >Go to artist</Link>
                <Link to={`${RouteLinks.ALBUM}/${props.album.id}`} className={s.elem} >Go to album</Link>
                <DropdownAction requires={!!props.songActions?.removeSongFromPlaylist}>
                   <button onClick={onRemoveClick} className={s.elem}>Remove song</button>
                </DropdownAction>
-               <DropdownAction requires={!!props.songActions?.addSongToPlaylist}>
+               <DropdownAction requires={!!props.songActions?.addSongInPlaylist}>
                   <Dropdown
                      showOn='hover'
                      label={<span className={s.playListsLabel}>Add to playlist</span>}
@@ -148,7 +152,7 @@ const Song: React.FC<PropsType> = (props) => {
                isLiked={props.isLiked}
                albumId={props.album.id}
                isOpened={isMobileMenuOpened}
-               hide={hideMobileMenu}
+               close={closeMobileMenu}
                songActions={{
                   toggleSongLike:
                      props.songActions?.toggleSongLike ? onLikeToggleClick : undefined,
@@ -156,8 +160,8 @@ const Song: React.FC<PropsType> = (props) => {
                      props.songActions?.removeSongFromPlaylist ? onRemoveClick : undefined,
                   removeSongFromLiked:
                      props.songActions?.removeSongFromLiked ? onRemoveFromLikedClick : undefined,
-                  addSongToPlaylist:
-                     props.songActions?.addSongToPlaylist ? addSongInSelectedPlaylist : undefined,
+                  addSongInPlaylist:
+                     props.songActions?.addSongInPlaylist ? addSongInSelectedPlaylist : undefined,
                }}
             />
          </MediaQuery>

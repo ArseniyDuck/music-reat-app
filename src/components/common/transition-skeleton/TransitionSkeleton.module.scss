@@ -5,7 +5,7 @@
    background: #FFF;
    
    &.dark {
-      background: $grey;
+      background: var(--grey);
       animation-name: dark-rectangle;
    }
 

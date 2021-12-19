@@ -1,28 +1,24 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import PlaylistService, { SongInPlaylistTogglerRequestType } from 'services/PlaylistService';
+import PlaylistService, { SongInPlaylistSwitcherRequestType } from 'services/PlaylistService';
 import MusicService from 'services/MusicService';
 import { alertMessage } from './bottom-alert-reducer';
 
 
-type SognsContainerType = 'album' | 'playlist';
-
 type initialStateType = {
    songs: SongsType
-   containerType: SognsContainerType | null
 };
 
 const initialState: initialStateType = {
    songs: [],
-   containerType: null
 };
 
-export const songsContainerFetcherCreator = (thunkName: string, containerType: SognsContainerType, apiMethod: any) => createAsyncThunk(
+export const songsContainerFetcherCreator = (thunkName: string, apiMethod: any) => createAsyncThunk(
    thunkName,
    async (id: number, thunkAPI) => {
       try {
          const response = await apiMethod(id);
-         thunkAPI.dispatch(setSongs({ songs: response.data.songs, containerType }));
+         thunkAPI.dispatch(setSongs({ songs: response.data.songs }));
          const { songs, ...dataWithoutSongs } = response.data;
          return dataWithoutSongs;
       } catch (error) {
@@ -32,15 +28,12 @@ export const songsContainerFetcherCreator = (thunkName: string, containerType: S
    }
 );
 
-export const toggleSongLikeById = createAsyncThunk(
-   'songs/toggleSongLikeById',
+export const switchSongLike = createAsyncThunk(
+   'songs/switchSongLike',
    async (id: number, thunkAPI) => {
       try {
-         const response = await MusicService.likeSong(id);
-         return {
-            data: response.data,
-            status: response.status,
-         };
+         const { data, status } = await MusicService.switchSongLike(id);
+         return { data, status };
       } catch (error) {
          const err = error as AxiosError;
          thunkAPI.dispatch(alertMessage({ message: `Error occured while toggling like`, messageStatus: 'error' }));
@@ -49,7 +42,7 @@ export const toggleSongLikeById = createAsyncThunk(
    }
 );
 
-const _songInPlaylistTogglerThunkCreator = (thunkName: string, apiMethod: SongInPlaylistTogglerRequestType, verb: 'added' | 'removed') => {
+const _songInPlaylistSwitcher = (thunkName: string, apiMethod: SongInPlaylistSwitcherRequestType, verb: 'added' | 'removed') => {
    return createAsyncThunk<{ id: number }, { songId: number, playlistId: number }>(
       `playlists/${thunkName}`,
       async ({ songId, playlistId }, thunkAPI) => {
@@ -66,12 +59,12 @@ const _songInPlaylistTogglerThunkCreator = (thunkName: string, apiMethod: SongIn
    );
 };
 
-export const addSongToNewCreatedPlaylist = createAsyncThunk<void, {songId: number, playlistName: string}>(
-   'songs/addSongToNewCreatedPlaylist',
+export const addSongInNewPlaylist = createAsyncThunk<void, {songId: number, playlistName: string}>(
+   'songs/addSongInNewPlaylist',
    async ({ songId, playlistName }, thunkAPI) => {
       try {
-         const creationResponse = await PlaylistService.createPlaylist(playlistName ? playlistName : 'New playlist');
-         thunkAPI.dispatch(addSongToPlaylist({songId, playlistId: creationResponse.data.id}));
+         const { data } = await PlaylistService.createPlaylist(playlistName ? playlistName : 'New playlist');
+         thunkAPI.dispatch(addSongInPlaylist({songId, playlistId: data.id}));
          thunkAPI.dispatch(alertMessage({ message: 'Song was added to new playlist', messageStatus: 'ok' }));
       } catch (error) {
          const err = error as AxiosError;
@@ -81,13 +74,13 @@ export const addSongToNewCreatedPlaylist = createAsyncThunk<void, {songId: numbe
    }
 );
 
-export const addSongToPlaylist = _songInPlaylistTogglerThunkCreator(
-   'addSongToPlaylist',
-   PlaylistService.addSongToPlaylist,
+export const addSongInPlaylist = _songInPlaylistSwitcher(
+   'addSongInPlaylist',
+   PlaylistService.addSongInPlaylist,
    'added'
 );
 
-export const removeSongFromPlaylist = _songInPlaylistTogglerThunkCreator(
+export const removeSongFromPlaylist = _songInPlaylistSwitcher(
    'removeSongFromPlaylist',
    PlaylistService.removeSongFromPlaylist,
    'removed'
@@ -97,7 +90,7 @@ export const removeSongFromLiked = createAsyncThunk(
    'songs/removeSongFromLiked',
    async (id: number, thunkAPI) => {
       try {
-         const response = await MusicService.likeSong(id);
+         const response = await MusicService.switchSongLike(id);
          // 200 means that song was disliked
          if (response.status === 200) {
             thunkAPI.dispatch(alertMessage({ message: 'Song was removed from Liked Songs', messageStatus: 'ok' }));
@@ -117,13 +110,12 @@ export const songsSile = createSlice({
    name: 'songs',
    initialState,
    reducers: {
-      setSongs(state, action: PayloadAction<{ songs: SongsType; containerType: SognsContainerType }>) {
+      setSongs(state, action: PayloadAction<{ songs: SongsType }>) {
          state.songs = action.payload.songs;
-         state.containerType = action.payload.containerType;
       }
    },
    extraReducers: (builder) => {
-      builder.addCase(toggleSongLikeById.fulfilled, (state, action) => {
+      builder.addCase(switchSongLike.fulfilled, (state, action) => {
          if ([200, 201].includes(action.payload.status)) {
             const song = state.songs.find(song => song.id === action.payload.data.id);
 
