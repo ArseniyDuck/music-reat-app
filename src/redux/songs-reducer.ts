@@ -112,6 +112,9 @@ export const songsSile = createSlice({
    reducers: {
       setSongs(state, action: PayloadAction<{ songs: SongsType }>) {
          state.songs = action.payload.songs;
+      },
+      clearSongs(state) {
+         state.songs = []
       }
    },
    extraReducers: (builder) => {
@@ -139,5 +142,5 @@ export const songsSile = createSlice({
    },
 });
 
-export const { setSongs } = songsSile.actions;
+export const { setSongs, clearSongs } = songsSile.actions;
 export default songsSile.reducer;

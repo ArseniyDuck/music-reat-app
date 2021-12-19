@@ -12,6 +12,7 @@ import { AuthRequired } from 'components/common';
 import WindowLoader from 'components/common/window-loader/WindowLoader';
 import { withMobilePlaylists } from 'high-order-components';
 import ButtonsContainer from 'components/buttons-container/ButtonsContainer';
+import { clearSongs } from 'redux/songs-reducer';
 
 
 type PathParamsType = { albumId: string };
@@ -31,6 +32,7 @@ const Album: React.FC<RouteComponentProps<PathParamsType>> = ({ match: {params: 
 
       return () => {
          dispatch(clearAlbum());
+         dispatch(clearSongs());
       }
    }, [dispatch, albumId]);
 

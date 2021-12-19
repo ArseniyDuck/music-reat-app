@@ -11,6 +11,7 @@ import SongsContainerHeader from 'components/songs-container-header/SongsContain
 import WindowLoader from 'components/common/window-loader/WindowLoader';
 import { withMobilePlaylists } from 'high-order-components';
 import ButtonsContainer from 'components/buttons-container/ButtonsContainer';
+import { clearSongs } from 'redux/songs-reducer';
 
 
 type PathParamsType = { playlistId: string };
@@ -33,6 +34,7 @@ const Playlist: React.FC<PropsType & RouteComponentProps<PathParamsType>> = ({ m
 
       return () => {
          dispatch(clearPlaylist());
+         dispatch(clearSongs());
       }
    }, [dispatch, playlistId]);
 

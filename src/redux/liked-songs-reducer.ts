@@ -37,7 +37,12 @@ export const fetchLikedSongs = createAsyncThunk(
 export const likedSongsSlice = createSlice({
    name: 'likedSongs',
    initialState,
-   reducers: {},
+   reducers: {
+      clearLikedSongs(state) {
+         state.username = ''
+         state.duration = ''
+      }
+   },
    extraReducers: (builder) => {
       // fetchLikedSongs --------------------------------------------------------
       builder.addCase(fetchLikedSongs.pending, (state, action) => {
@@ -59,4 +64,5 @@ export const likedSongsSlice = createSlice({
    },
 });
 
+export const { clearLikedSongs } = likedSongsSlice.actions;
 export default likedSongsSlice.reducer;
